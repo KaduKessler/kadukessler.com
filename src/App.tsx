@@ -7,9 +7,9 @@ export default function App() {
       <p className="mt-2 text-zinc-400">
         Em construção • Stack: React + Tailwind v4
       </p>
-      
+
       {/* Teste de Card com o tema que definimos */}
-      <div className="mt-8 p-6 rounded-2xl bg-[var(--color-card)] border border-[var(--color-border)] shadow-xl">
+      <div className="mt-8 p-6 rounded-2xl bg-card border border-border shadow-xl">
         <span className="text-xs uppercase tracking-widest text-zinc-500">Projeto Atual</span>
         <h2 className="text-xl font-medium mt-1">Refatoração do Portfólio</h2>
       </div>

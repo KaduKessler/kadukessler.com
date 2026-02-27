@@ -1,20 +1,42 @@
 @import "tailwindcss";
 
-@theme {
-  /* Definindo a fonte Geist para o projeto */
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  
-  /* Cores para o seu tema dark minimalista */
-  --color-background: #09090b; /* Zinc 950 */
-  --color-foreground: #fafafa; /* Zinc 50 */
-  --color-card: #121214;
-  --color-border: #27272a; /* Zinc 800 */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/geist/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/geist/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Reset básico para aplicar o tema */
 :root {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --color-background: var(--color-zinc-950);
+  --color-foreground: var(--color-zinc-100);
+  color-scheme: dark;
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  margin: 0;
 }

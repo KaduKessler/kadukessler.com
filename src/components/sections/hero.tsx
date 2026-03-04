@@ -1,7 +1,10 @@
 import { BriefcaseBusiness, GraduationCap, MapPin } from "lucide-react";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Hero() {
+	const { triggerTap } = useTouchHaptics();
+
 	return (
 		<SectionReveal>
 			<section className="flex flex-col gap-8">
@@ -24,6 +27,7 @@ export function Hero() {
 									href="https://mpe.com.br/quem-somos/"
 									target="_blank"
 									rel="noopener noreferrer"
+									onClick={triggerTap}
 									className="text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
 								>
 									@2M/MPE
@@ -36,6 +40,7 @@ export function Hero() {
 									href="https://www.pucrs.br/"
 									target="_blank"
 									rel="noopener noreferrer"
+									onClick={triggerTap}
 									className="text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
 								>
 									@PUCRS
@@ -47,6 +52,7 @@ export function Hero() {
 							href="https://maps.google.com/?q=Santa+Maria,+RS"
 							target="_blank"
 							rel="noopener noreferrer"
+							onClick={triggerTap}
 							className="inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
 						>
 							<MapPin className="size-3.5" />

@@ -1,6 +1,9 @@
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Footer() {
+	const { triggerTap } = useTouchHaptics();
+
 	return (
 		<SectionReveal delay={0.3}>
 			<footer className="flex flex-col gap-6 border-t border-border pt-8 pb-12">
@@ -11,6 +14,7 @@ export function Footer() {
 							href="https://github.com/kadukessler"
 							target="_blank"
 							rel="noopener noreferrer"
+							onClick={triggerTap}
 							className="text-muted-foreground transition-colors hover:text-foreground"
 						>
 							Kadu Kessler

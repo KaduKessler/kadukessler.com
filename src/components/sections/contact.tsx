@@ -1,7 +1,10 @@
 import { ArrowUpRight, Mail } from "lucide-react";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Contact() {
+	const { triggerTap, triggerPrimaryAction } = useTouchHaptics();
+
 	return (
 		<SectionReveal delay={0.25}>
 			<section className="flex flex-col gap-5">
@@ -18,6 +21,7 @@ export function Contact() {
 						<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
 							<a
 								href="mailto:contato@kadukessler.com"
+								onClick={triggerPrimaryAction}
 								className="inline-flex items-center justify-center gap-2 rounded-lg bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity duration-150 hover:opacity-90"
 							>
 								<Mail className="size-4" />
@@ -27,6 +31,7 @@ export function Contact() {
 								href="https://linkedin.com/in/kadukessler"
 								target="_blank"
 								rel="noopener noreferrer"
+								onClick={triggerTap}
 								className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm text-muted-foreground transition-colors duration-150 hover:bg-muted hover:text-foreground"
 							>
 								LinkedIn

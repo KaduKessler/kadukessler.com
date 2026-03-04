@@ -1,23 +1,21 @@
-import { Button } from "@/components/ui/button";
+import { About } from "@/components/sections/about";
+import { Contact } from "@/components/sections/contact";
+import { Education } from "@/components/sections/education";
+import { Experience } from "@/components/sections/experience";
+import { Footer } from "@/components/sections/footer";
+import { Hero } from "@/components/sections/hero";
+import { Stack } from "@/components/sections/stack";
 
 export default function App() {
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center gap-6">
-			<h1 className="text-4xl font-bold tracking-tighter text-zinc-100">
-				kadukessler.com
-			</h1>
-			<p className="mt-2 text-zinc-400">
-				Em construção • Stack: React + Tailwind v4
-			</p>
-			<Button>shadcn/ui ativo</Button>
-
-			{/* Teste de Card com o tema que definimos */}
-			<div className="mt-8 p-6 rounded-2xl bg-card border border-border shadow-xl">
-				<span className="text-xs uppercase tracking-widest text-zinc-500">
-					Projeto Atual
-				</span>
-				<h2 className="text-xl font-medium mt-1">Refatoração do Portfólio</h2>
-			</div>
-		</div>
+		<main className="mx-auto flex max-w-2xl flex-col gap-16 px-6 py-16 md:gap-20 md:py-24">
+			<Hero />
+			<About />
+			<Experience />
+			<Education />
+			<Stack />
+			<Contact />
+			<Footer />
+		</main>
 	);
 }

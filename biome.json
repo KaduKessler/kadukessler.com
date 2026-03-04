@@ -1,22 +1,22 @@
 {
-  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "formatter": {
-    "enabled": true
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
-    }
-  },
-  "files": {
-    "includes": [
-      "src/**",
-      "public/**",
-      "index.html",
-      "package.json",
-      "vite.config.ts",
-      "tsconfig*.json",
-      ".vscode/**"
-    ]
-  }
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"formatter": {
+		"enabled": true
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"files": {
+		"includes": [
+			"src/**",
+			"public/**",
+			"index.html",
+			"package.json",
+			"vite.config.ts",
+			"tsconfig*.json",
+			".vscode/**"
+		]
+	}
 }

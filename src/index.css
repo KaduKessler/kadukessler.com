@@ -162,3 +162,12 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+
+.hero-link {
+	text-decoration: none;
+	text-underline-offset: 2px;
+}
+
+.hero-link:hover {
+	text-decoration: underline;
+}

@@ -1,0 +1,49 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Build
+      run: pnpm build
+
+    - name: Sync to server
+      uses: burnett01/rsync-deployments@v8
+      with:
+        switches: -avz --delete
+        path: dist/
+        remote_path: ${{ secrets.REMOTE_DIR }}
+        remote_host: ${{ secrets.SSH_HOST }}
+        remote_user: ${{ secrets.SSH_USER }}
+        remote_port: ${{ secrets.SSH_PORT }}
+        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: PM2 Reload
+      uses: appleboy/ssh-action@v1.2.5
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        port: ${{ secrets.SSH_PORT }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          export PATH=$PATH:/usr/local/bin
+          cd ${{ secrets.REMOTE_DIR }}
+          if pm2 list | grep -q "${{ secrets.PM2_NAME }}"; then
+            pm2 reload ${{ secrets.PM2_NAME }}
+          else
+            pm2 serve . ${{ secrets.PORT }} --name ${{ secrets.PM2_NAME }} --spa
+          fi
+          pm2 save

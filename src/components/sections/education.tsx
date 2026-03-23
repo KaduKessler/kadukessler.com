@@ -6,6 +6,7 @@ import { SectionReveal } from "@/components/ui/section-reveal";
 type EducationItem = {
 	institution: string;
 	url: string;
+	logo?: string;
 	fullName: string;
 	course: string;
 	description: string;
@@ -17,6 +18,7 @@ const education: EducationItem[] = [
 	{
 		institution: "PUCRS",
 		url: "https://www.pucrs.br",
+		logo: "/images/edu_pucrs.svg",
 		fullName: "Pontifical Catholic University of Rio Grande do Sul",
 		course: "Analysis and Systems Development",
 		description:
@@ -27,6 +29,7 @@ const education: EducationItem[] = [
 	{
 		institution: "UFSM",
 		url: "https://www.ufsm.br",
+		logo: "/images/edu_ufsm.svg",
 		fullName: "Federal University of Santa Maria",
 		course: "Technical Degree in Informatics",
 		description:
@@ -66,7 +69,15 @@ function EducationCard({
 				<div className="relative z-10 pointer-events-none flex items-start justify-between gap-3">
 					<div className="flex min-w-0 items-start gap-3">
 						<div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50">
-							<GraduationCap className="size-4 text-muted-foreground" />
+							{edu.logo ? (
+								<img
+									src={edu.logo}
+									alt={`${edu.institution} logo`}
+									className="h-6 w-6 object-contain"
+								/>
+							) : (
+								<GraduationCap className="size-4 text-muted-foreground" />
+							)}
 						</div>
 						<div className="flex min-w-0 flex-col gap-1">
 							<a

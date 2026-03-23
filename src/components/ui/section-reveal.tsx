@@ -36,7 +36,7 @@ export function SectionReveal({
 			className={className}
 			initial={{ opacity: 0, scale: 0.985, filter: "blur(6px)" }}
 			whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-			viewport={{ once: true, amount: 0.2 }}
+			viewport={{ once: true, amount: 0.1 }}
 			transition={{ duration: 0.45, ease: "easeOut", delay }}
 		>
 			{children}
@@ -61,7 +61,7 @@ export function Stagger({
 			className={className}
 			initial="hidden"
 			whileInView="show"
-			viewport={{ once: true, amount: 0.2 }}
+			viewport={{ once: true, amount: 0.1 }}
 			variants={{
 				hidden: { opacity: 0, scale: 0.99 },
 				show: {

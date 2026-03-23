@@ -113,8 +113,8 @@ export function Hero() {
 						</picture>
 					</div>
 
-					<div className="flex min-w-0 flex-col gap-2.5">
-						<h1 className="text-4xl font-semibold tracking-tight sm:text-[2.6rem]">
+					<div className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5">
+						<h1 className="text-3xl font-semibold tracking-tight sm:text-[2.6rem]">
 							Kadu Kessler
 						</h1>
 						<p className="min-h-5 font-mono text-sm text-muted-foreground">
@@ -175,7 +175,7 @@ export function Hero() {
 							<button
 								type="button"
 								onClick={handleCopyEmail}
-								className="ml-auto flex size-7 shrink-0 opacity-0 translate-x-1 items-center justify-center rounded-md border border-border bg-background/50 text-muted-foreground transition-all group-hover:opacity-100 group-hover:translate-x-0 hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95"
+								className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background/50 text-muted-foreground transition-all hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
 								title="Copy email"
 							>
 								{copied ? (
@@ -234,7 +234,7 @@ export function Hero() {
 								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
 									Local Time
 								</span>
-								<div className="mt-0.5 flex items-center gap-2 text-xs font-medium tabular-nums text-foreground">
+								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
 									<span>{santaMariaTime}</span>
 									<span className="opacity-30">•</span>
 									<span className="text-muted-foreground/70">

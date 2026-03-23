@@ -8,7 +8,7 @@ import { Stack } from "@/components/sections/stack";
 
 export default function App() {
 	return (
-		<main className="mx-auto flex max-w-2xl flex-col gap-16 px-6 py-16 md:gap-20 md:py-24">
+		<main className="mx-auto flex max-w-2xl flex-col gap-16 px-4 py-16 sm:px-6 md:gap-20 md:py-24">
 			<Hero />
 			<About />
 			<Experience />

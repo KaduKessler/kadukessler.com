@@ -21,9 +21,11 @@ export function About() {
 								<span className="font-medium text-foreground">.NET</span> and{" "}
 								<span className="font-medium text-foreground">React</span>,
 								currently working as a{" "}
-								<span className="font-medium text-foreground">Trainee</span> at{" "}
-								<span className="font-medium text-foreground">2M/MPE</span>. I
-								build production-ready systems, integrate IoT devices, and
+								<span className="font-medium text-foreground">
+									Full-Stack Junior
+								</span>{" "}
+								at <span className="font-medium text-foreground">2M/MPE</span>.
+								I build production-ready systems, integrate IoT devices, and
 								manage complex data flows.
 							</p>
 						</StaggerItem>

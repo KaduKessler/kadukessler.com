@@ -14,7 +14,7 @@ import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Hero() {
 	const { triggerTap } = useTouchHaptics();
-	const taglines = ["Full-Stack Trainee", ".NET + React", "Above and Beyond"];
+	const taglines = ["Full-Stack Junior", ".NET + React", "Above and Beyond"];
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [now, setNow] = useState(() => new Date());
 	const [copied, setCopied] = useState(false);
@@ -201,7 +201,7 @@ export function Hero() {
 									onClick={triggerTap}
 									className="hero-link mt-0.5 inline-block text-xs font-medium text-foreground"
 								>
-									Trainee @2M/MPE
+									Full-Stack Junior @2M/MPE
 								</a>
 							</div>
 						</div>

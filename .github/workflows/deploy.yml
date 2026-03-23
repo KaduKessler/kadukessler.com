@@ -31,7 +31,7 @@ jobs:
         remote_port: ${{ secrets.SSH_PORT }}
         remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: PM2 Reload
+    - name: PM2 Restart
       uses: appleboy/ssh-action@v1.2.5
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -41,9 +41,14 @@ jobs:
         script: |
           export PATH=$PATH:/usr/local/bin
           cd ${{ secrets.REMOTE_DIR }}
-          if pm2 list | grep -q "${{ secrets.PM2_NAME }}"; then
-            pm2 reload ${{ secrets.PM2_NAME }}
-          else
-            pm2 serve . ${{ secrets.PORT }} --name ${{ secrets.PM2_NAME }} --spa
+
+          if pm2 describe "${{ secrets.PM2_NAME }}" >/dev/null 2>&1; then
+            pm2 delete "${{ secrets.PM2_NAME }}"
           fi
+
+          pm2 serve . "${{ secrets.PORT }}" \
+            --name "${{ secrets.PM2_NAME }}" \
+            --spa
+
           pm2 save
+          pm2 describe "${{ secrets.PM2_NAME }}"

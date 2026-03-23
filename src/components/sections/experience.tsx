@@ -1,6 +1,6 @@
-import { useState, type MouseEvent, type ReactNode } from "react";
 import { Briefcase, ChevronDown, Code2, ExternalLink } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { type ReactNode, useId, useState } from "react";
 import {
 	SectionReveal,
 	Stagger,
@@ -107,18 +107,10 @@ function ExperienceRoleCard({
 	shouldReduceMotion: boolean;
 }) {
 	const [isOpen, setIsOpen] = useState(Boolean(role.current));
+	const panelId = useId();
 
 	const handleToggle = () => {
 		setIsOpen((open) => !open);
-	};
-
-	const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {
-		const target = event.target as HTMLElement;
-		if (target.closest("a,button")) {
-			return;
-		}
-
-		handleToggle();
 	};
 
 	return (
@@ -136,52 +128,55 @@ function ExperienceRoleCard({
 					<div className="relative z-10 mt-5 size-2 rounded-full border border-border bg-muted" />
 				)}
 			</div>
-			<div
-				onClick={handleCardClick}
-				className="rounded-lg border border-border/50 bg-background/20 px-3 py-2.5 transition-colors duration-150 hover:border-muted-foreground/35"
-			>
-				<div className="flex min-h-8 items-center gap-2">
-					<div className="min-w-0 flex-1 self-center">
-						<div className="flex items-center gap-1.5">
-							<Code2 className="size-3.5 shrink-0 text-muted-foreground/80" />
-							<p className="text-left text-sm font-semibold text-foreground">
-								{role.title}
-							</p>
+			<div className="rounded-lg border border-border/50 bg-background/20 px-3 py-2.5 transition-colors duration-150 hover:border-muted-foreground/35">
+				<button
+					type="button"
+					onClick={handleToggle}
+					aria-expanded={isOpen}
+					aria-controls={panelId}
+					className="w-full text-left"
+				>
+					<div className="flex min-h-8 items-center gap-2">
+						<div className="min-w-0 flex-1 self-center">
+							<div className="flex items-center gap-1.5">
+								<Code2 className="size-3.5 shrink-0 text-muted-foreground/80" />
+								<p className="text-left text-sm font-semibold text-foreground">
+									{role.title}
+								</p>
+							</div>
+						</div>
+						<div className="flex shrink-0 items-center gap-2 pl-2">
+							{role.current && (
+								<motion.span
+									className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400"
+									animate={
+										shouldReduceMotion
+											? undefined
+											: { opacity: [0.45, 1, 0.45] }
+									}
+									transition={{
+										duration: 1.6,
+										ease: "easeInOut",
+										repeat: Number.POSITIVE_INFINITY,
+									}}
+								>
+									Current
+								</motion.span>
+							)}
+							<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[11px] text-muted-foreground/80">
+								{role.period}
+							</span>
+							<span className="inline-flex items-center text-muted-foreground transition-colors group-hover:text-foreground">
+								<ChevronDown
+									aria-hidden="true"
+									className={`size-4 transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`}
+								/>
+							</span>
 						</div>
 					</div>
-					<div className="flex shrink-0 items-center gap-2 pl-2">
-						{role.current && (
-							<motion.span
-								className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400"
-								animate={
-									shouldReduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }
-								}
-								transition={{
-									duration: 1.6,
-									ease: "easeInOut",
-									repeat: Number.POSITIVE_INFINITY,
-								}}
-							>
-								Current
-							</motion.span>
-						)}
-						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[11px] text-muted-foreground/80">
-							{role.period}
-						</span>
-						<button
-							type="button"
-							onClick={handleToggle}
-							aria-expanded={isOpen}
-							className="inline-flex items-center text-muted-foreground transition-colors hover:text-foreground"
-						>
-							<span className="sr-only">Toggle role details</span>
-							<ChevronDown
-								className={`size-4 transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`}
-							/>
-						</button>
-					</div>
-				</div>
+				</button>
 				<motion.div
+					id={panelId}
 					initial={false}
 					animate={{
 						height: isOpen ? "auto" : 0,

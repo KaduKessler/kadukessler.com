@@ -7,13 +7,20 @@ import {
 	Mail,
 	MapPin,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Hero() {
 	const { triggerTap } = useTouchHaptics();
+	const { scrollY } = useScroll();
+
+	// Transformações sincronizadas com o scroll (0 a 100px)
+	const logoOpacity = useTransform(scrollY, [0, 80], [1, 0]);
+	const logoScale = useTransform(scrollY, [0, 80], [1, 0.8]);
+	const textX = useTransform(scrollY, [0, 100], [0, -76]); // 60px (logo) + 16px (gap)
+
 	const taglines = ["Full-Stack Junior", ".NET + React", "Above and Beyond"];
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [now, setNow] = useState(() => new Date());
@@ -32,20 +39,12 @@ export function Hero() {
 		const intervalId = window.setInterval(() => {
 			setActiveTagline((previous) => (previous + 1) % taglines.length);
 		}, 3000);
-
-		return () => {
-			window.clearInterval(intervalId);
-		};
+		return () => window.clearInterval(intervalId);
 	}, [taglines.length]);
 
 	useEffect(() => {
-		const timerId = window.setInterval(() => {
-			setNow(new Date());
-		}, 1000);
-
-		return () => {
-			window.clearInterval(timerId);
-		};
+		const timerId = window.setInterval(() => setNow(new Date()), 1000);
+		return () => window.clearInterval(timerId);
 	}, []);
 
 	const santaMariaTime = new Intl.DateTimeFormat("pt-BR", {
@@ -64,20 +63,12 @@ export function Hero() {
 		const offsetToken = formatter
 			.formatToParts(date)
 			.find((part) => part.type === "timeZoneName")?.value;
-
-		if (!offsetToken) {
-			return 0;
-		}
-
+		if (!offsetToken) return 0;
 		const match = offsetToken.match(/GMT([+-])(\d{1,2})(?::?(\d{2}))?/);
-		if (!match) {
-			return 0;
-		}
-
+		if (!match) return 0;
 		const sign = match[1] === "+" ? 1 : -1;
 		const hours = Number(match[2]);
 		const minutes = Number(match[3] ?? "0");
-
 		return sign * (hours * 60 + minutes);
 	};
 
@@ -98,22 +89,27 @@ export function Hero() {
 	return (
 		<SectionReveal>
 			<section className="flex flex-col gap-6">
-				<div className="grid grid-cols-[auto_1fr] items-start gap-4 sm:gap-5">
-					<div className="mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card/50 p-3 sm:size-16">
-						<picture>
-							<source
-								media="(prefers-color-scheme: dark)"
-								srcSet="/images/kadu_logo_white.svg"
-							/>
-							<img
-								src="/images/kadu_logo.svg"
-								alt=""
-								className="h-7 w-auto sm:h-8"
-							/>
-						</picture>
-					</div>
+				<div className="flex items-start gap-4 sm:gap-5">
+					<motion.div
+						style={{ opacity: logoOpacity, scale: logoScale }}
+						className="relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card/50 p-3 sm:size-16"
+					>
+						<img
+							src="/images/kadu_logo_white.svg"
+							alt=""
+							className="hidden h-7 w-auto dark:block sm:h-8"
+						/>
+						<img
+							src="/images/kadu_logo.svg"
+							alt=""
+							className="block h-7 w-auto dark:hidden sm:h-8"
+						/>
+					</motion.div>
 
-					<div className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5">
+					<motion.div
+						style={{ x: textX }}
+						className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5"
+					>
 						<h1 className="text-3xl font-semibold tracking-tight sm:text-[2.6rem]">
 							Kadu Kessler
 						</h1>
@@ -131,7 +127,7 @@ export function Hero() {
 								</motion.span>
 							</AnimatePresence>
 						</p>
-					</div>
+					</motion.div>
 				</div>
 
 				<div className="rounded-xl border border-border bg-card/40 p-3 sm:p-4">

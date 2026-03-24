@@ -43,7 +43,7 @@ export function ThemeToggle() {
 		<button
 			type="button"
 			onClick={toggleTheme}
-			className="relative flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground active:scale-90"
+			className="relative flex size-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-90"
 			aria-label="Toggle theme"
 		>
 			<motion.div

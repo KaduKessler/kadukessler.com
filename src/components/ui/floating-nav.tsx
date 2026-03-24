@@ -59,18 +59,18 @@ export function FloatingNav() {
 								triggerTap?.();
 								window.scrollTo({ top: 0, behavior: "smooth" });
 							}}
-							className="flex items-center justify-center transition-transform hover:scale-110 active:scale-90"
+							className="flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 transition-all hover:bg-muted active:scale-90"
 							aria-label="Back to top"
 						>
 							<img
 								src="/images/kadu_logo_white.svg"
 								alt=""
-								className="hidden h-4.5 w-auto dark:block"
+								className="hidden h-4.5 w-auto dark:block transition-transform group-hover:scale-105"
 							/>
 							<img
 								src="/images/kadu_logo.svg"
 								alt=""
-								className="block h-4.5 w-auto dark:hidden"
+								className="block h-4.5 w-auto dark:hidden transition-transform group-hover:scale-105"
 							/>
 						</button>
 					</motion.div>

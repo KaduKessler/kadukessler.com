@@ -206,7 +206,9 @@ body {
 		background: var(--border);
 		border: 3px solid var(--background);
 		border-radius: 10px;
-		transition: background-color 0.5s ease 0.1s, border-color 0.5s ease 0.1s;
+		transition:
+			background-color 0.5s ease 0.1s,
+			border-color 0.5s ease 0.1s;
 	}
 
 	::-webkit-scrollbar-thumb:hover {

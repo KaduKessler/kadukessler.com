@@ -10,10 +10,12 @@ import {
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { useToast } from "@/components/ui/toast";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Hero() {
 	const { triggerTap } = useTouchHaptics();
+	const { showToast } = useToast();
 	const { scrollY } = useScroll();
 
 	// Transformações sincronizadas com o scroll (0 a 100px)
@@ -32,6 +34,7 @@ export function Hero() {
 		navigator.clipboard.writeText("contato@kadukessler.com");
 		setCopied(true);
 		triggerTap?.();
+		showToast("Email copied to clipboard");
 		setTimeout(() => setCopied(false), 2000);
 	};
 

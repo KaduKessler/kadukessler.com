@@ -7,35 +7,38 @@ import { Hero } from "@/components/sections/hero";
 import { Stack } from "@/components/sections/stack";
 import { FloatingNav } from "@/components/ui/floating-nav";
 import { BackToTop, ScrollProgress } from "@/components/ui/scroll-utils";
+import { ToastProvider } from "@/components/ui/toast";
 
 export default function App() {
 	return (
-		<main className="relative mx-auto flex max-w-2xl flex-col gap-16 px-4 pt-32 pb-16 sm:px-6 md:gap-20 md:pt-40 md:pb-24">
-			<ScrollProgress />
-			<FloatingNav />
+		<ToastProvider>
+			<main className="relative mx-auto flex max-w-2xl flex-col gap-16 px-4 pt-32 pb-16 sm:px-6 md:gap-20 md:pt-40 md:pb-24">
+				<ScrollProgress />
+				<FloatingNav />
 
-			<Hero />
+				<Hero />
 
-			<div id="about">
-				<About />
-			</div>
+				<div id="about">
+					<About />
+				</div>
 
-			<div id="experience">
-				<Experience />
-			</div>
+				<div id="experience">
+					<Experience />
+				</div>
 
-			<div id="education">
-				<Education />
-			</div>
+				<div id="education">
+					<Education />
+				</div>
 
-			<div id="stack">
-				<Stack />
-			</div>
+				<div id="stack">
+					<Stack />
+				</div>
 
-			<Contact />
-			<Footer />
+				<Contact />
+				<Footer />
 
-			<BackToTop />
-		</main>
+				<BackToTop />
+			</main>
+		</ToastProvider>
 	);
 }

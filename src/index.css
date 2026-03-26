@@ -191,6 +191,97 @@ body {
 	text-decoration: underline;
 }
 
+.blog-markdown {
+	font-size: 0.95rem;
+	line-height: 1.8;
+	color: var(--foreground);
+}
+
+.blog-markdown > * + * {
+	margin-top: 1rem;
+}
+
+.blog-markdown h1,
+.blog-markdown h2,
+.blog-markdown h3,
+.blog-markdown h4 {
+	line-height: 1.3;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	margin-top: 1.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.blog-markdown h1 {
+	font-size: 1.8rem;
+}
+
+.blog-markdown h2 {
+	font-size: 1.45rem;
+}
+
+.blog-markdown h3 {
+	font-size: 1.2rem;
+}
+
+.blog-markdown p,
+.blog-markdown li {
+	color: color-mix(in oklab, var(--foreground) 88%, transparent);
+}
+
+.blog-markdown ul,
+.blog-markdown ol {
+	padding-left: 1.25rem;
+}
+
+.blog-markdown ul {
+	list-style: disc;
+}
+
+.blog-markdown ol {
+	list-style: decimal;
+}
+
+.blog-markdown a {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	color: var(--foreground);
+}
+
+.blog-markdown code {
+	padding: 0.15rem 0.35rem;
+	border-radius: 0.35rem;
+	font-size: 0.85em;
+	font-family: var(--font-mono);
+	background-color: color-mix(in oklab, var(--muted) 85%, transparent);
+}
+
+.blog-markdown pre {
+	overflow-x: auto;
+	padding: 0.9rem;
+	border-radius: 0.8rem;
+	background-color: color-mix(in oklab, var(--muted) 90%, transparent);
+	border: 1px solid var(--border);
+}
+
+.blog-markdown pre code {
+	padding: 0;
+	background: transparent;
+}
+
+.blog-markdown blockquote {
+	padding-left: 0.9rem;
+	border-left: 3px solid var(--border);
+	color: var(--muted-foreground);
+	font-style: italic;
+}
+
+.blog-markdown img {
+	max-width: 100%;
+	border-radius: 0.75rem;
+	border: 1px solid var(--border);
+}
+
 /* Custom Scrollbar */
 @layer base {
 	section[id],

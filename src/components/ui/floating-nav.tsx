@@ -1,16 +1,24 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 import { cn } from "@/lib/utils";
 
+type NavItem = {
+	label: string;
+	href: string;
+	type: "section" | "route";
+};
+
 const navItems = [
-	{ label: "About", href: "#about" },
-	{ label: "Experience", href: "#experience" },
-	{ label: "Education", href: "#education" },
-	{ label: "Stack", href: "#stack" },
-];
+	{ label: "About", href: "#about", type: "section" },
+	{ label: "Experience", href: "#experience", type: "section" },
+	{ label: "Education", href: "#education", type: "section" },
+	{ label: "Stack", href: "#stack", type: "section" },
+	{ label: "Blog", href: "/blog", type: "route" },
+] as const satisfies ReadonlyArray<NavItem>;
 
 export function FloatingNav() {
 	const [isMobile, setIsMobile] = useState(false);
@@ -42,7 +50,9 @@ export function FloatingNav() {
 			}
 		}, options);
 
-		for (const item of navItems) {
+		for (const item of navItems.filter(
+			(navItem) => navItem.type === "section",
+		)) {
 			const id = item.href.replace("#", "");
 			const el = document.getElementById(id);
 			if (el) observer.observe(el);
@@ -156,28 +166,44 @@ function DesktopNav({
 
 			<motion.ul layout className="flex items-center gap-1">
 				{navItems.map((item) => {
-					const isActive = activeSection === item.href.replace("#", "");
+					const isActive =
+						item.type === "section" &&
+						activeSection === item.href.replace("#", "");
 					return (
 						<motion.li layout key={item.label} className="flex items-center">
-							<a
-								href={item.href}
-								onClick={(e) => handleScroll(e, item.href)}
-								className={cn(
-									"relative rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors",
-									isActive
-										? "text-foreground bg-muted/50"
-										: "text-muted-foreground hover:bg-muted hover:text-foreground",
-								)}
-							>
-								{item.label}
-								{isActive && (
-									<motion.div
-										layoutId="activeSection"
-										className="absolute inset-0 z-[-1] rounded-full bg-muted shadow-sm"
-										transition={{ type: "spring", stiffness: 380, damping: 30 }}
-									/>
-								)}
-							</a>
+							{item.type === "section" ? (
+								<a
+									href={item.href}
+									onClick={(e) => handleScroll(e, item.href)}
+									className={cn(
+										"relative rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors",
+										isActive
+											? "text-foreground bg-muted/50"
+											: "text-muted-foreground hover:bg-muted hover:text-foreground",
+									)}
+								>
+									{item.label}
+									{isActive && (
+										<motion.div
+											layoutId="activeSection"
+											className="absolute inset-0 z-[-1] rounded-full bg-muted shadow-sm"
+											transition={{
+												type: "spring",
+												stiffness: 380,
+												damping: 30,
+											}}
+										/>
+									)}
+								</a>
+							) : (
+								<Link
+									to={item.href}
+									onClick={triggerTap}
+									className="relative rounded-full px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+								>
+									{item.label}
+								</Link>
+							)}
 						</motion.li>
 					);
 				})}
@@ -213,8 +239,10 @@ function MobileNav({
 	};
 
 	const activeLabel =
-		navItems.find((i) => i.href.replace("#", "") === activeSection)?.label ||
-		"Menu";
+		navItems.find(
+			(item) =>
+				item.type === "section" && item.href.replace("#", "") === activeSection,
+		)?.label || "Menu";
 
 	return (
 		<div className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2 px-4 w-full max-w-[320px]">
@@ -233,7 +261,7 @@ function MobileNav({
 						}}
 						initial={false}
 						transition={{ type: "spring", stiffness: 300, damping: 30 }}
-						className="overflow-hidden flex-shrink-0"
+						className="overflow-hidden shrink-0"
 					>
 						<button
 							type="button"
@@ -271,14 +299,14 @@ function MobileNav({
 						<motion.div
 							animate={{ rotate: isOpen ? 180 : 0 }}
 							transition={{ type: "spring", stiffness: 260, damping: 20 }}
-							className="flex-shrink-0"
+							className="shrink-0"
 						>
 							<ChevronDown className="size-3 text-muted-foreground" />
 						</motion.div>
 					</motion.button>
 				</div>
 
-				<div className="flex items-center pl-2 flex-shrink-0">
+				<div className="flex items-center pl-2 shrink-0">
 					<ThemeToggle />
 				</div>
 			</motion.nav>
@@ -294,21 +322,36 @@ function MobileNav({
 						className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl"
 					>
 						{navItems.map((item) => {
-							const isActive = activeSection === item.href.replace("#", "");
+							const isActive =
+								item.type === "section" &&
+								activeSection === item.href.replace("#", "");
 							return (
 								<li key={item.label}>
-									<a
-										href={item.href}
-										onClick={(e) => handleScroll(e, item.href)}
-										className={cn(
-											"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all active:scale-[0.98]",
-											isActive
-												? "bg-muted text-foreground"
-												: "text-muted-foreground hover:bg-muted/50",
-										)}
-									>
-										{item.label}
-									</a>
+									{item.type === "section" ? (
+										<a
+											href={item.href}
+											onClick={(e) => handleScroll(e, item.href)}
+											className={cn(
+												"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all active:scale-[0.98]",
+												isActive
+													? "bg-muted text-foreground"
+													: "text-muted-foreground hover:bg-muted/50",
+											)}
+										>
+											{item.label}
+										</a>
+									) : (
+										<Link
+											to={item.href}
+											onClick={() => {
+												triggerTap?.();
+												setIsOpen(false);
+											}}
+											className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all hover:bg-muted/50 active:scale-[0.98]"
+										>
+											{item.label}
+										</Link>
+									)}
 								</li>
 							);
 						})}

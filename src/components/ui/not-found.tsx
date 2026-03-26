@@ -57,7 +57,7 @@ export function NotFound() {
 	);
 
 	return (
-		<div className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[#020202] px-4 text-center select-none antialiased font-sans cursor-default">
+		<div className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-[#020202] px-4 text-center select-none antialiased font-sans cursor-default">
 			{/* --- PARALLAX BACKGROUND (STARS ONLY) --- */}
 
 			{/* LAYER 1: Deep Background Stars */}
@@ -130,7 +130,7 @@ export function NotFound() {
 							rotate: { duration: 30, repeat: Infinity, ease: "linear" },
 							scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
 						}}
-						className="absolute size-[16rem] rounded-full border border-white/[0.06] sm:size-[22rem]"
+						className="absolute size-64 rounded-full border border-white/6 sm:size-88"
 					>
 						<div className="absolute -top-1 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-white/10" />
 					</motion.div>
@@ -160,7 +160,7 @@ export function NotFound() {
 						<h2 className="text-3xl font-bold tracking-tight sm:text-5xl">
 							Signal Lost.
 						</h2>
-						<p className="max-w-[380px] text-white/30 text-xs sm:text-base font-light leading-relaxed tracking-wide">
+						<p className="max-w-95 text-white/30 text-xs sm:text-base font-light leading-relaxed tracking-wide">
 							The requested resource has drifted beyond our event horizon.
 						</p>
 					</div>

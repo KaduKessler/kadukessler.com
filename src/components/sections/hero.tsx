@@ -3,12 +3,14 @@ import {
 	Check,
 	Clock3,
 	Copy,
+	FileText,
 	Github,
 	Mail,
 	MapPin,
 } from "lucide-react";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useToast } from "@/components/ui/toast";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
@@ -243,6 +245,25 @@ export function Hero() {
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<div className="flex items-center justify-between rounded-xl border border-border bg-card/40 p-3 sm:p-4">
+					<div>
+						<p className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground/60">
+							Writing
+						</p>
+						<p className="mt-1 text-sm text-foreground/90">
+							Agora tambem compartilho estudos e bastidores no blog.
+						</p>
+					</div>
+					<Link
+						to="/blog"
+						onClick={triggerTap}
+						className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/70 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-foreground transition-colors hover:bg-muted"
+					>
+						<FileText className="size-3.5" />
+						Ver blog
+					</Link>
 				</div>
 			</section>
 		</SectionReveal>

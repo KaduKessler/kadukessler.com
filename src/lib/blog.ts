@@ -53,6 +53,16 @@ export function getAllPosts(): BlogPostMeta[] {
 	return posts.map(({ content, draft, ...meta }) => meta);
 }
 
+export function getAllTags(): string[] {
+	const tags = new Set<string>();
+	for (const post of posts) {
+		for (const tag of post.tags) {
+			tags.add(tag);
+		}
+	}
+	return Array.from(tags).sort();
+}
+
 export function getPostBySlug(slug: string): BlogPost | null {
 	const post = posts.find((item) => item.slug === slug);
 	if (!post) return null;

@@ -1,3 +1,6 @@
+import matter from "gray-matter";
+import type { ComponentType } from "react";
+
 export type BlogPostMeta = {
 	slug: string;
 	title: string;
@@ -9,39 +12,79 @@ export type BlogPostMeta = {
 };
 
 export type BlogPost = BlogPostMeta & {
-	content: string;
+	Content: ComponentType<{ components?: Record<string, React.ComponentType> }>;
 };
 
-type Frontmatter = {
-	title?: unknown;
-	excerpt?: unknown;
-	date?: unknown;
-	tags?: unknown;
-	cover?: unknown;
-	draft?: unknown;
-};
-
-type InternalPost = BlogPost & {
-	draft: boolean;
-};
-
-type ParsedFrontmatter = {
-	data: Frontmatter;
-	content: string;
-};
-
-const markdownModules = import.meta.glob("/posts/*.md", {
+const mdxModules = import.meta.glob("/posts/*.mdx", {
 	eager: true,
-	import: "default",
+}) as Record<string, { default: BlogPost["Content"]; [key: string]: unknown }>;
+
+const rawModules = import.meta.glob("/posts/*.mdx", {
+	eager: true,
 	query: "?raw",
-}) as Record<string, string>;
+	import: "default",
+}) as Record<string, string | (() => string)>;
 
-const posts: InternalPost[] = [];
+const posts: (BlogPost & { draft: boolean })[] = [];
 
-for (const [filePath, rawContent] of Object.entries(markdownModules)) {
-	const parsedPost = parsePost(filePath, rawContent);
-	if (!parsedPost || parsedPost.draft) continue;
-	posts.push(parsedPost);
+for (const [filePath, module] of Object.entries(mdxModules)) {
+	const slug = slugFromPath(filePath);
+	if (!slug) continue;
+
+	let rawContent = rawModules[filePath];
+	if (typeof rawContent === "function") {
+		rawContent = rawContent();
+	}
+
+	let cleanContent = "";
+	let data: Record<string, unknown> = {};
+
+	if (typeof rawContent === "string" && rawContent.length > 0) {
+		const parsed = matter(rawContent);
+		data = parsed.data;
+		cleanContent = parsed.content;
+	}
+
+	// Prioridade: gray-matter (raw) > module.frontmatter (MDX plugin) > module (root)
+	const fm = data || {};
+	const mfm = (module.frontmatter as Record<string, unknown>) || {};
+
+	const title =
+		(fm.title as string) ||
+		(mfm.title as string) ||
+		(module.title as string) ||
+		humanizeSlug(slug);
+	const dateValue = fm.date || mfm.date || module.date;
+	const publishedAt =
+		(dateValue instanceof Date
+			? dateValue.toISOString()
+			: (dateValue as string)) || new Date().toISOString();
+	const tags = normalizeTags(fm.tags || mfm.tags || module.tags);
+	const excerpt =
+		(fm.excerpt as string) ||
+		(mfm.excerpt as string) ||
+		(module.excerpt as string) ||
+		(cleanContent ? buildExcerpt(cleanContent) : "");
+	const cover =
+		(fm.cover as string) || (mfm.cover as string) || (module.cover as string);
+	const draft =
+		fm.draft === true || mfm.draft === true || module.draft === true;
+	const readingTimeMinutes =
+		(fm.readingTimeMinutes as number) ||
+		(mfm.readingTimeMinutes as number) ||
+		(cleanContent ? getReadingTime(cleanContent) : 5);
+
+	posts.push({
+		slug,
+		title,
+		excerpt,
+		publishedAt,
+		tags,
+		cover,
+		readingTimeMinutes,
+		Content: module.default as BlogPost["Content"],
+		draft,
+	});
 }
 
 posts.sort(
@@ -50,14 +93,15 @@ posts.sort(
 );
 
 export function getAllPosts(): BlogPostMeta[] {
-	return posts.map(({ content, draft, ...meta }) => meta);
+	return posts.map(({ Content, draft, ...meta }) => meta);
 }
 
 export function getAllTags(): string[] {
 	const tags = new Set<string>();
 	for (const post of posts) {
+		if (post.draft) continue;
 		for (const tag of post.tags) {
-			tags.add(tag);
+			tags.add(tag); // As tags já vêm normalizadas para lowercase de normalizeTags
 		}
 	}
 	return Array.from(tags).sort();
@@ -70,158 +114,55 @@ export function getPostBySlug(slug: string): BlogPost | null {
 	return publicPost;
 }
 
-function parsePost(filePath: string, rawContent: string): InternalPost | null {
-	const { data: frontmatter, content } = parseFrontmatter(rawContent);
-	const slug = slugFromPath(filePath);
-	if (!slug) return null;
-
-	const title =
-		typeof frontmatter.title === "string" && frontmatter.title.trim().length > 0
-			? frontmatter.title.trim()
-			: humanizeSlug(slug);
-
-	const excerpt =
-		typeof frontmatter.excerpt === "string" &&
-		frontmatter.excerpt.trim().length > 0
-			? frontmatter.excerpt.trim()
-			: buildExcerpt(content);
-
-	const publishedAt =
-		typeof frontmatter.date === "string" &&
-		Number.isFinite(Date.parse(frontmatter.date))
-			? frontmatter.date
-			: new Date().toISOString();
-
-	const tags = normalizeTags(frontmatter.tags);
-	const readingTimeMinutes = getReadingTime(content);
-	const cover =
-		typeof frontmatter.cover === "string" && frontmatter.cover.trim().length > 0
-			? frontmatter.cover
-			: undefined;
-	const draft = frontmatter.draft === true;
-
-	return {
-		slug,
-		title,
-		excerpt,
-		publishedAt,
-		tags,
-		cover,
-		readingTimeMinutes,
-		content,
-		draft,
-	};
-}
-
 function slugFromPath(filePath: string): string {
-	const fileName = filePath.split("/").pop()?.replace(/\.md$/, "") ?? "";
-	const normalized = fileName.toLowerCase();
-	return normalized.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+	const fileName =
+		filePath
+			.split("/")
+			.pop()
+			?.replace(/\.mdx$/, "") ?? "";
+	return fileName.toLowerCase().replace(/^\d{4}-\d{2}-\d{2}-/, "");
 }
 
 function humanizeSlug(slug: string): string {
 	return slug
 		.split("-")
 		.filter(Boolean)
-		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+		.map((s) => s.charAt(0).toUpperCase() + s.slice(1))
 		.join(" ");
 }
 
 function normalizeTags(value: unknown): string[] {
+	let rawTags: string[] = [];
+
 	if (Array.isArray(value)) {
-		return value
-			.filter((item): item is string => typeof item === "string")
-			.map((item) => item.trim())
-			.filter(Boolean);
+		rawTags = value.filter((item): item is string => typeof item === "string");
+	} else if (typeof value === "string") {
+		rawTags = value.split(",");
 	}
 
-	if (typeof value === "string") {
-		return value
-			.split(",")
-			.map((item) => item.trim())
-			.filter(Boolean);
-	}
-
-	return [];
+	return rawTags
+		.map((tag) => tag.trim().toLowerCase()) // Normaliza para lowercase para evitar duplicatas por case
+		.filter(Boolean);
 }
 
 function buildExcerpt(content: string): string {
-	const normalized = content.replace(/\s+/g, " ").trim();
-	if (normalized.length <= 160) return normalized;
-	return `${normalized.slice(0, 157).trim()}...`;
+	if (!content) return "";
+	const plainText = content
+		.replace(/import[\s\S]*?from\s+['"].*?['"];?/g, "")
+		.replace(/export\s+const\s+[\s\S]*?;/g, "")
+		.replace(/#+\s+.*/g, "")
+		.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+		.replace(/[`*_]/g, "")
+		.replace(/<[\s\S]*?>/g, "")
+		.replace(/\s+/g, " ")
+		.trim();
+	return plainText.length <= 160
+		? plainText
+		: `${plainText.slice(0, 157).trim()}...`;
 }
 
 function getReadingTime(content: string): number {
+	if (!content) return 1;
 	const words = content.trim().split(/\s+/).filter(Boolean).length;
 	return Math.max(1, Math.ceil(words / 220));
-}
-
-function parseFrontmatter(raw: string): ParsedFrontmatter {
-	const normalized = raw.replace(/\r\n/g, "\n");
-	if (!normalized.startsWith("---\n")) {
-		return { data: {}, content: normalized };
-	}
-
-	const frontmatterEndIndex = normalized.indexOf("\n---\n", 4);
-	if (frontmatterEndIndex === -1) {
-		return { data: {}, content: normalized };
-	}
-
-	const frontmatterBlock = normalized.slice(4, frontmatterEndIndex);
-	const content = normalized.slice(frontmatterEndIndex + 5).trimStart();
-	const data = parseFrontmatterBlock(frontmatterBlock);
-
-	return { data, content };
-}
-
-function parseFrontmatterBlock(block: string): Frontmatter {
-	const data: Frontmatter = {};
-	let activeArrayKey: keyof Frontmatter | null = null;
-
-	for (const rawLine of block.split("\n")) {
-		const line = rawLine.trimEnd();
-		if (!line.trim() || line.trim().startsWith("#")) continue;
-
-		const listMatch = line.match(/^\s*-\s+(.+)$/);
-		if (listMatch && activeArrayKey) {
-			const current = data[activeArrayKey];
-			const nextValue = parseFrontmatterScalar(listMatch[1]);
-			if (Array.isArray(current)) {
-				current.push(String(nextValue));
-			}
-			continue;
-		}
-
-		const keyValueMatch = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-		if (!keyValueMatch) continue;
-
-		const key = keyValueMatch[1] as keyof Frontmatter;
-		const rawValue = keyValueMatch[2];
-
-		if (rawValue.length === 0) {
-			data[key] = [];
-			activeArrayKey = key;
-			continue;
-		}
-
-		data[key] = parseFrontmatterScalar(rawValue);
-		activeArrayKey = null;
-	}
-
-	return data;
-}
-
-function parseFrontmatterScalar(value: string): unknown {
-	const trimmed = value.trim();
-	if (trimmed === "true") return true;
-	if (trimmed === "false") return false;
-
-	if (
-		(trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-		(trimmed.startsWith("'") && trimmed.endsWith("'"))
-	) {
-		return trimmed.slice(1, -1);
-	}
-
-	return trimmed;
 }

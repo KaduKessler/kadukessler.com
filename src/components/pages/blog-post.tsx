@@ -7,12 +7,10 @@ import {
 	Copy,
 	Home,
 	Share2,
+	Tag,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import rehypeHighlight from "rehype-highlight";
-import remarkGfm from "remark-gfm";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useToast } from "@/components/ui/toast";
@@ -82,6 +80,75 @@ const CodeBlock = ({
 	);
 };
 
+const mdxComponents = {
+	pre: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+	code: ({
+		children,
+		className,
+		...props
+	}: {
+		children: React.ReactNode;
+		className?: string;
+	}) => {
+		const isInline = !className;
+		return isInline ? (
+			<code
+				className="bg-muted px-1.5 py-0.5 rounded text-[13px] font-mono text-primary font-medium"
+				{...props}
+			>
+				{children}
+			</code>
+		) : (
+			<CodeBlock className={className}>{children}</CodeBlock>
+		);
+	},
+	img: ({
+		src,
+		alt,
+		...props
+	}: {
+		src?: string;
+		alt?: string;
+		[key: string]: unknown;
+	}) => (
+		<span className="block my-12 rounded-[1.5rem] overflow-hidden border border-border/40 shadow-xl bg-muted/10">
+			<img
+				src={src}
+				alt={alt}
+				className="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-500"
+				{...(props as React.ImgHTMLAttributes<HTMLImageElement>)}
+			/>
+			{alt && (
+				<span className="block p-3 text-center text-xs text-muted-foreground italic border-t border-border/10 bg-card/20 font-medium">
+					{alt}
+				</span>
+			)}
+		</span>
+	),
+	a: ({
+		children,
+		href,
+		...props
+	}: {
+		children?: React.ReactNode;
+		href?: string;
+		[key: string]: unknown;
+	}) => {
+		const isExternal = href?.startsWith("http");
+		return (
+			<a
+				href={href}
+				className="text-primary hover:text-foreground underline underline-offset-4 decoration-primary/30 hover:decoration-foreground transition-all duration-300 font-medium"
+				target={isExternal ? "_blank" : undefined}
+				rel={isExternal ? "noopener noreferrer" : undefined}
+				{...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+			>
+				{children}
+			</a>
+		);
+	},
+};
+
 export function BlogPost() {
 	const { slug } = useParams();
 	const navigate = useNavigate();
@@ -136,6 +203,8 @@ export function BlogPost() {
 		showToast("Link copied to clipboard!");
 		setTimeout(() => setIsSharing(false), 2000);
 	};
+
+	const { Content } = post;
 
 	return (
 		<div className="min-h-screen bg-background selection:bg-primary/10">
@@ -221,6 +290,20 @@ export function BlogPost() {
 							<p className="text-xl text-muted-foreground/70 leading-relaxed border-l border-primary/20 pl-6 italic">
 								{post.excerpt}
 							</p>
+
+							{post.tags.length > 0 && (
+								<div className="flex flex-wrap gap-3 mt-2">
+									{post.tags.map((tag) => (
+										<span
+											key={tag}
+											className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-border/40 bg-muted/20 text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground/60"
+										>
+											<Tag className="size-3" />
+											{tag}
+										</span>
+									))}
+								</div>
+							)}
 						</header>
 					</SectionReveal>
 
@@ -246,28 +329,7 @@ export function BlogPost() {
 							prose-code:before:content-none prose-code:after:content-none
 						"
 						>
-							<ReactMarkdown
-								remarkPlugins={[remarkGfm]}
-								rehypePlugins={[rehypeHighlight]}
-								components={{
-									pre: ({ children }) => <>{children}</>,
-									code: ({ children, className, ...props }) => {
-										const isInline = !className;
-										return isInline ? (
-											<code
-												className="bg-muted px-1.5 py-0.5 rounded text-[13px] font-mono text-primary font-medium"
-												{...props}
-											>
-												{children}
-											</code>
-										) : (
-											<CodeBlock className={className}>{children}</CodeBlock>
-										);
-									},
-								}}
-							>
-								{post.content}
-							</ReactMarkdown>
+							<Content components={mdxComponents} />
 						</div>
 					</SectionReveal>
 

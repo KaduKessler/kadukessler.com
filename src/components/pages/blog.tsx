@@ -125,7 +125,7 @@ export function Blog() {
 								}}
 								className={`w-full h-full flex items-center justify-between bg-card/20 border rounded-xl py-2.5 px-4 text-sm font-medium transition-all ${
 									selectedTag
-										? "border-primary/40 text-primary bg-primary/5"
+										? "border-primary/40 text-primary bg-primary/5 shadow-[0_0_20px_rgba(var(--primary),0.1)]"
 										: "border-border/60 text-muted-foreground hover:bg-muted/30 hover:text-foreground"
 								}`}
 							>
@@ -174,26 +174,32 @@ export function Blog() {
 											)}
 										</button>
 										<div className="h-px bg-border/40 my-1.5 mx-2" />
-										{filteredTags.map((tag) => (
-											<button
-												key={tag}
-												type="button"
-												onClick={() => {
-													setSelectedTag(tag);
-													setIsTagsOpen(false);
-												}}
-												className={`w-full text-left px-3 py-2.5 text-xs rounded-lg transition-colors flex items-center justify-between group/item ${
-													selectedTag === tag
-														? "bg-primary/15 text-primary font-bold"
-														: "text-muted-foreground hover:bg-muted hover:text-foreground"
-												}`}
-											>
-												{tag}
-												{selectedTag === tag && (
-													<div className="size-1.5 rounded-full bg-primary" />
-												)}
-											</button>
-										))}
+										{filteredTags.length > 0 ? (
+											filteredTags.map((tag) => (
+												<button
+													key={tag}
+													type="button"
+													onClick={() => {
+														setSelectedTag(tag);
+														setIsTagsOpen(false);
+													}}
+													className={`w-full text-left px-3 py-2.5 text-xs rounded-lg transition-colors flex items-center justify-between group/item ${
+														selectedTag === tag
+															? "bg-primary/15 text-primary font-bold"
+															: "text-muted-foreground hover:bg-muted hover:text-foreground"
+													}`}
+												>
+													{tag}
+													{selectedTag === tag && (
+														<div className="size-1.5 rounded-full bg-primary" />
+													)}
+												</button>
+											))
+										) : (
+											<div className="px-3 py-4 text-center text-xs text-muted-foreground italic">
+												No tags found
+											</div>
+										)}
 									</div>
 								</div>
 							)}
@@ -203,7 +209,7 @@ export function Blog() {
 			</div>
 
 			{/* Content Area */}
-			<div className="flex flex-col gap-10 relative z-0">
+			<div className="flex flex-col gap-8 relative z-0">
 				{featuredPost && (
 					<SectionReveal delay={0.2}>
 						<Link
@@ -246,11 +252,12 @@ export function Blog() {
 
 				{displayPosts.length > 0 ? (
 					<Stagger
-						className="grid grid-cols-1 md:grid-cols-2 gap-6"
+						key={selectedTag || searchQuery || "initial"}
+						className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
 						delay={0.05}
 					>
 						{displayPosts.map((post) => (
-							<StaggerItem key={post.slug}>
+							<StaggerItem key={post.slug} className="flex flex-col h-full">
 								<Link
 									to={`/blog/${post.slug}`}
 									className="group flex flex-col h-full gap-5 p-6 rounded-2xl border border-border/40 bg-card/10 hover:border-primary/20 hover:bg-card/20 transition-all duration-300"
@@ -282,7 +289,7 @@ export function Blog() {
 									</div>
 
 									<div className="flex flex-wrap gap-2 pt-4 border-t border-border/20">
-										{post.tags.slice(0, 2).map((tag) => (
+										{post.tags.slice(0, 3).map((tag) => (
 											<span
 												key={tag}
 												className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-muted-foreground/50"

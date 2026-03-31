@@ -15,10 +15,13 @@
 		"lint:biome": "biome check ."
 	},
 	"dependencies": {
+		"@mdx-js/react": "^3.1.1",
+		"@mdx-js/rollup": "^3.1.1",
 		"@tailwindcss/postcss": "^4.2.2",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"geist": "^1.7.0",
+		"gray-matter": "^4.0.3",
 		"highlight.js": "^11.11.1",
 		"lucide-react": "^0.577.0",
 		"motion": "^12.38.0",
@@ -30,7 +33,9 @@
 		"react-markdown": "^10.1.0",
 		"react-router-dom": "^7.13.2",
 		"rehype-highlight": "^7.0.2",
+		"remark-frontmatter": "^5.0.0",
 		"remark-gfm": "^4.0.1",
+		"remark-mdx-frontmatter": "^5.2.0",
 		"tailwind-merge": "^3.5.0",
 		"tailwindcss": "^4.2.2",
 		"web-haptics": "^0.0.6"

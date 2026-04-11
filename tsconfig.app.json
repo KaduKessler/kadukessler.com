@@ -15,7 +15,8 @@
 		"moduleDetection": "force",
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"content": ["./.velite"]
 		},
 		"noEmit": true,
 		"jsx": "react-jsx",
@@ -28,5 +29,5 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["src"]
+	"include": ["src", ".velite"]
 }

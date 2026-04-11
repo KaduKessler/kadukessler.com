@@ -10,7 +10,7 @@ export function MDXContent({
 	components,
 }: {
 	code: string;
-	components?: Record<string, React.ComponentType<Record<string, unknown>>>;
+	components?: Record<string, React.ElementType>;
 }) {
 	const Content = useMemo(() => {
 		const getComponent = new Function(

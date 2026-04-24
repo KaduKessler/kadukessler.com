@@ -1,23 +1,26 @@
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { LanguageReveal } from "@/components/ui/language-reveal";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
-	label: string;
+	key: string;
 	href: string;
 	type: "section" | "route";
 };
 
 const navItems = [
-	{ label: "About", href: "#about", type: "section" },
-	{ label: "Experience", href: "#experience", type: "section" },
-	{ label: "Education", href: "#education", type: "section" },
-	{ label: "Stack", href: "#stack", type: "section" },
-	{ label: "Blog", href: "/blog", type: "route" },
+	{ key: "about", href: "#about", type: "section" },
+	{ key: "experience", href: "#experience", type: "section" },
+	{ key: "education", href: "#education", type: "section" },
+	{ key: "stack", href: "#stack", type: "section" },
+	{ key: "blog", href: "/blog", type: "route" },
 ] as const satisfies ReadonlyArray<NavItem>;
 
 export function FloatingNav() {
@@ -81,6 +84,7 @@ function DesktopNav({
 	activeSection: string;
 	hasScrolled: boolean;
 }) {
+	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const logoRef = useRef<HTMLButtonElement>(null);
 	const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -147,7 +151,7 @@ function DesktopNav({
 								window.scrollTo({ top: 0, behavior: "smooth" });
 							}}
 							className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 transition-colors hover:bg-muted active:scale-90"
-							aria-label="Back to top"
+							aria-label={t("common.backToTop")}
 						>
 							<img
 								src="/images/kadu_logo_white.svg"
@@ -170,7 +174,7 @@ function DesktopNav({
 						item.type === "section" &&
 						activeSection === item.href.replace("#", "");
 					return (
-						<motion.li layout key={item.label} className="flex items-center">
+						<motion.li layout key={item.key} className="flex items-center">
 							{item.type === "section" ? (
 								<a
 									href={item.href}
@@ -182,7 +186,7 @@ function DesktopNav({
 											: "text-muted-foreground hover:bg-muted hover:text-foreground",
 									)}
 								>
-									{item.label}
+									<LanguageReveal inline>{t(`nav.${item.key}`)}</LanguageReveal>
 									{isActive && (
 										<motion.div
 											layoutId="activeSection"
@@ -201,7 +205,7 @@ function DesktopNav({
 									onClick={triggerTap}
 									className="relative rounded-full px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 								>
-									{item.label}
+									<LanguageReveal inline>{t(`nav.${item.key}`)}</LanguageReveal>
 								</Link>
 							)}
 						</motion.li>
@@ -209,7 +213,11 @@ function DesktopNav({
 				})}
 			</motion.ul>
 
-			<motion.div layout className="flex items-center">
+			<motion.div
+				layout
+				className="flex items-center gap-1 ml-1 pl-1 border-l border-border/40"
+			>
+				<LanguageToggle />
 				<ThemeToggle />
 			</motion.div>
 		</motion.nav>
@@ -223,6 +231,7 @@ function MobileNav({
 	activeSection: string;
 	hasScrolled: boolean;
 }) {
+	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -238,14 +247,15 @@ function MobileNav({
 		elem?.scrollIntoView({ behavior: "smooth" });
 	};
 
-	const activeLabel =
-		navItems.find(
-			(item) =>
-				item.type === "section" && item.href.replace("#", "") === activeSection,
-		)?.label || "Menu";
+	const activeItem = navItems.find(
+		(item) =>
+			item.type === "section" && item.href.replace("#", "") === activeSection,
+	);
+
+	const activeLabel = activeItem ? t(`nav.${activeItem.key}`) : t("nav.menu");
 
 	return (
-		<div className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2 px-4 w-full max-w-[320px]">
+		<div className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2 px-4 w-full max-w-[340px]">
 			<motion.nav
 				layout
 				transition={{ type: "spring", stiffness: 260, damping: 25 }}
@@ -270,7 +280,7 @@ function MobileNav({
 								window.scrollTo({ top: 0, behavior: "smooth" });
 							}}
 							className="flex items-center justify-center py-1 active:scale-90 transition-transform"
-							aria-label="Back to top"
+							aria-label={t("common.backToTop")}
 						>
 							<img
 								src="/images/kadu_logo_white.svg"
@@ -295,7 +305,9 @@ function MobileNav({
 						}}
 						className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/80 active:opacity-60 transition-opacity truncate"
 					>
-						<span className="truncate">{activeLabel}</span>
+						<LanguageReveal inline className="truncate">
+							{activeLabel}
+						</LanguageReveal>
 						<motion.div
 							animate={{ rotate: isOpen ? 180 : 0 }}
 							transition={{ type: "spring", stiffness: 260, damping: 20 }}
@@ -306,7 +318,8 @@ function MobileNav({
 					</motion.button>
 				</div>
 
-				<div className="flex items-center pl-2 shrink-0">
+				<div className="flex items-center gap-1 pl-2 shrink-0 border-l border-border/40 ml-2">
+					<LanguageToggle />
 					<ThemeToggle />
 				</div>
 			</motion.nav>
@@ -326,7 +339,7 @@ function MobileNav({
 								item.type === "section" &&
 								activeSection === item.href.replace("#", "");
 							return (
-								<li key={item.label}>
+								<li key={item.key}>
 									{item.type === "section" ? (
 										<a
 											href={item.href}
@@ -338,7 +351,9 @@ function MobileNav({
 													: "text-muted-foreground hover:bg-muted/50",
 											)}
 										>
-											{item.label}
+											<LanguageReveal inline>
+												{t(`nav.${item.key}`)}
+											</LanguageReveal>
 										</a>
 									) : (
 										<Link
@@ -349,7 +364,9 @@ function MobileNav({
 											}}
 											className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all hover:bg-muted/50 active:scale-[0.98]"
 										>
-											{item.label}
+											<LanguageReveal inline>
+												{t(`nav.${item.key}`)}
+											</LanguageReveal>
 										</Link>
 									)}
 								</li>

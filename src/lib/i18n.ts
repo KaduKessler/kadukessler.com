@@ -63,6 +63,7 @@ const resources = {
 							{
 								title: "Full-Stack Junior",
 								period: "04.2026 — Present",
+								current: true,
 								description:
 									"Working with .NET, React, and IoT integrations for the AlertAI security platform. Focused on scalable monitoring, real-time events, and high-performance infrastructure.",
 							},
@@ -110,6 +111,7 @@ const resources = {
 						description:
 							"Full-stack curriculum centered on end-to-end delivery: React/Vite/MUI on the front-end, Node.js/TypeScript REST APIs with Docker and Prisma/SQL on the back-end, and microservices architecture with API Gateway, RabbitMQ, and cache strategies. Also covered secure engineering with cryptography fundamentals, STRIDE threat modeling, and LGPD-oriented practices.",
 						period: "02.2024 — 2026",
+						current: true,
 					},
 					{
 						institution: "UFSM",
@@ -200,6 +202,7 @@ const resources = {
 							{
 								title: "Full-Stack Junior",
 								period: "04.2026 — Presente",
+								current: true,
 								description:
 									"Trabalhando com .NET, React e integrações IoT para a plataforma de segurança AlertAI. Focado em monitoramento escalável, eventos em tempo real e infraestrutura de alta performance.",
 							},
@@ -247,6 +250,7 @@ const resources = {
 						description:
 							"Currículo full-stack centrado na entrega de ponta a ponta: React/Vite/MUI no front-end, APIs REST Node.js/TypeScript com Docker e Prisma/SQL no back-end, e arquitetura de microserviços com API Gateway, RabbitMQ e estratégias de cache. Também cobriu engenharia segura com fundamentos de criptografia, modelagem de ameaças STRIDE e práticas orientadas à LGPD.",
 						period: "02.2024 — 2026",
+						current: true,
 					},
 					{
 						institution: "UFSM",

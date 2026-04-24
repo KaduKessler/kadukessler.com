@@ -177,9 +177,6 @@ export function Education() {
 								edu={{
 									...item,
 									...staticData,
-									current:
-										item.period.includes("Present") ||
-										item.period.includes("2026"),
 								}}
 								shouldReduceMotion={Boolean(shouldReduceMotion)}
 							/>

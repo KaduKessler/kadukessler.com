@@ -1,6 +1,8 @@
 import { Briefcase, ChevronDown, Code2, ExternalLink } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { type ReactNode, useId, useState } from "react";
+import { useId, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { LanguageReveal } from "@/components/ui/language-reveal";
 import {
 	SectionReveal,
 	Stagger,
@@ -11,82 +13,41 @@ import { useTouchHaptics } from "@/lib/use-touch-haptics";
 type Role = {
 	title: string;
 	period: string;
-	description: ReactNode;
+	description: string;
 	current?: boolean;
 };
 
-type ExperienceItem = {
+type ExperienceItemTranslation = {
 	company: string;
-	url: string;
-	type: string;
 	roles: Role[];
-	techs: string[];
 };
 
-const experiences: ExperienceItem[] = [
-	{
-		company: "2M/MPE",
+// Map original companies to their data (urls, techs, etc.)
+const staticExperienceData: Record<
+	string,
+	{ url: string; techs: string[]; typeKey: string }
+> = {
+	"2M/MPE": {
 		url: "https://mpe.com.br/quem-somos/",
-		type: "CLT",
-		roles: [
-			{
-				title: "Full-Stack Junior",
-				period: "04.2026 — Present",
-				current: true,
-				description: (
-					<>
-						Working with .NET, React, and IoT integrations for the{" "}
-						<a
-							href="https://alertai.com.br"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground"
-						>
-							AlertAI
-						</a>{" "}
-						security platform. Focused on scalable monitoring, real-time events,
-						and high-performance infrastructure.
-					</>
-				),
-			},
-			{
-				title: "Full-Stack Trainee",
-				period: "12.2025 — 04.2026",
-				description:
-					"Started building security monitoring modules and real-time visualization tools for internal and customer-facing workflows.",
-			},
-		],
+		typeKey: "experience.types.clt",
 		techs: [".NET", "React", "TypeScript", "IoT", "PostgreSQL", "Docker"],
 	},
-	{
-		company: "Self-employed",
+	"Self-employed": {
 		url: "https://kadukessler.com",
-		type: "Freelance",
-		roles: [
-			{
-				title: "Web Developer",
-				period: "12.2024 — 12.2025",
-				description:
-					"Delivered institutional websites in WordPress with responsive design, hosting/domain setup, plugin customization, and SEO/performance improvements.",
-			},
-		],
+		typeKey: "experience.types.freelance",
 		techs: ["WordPress", "Elementor", "Figma", "SEO", "DNS"],
 	},
-	{
-		company: "Eloo Perícias",
+	"Eloo Perícias": {
 		url: "https://eloopericias.com.br",
-		type: "Contract (ad-hoc)",
-		roles: [
-			{
-				title: "Software Developer",
-				period: "05.2022 — 12.2024",
-				description:
-					"Built automation tools for data collection, report generation, and financial workflows, including web systems and VBA scripts for internal operations.",
-			},
-		],
+		typeKey: "experience.types.contract",
 		techs: ["Python", "Django", "Automation", "VBA", "Web Scraping"],
 	},
-];
+	Autônomo: {
+		url: "https://kadukessler.com",
+		typeKey: "experience.types.freelance",
+		techs: ["WordPress", "Elementor", "Figma", "SEO", "DNS"],
+	},
+};
 
 function TechPill({ name }: { name: string }) {
 	return (
@@ -101,12 +62,15 @@ function ExperienceRoleCard({
 	idx,
 	rolesLength,
 	shouldReduceMotion,
+	i18nPath,
 }: {
 	role: Role;
 	idx: number;
 	rolesLength: number;
 	shouldReduceMotion: boolean;
+	i18nPath: string;
 }) {
+	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(Boolean(role.current));
 	const panelId = useId();
@@ -139,7 +103,9 @@ function ExperienceRoleCard({
 					aria-controls={panelId}
 					className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 				>
-					<span className="sr-only">Toggle details for {role.title}</span>
+					<span className="sr-only">
+						{t("experience.toggleDetails", { role: role.title })}
+					</span>
 				</button>
 
 				<div className="relative z-10 pointer-events-none flex min-h-8 flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
@@ -147,7 +113,7 @@ function ExperienceRoleCard({
 						<div className="flex items-center gap-1.5">
 							<Code2 className="size-3.5 shrink-0 text-muted-foreground/80" />
 							<p className="text-left text-sm font-semibold text-foreground">
-								{role.title}
+								<LanguageReveal inline>{role.title}</LanguageReveal>
 							</p>
 						</div>
 					</div>
@@ -164,11 +130,13 @@ function ExperienceRoleCard({
 									repeat: Number.POSITIVE_INFINITY,
 								}}
 							>
-								Current
+								<LanguageReveal inline>
+									{t("experience.current")}
+								</LanguageReveal>
 							</motion.span>
 						)}
 						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
-							{role.period}
+							<LanguageReveal inline>{role.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover/role:text-foreground">
 							<ChevronDown
@@ -190,7 +158,19 @@ function ExperienceRoleCard({
 					className="relative z-10 overflow-hidden"
 				>
 					<div className="pointer-events-auto text-sm leading-relaxed text-muted-foreground">
-						{role.description}
+						<LanguageReveal>
+							<Trans i18nKey={`${i18nPath}.description`}>
+								{role.description}
+								<a
+									href="https://alertai.com.br"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground"
+								>
+									AlertAI
+								</a>
+							</Trans>
+						</LanguageReveal>
 					</div>
 				</motion.div>
 			</div>
@@ -199,18 +179,33 @@ function ExperienceRoleCard({
 }
 
 export function Experience() {
+	const { t } = useTranslation();
 	const shouldReduceMotion = useReducedMotion();
+
+	const experienceItems = t("experience.items", {
+		returnObjects: true,
+	}) as ExperienceItemTranslation[];
 
 	return (
 		<SectionReveal delay={0.1}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">Experience</h2>
+				<h2 className="text-lg font-medium">
+					<LanguageReveal inline>{t("experience.title")}</LanguageReveal>
+				</h2>
 
 				<div className="flex flex-col gap-4">
-					{experiences.map((exp) => {
+					{experienceItems.map((item, itemIdx) => {
+						const staticData = staticExperienceData[
+							item.company as keyof typeof staticExperienceData
+						] || {
+							url: "#",
+							techs: [],
+							typeKey: "experience.types.clt",
+						};
+
 						return (
 							<div
-								key={exp.company}
+								key={item.company}
 								className="group relative rounded-xl border border-border bg-card/50 p-4 transition-colors duration-200 hover:border-muted-foreground/20 sm:p-5"
 							>
 								<div className="flex flex-col gap-5">
@@ -222,36 +217,39 @@ export function Experience() {
 											<div className="flex flex-col gap-1">
 												<div className="flex items-center gap-2">
 													<a
-														href={exp.url}
+														href={staticData.url}
 														target="_blank"
 														rel="noopener noreferrer"
 														className="inline-flex items-center gap-1 font-medium text-foreground transition-colors hover:text-foreground/80"
 													>
-														{exp.company}
+														{item.company}
 														<ExternalLink className="size-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 													</a>
 												</div>
 												<div className="flex items-center gap-2 text-[11px] text-muted-foreground/70">
-													<span>{exp.type}</span>
+													<LanguageReveal inline>
+														{t(staticData.typeKey)}
+													</LanguageReveal>
 												</div>
 											</div>
 										</div>
 									</div>
 
 									<div className="flex flex-col gap-0">
-										{exp.roles.map((role, idx) => (
+										{item.roles.map((role, roleIdx) => (
 											<ExperienceRoleCard
-												key={`${exp.company}-${role.title}-${role.period}`}
+												key={`${item.company}-${role.title}-${role.period}`}
 												role={role}
-												idx={idx}
-												rolesLength={exp.roles.length}
+												idx={roleIdx}
+												rolesLength={item.roles.length}
 												shouldReduceMotion={Boolean(shouldReduceMotion)}
+												i18nPath={`experience.items.${itemIdx}.roles.${roleIdx}`}
 											/>
 										))}
 									</div>
 
 									<Stagger className="flex flex-wrap gap-1.5" delay={0.05}>
-										{exp.techs.map((tech) => (
+										{staticData.techs.map((tech) => (
 											<StaggerItem key={tech}>
 												<TechPill name={tech} />
 											</StaggerItem>

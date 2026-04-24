@@ -14,8 +14,11 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/sections/footer";
+import { LanguageReveal } from "@/components/ui/language-reveal";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import { MDXContent } from "@/components/ui/mdx-content";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -402,6 +405,7 @@ const MdxImage = ({ src, alt, onOpen }: MdxImageProps) => {
 };
 
 export function BlogPost() {
+	const { t, i18n } = useTranslation();
 	const { slug } = useParams();
 	const navigate = useNavigate();
 	const { showToast } = useToast();
@@ -518,7 +522,7 @@ export function BlogPost() {
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(window.location.href);
 		setIsSharing(true);
-		showToast("Link copied to clipboard!");
+		showToast(t("common.copyEmail"));
 		setTimeout(() => setIsSharing(false), 2000);
 	};
 
@@ -591,7 +595,7 @@ export function BlogPost() {
 								<Link
 									to="/"
 									className="p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
-									title="Back to Home"
+									title={t("common.backHome")}
 								>
 									<Home className="size-4" />
 								</Link>
@@ -601,7 +605,7 @@ export function BlogPost() {
 									className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
 								>
 									<ChevronLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
-									<span>Feed</span>
+									<LanguageReveal inline>{t("common.backFeed")}</LanguageReveal>
 								</Link>
 							</div>
 						</SectionReveal>
@@ -613,7 +617,7 @@ export function BlogPost() {
 								type="button"
 								onClick={handleShare}
 								className={`p-2 rounded-lg transition-all ${isSharing ? "bg-primary/10 text-primary" : "hover:bg-muted text-muted-foreground"}`}
-								title="Share story"
+								title={t("common.shareStory")}
 							>
 								{isSharing ? (
 									<Check className="size-4" />
@@ -623,7 +627,10 @@ export function BlogPost() {
 							</button>
 						</SectionReveal>
 						<SectionReveal delay={0.15}>
-							<ThemeToggle />
+							<div className="flex items-center gap-1">
+								<LanguageToggle />
+								<ThemeToggle />
+							</div>
 						</SectionReveal>
 					</div>
 				</nav>
@@ -634,18 +641,25 @@ export function BlogPost() {
 							<div className="flex items-center gap-4 text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-muted-foreground/40">
 								<span className="flex items-center gap-1.5">
 									<Calendar className="size-3" />
-									{new Date(post.publishedAt)
-										.toLocaleDateString("en-US", {
-											month: "short",
-											day: "2-digit",
-											year: "numeric",
-										})
-										.toUpperCase()}
+									<LanguageReveal inline>
+										{new Date(post.publishedAt)
+											.toLocaleDateString(
+												i18n.language.startsWith("pt") ? "pt-BR" : "en-US",
+												{
+													month: "short",
+													day: "2-digit",
+													year: "numeric",
+												},
+											)
+											.toUpperCase()}
+									</LanguageReveal>
 								</span>
 								<div className="size-1 rounded-full bg-border/60" />
 								<span className="flex items-center gap-1.5 text-primary/50">
 									<Clock3 className="size-3" />
-									{post.readingTimeMinutes} MIN READ
+									<LanguageReveal inline>
+										{t("common.minRead", { count: post.readingTimeMinutes })}
+									</LanguageReveal>
 								</span>
 							</div>
 
@@ -738,7 +752,9 @@ export function BlogPost() {
 							<div className="flex flex-col gap-10 pt-16">
 								<div className="flex flex-col gap-1.5">
 									<p className="text-[10px] font-mono font-bold uppercase tracking-[0.35em] text-muted-foreground/30">
-										End of entry
+										<LanguageReveal inline>
+											{t("common.endOfEntry")}
+										</LanguageReveal>
 									</p>
 									<div className="h-px w-8 bg-primary/20" />
 								</div>
@@ -749,7 +765,9 @@ export function BlogPost() {
 										className="group flex flex-col gap-3 max-w-fit"
 									>
 										<span className="text-4xl sm:text-6xl font-bold italic tracking-tighter text-foreground group-hover:text-primary transition-all duration-500 leading-none">
-											Explore more —
+											<LanguageReveal inline>
+												{t("common.exploreMore")}
+											</LanguageReveal>
 										</span>
 										<p className="text-sm font-medium text-muted-foreground/40 group-hover:text-foreground transition-colors duration-500 italic">
 											Kadu Kessler / Blog Feed
@@ -760,7 +778,8 @@ export function BlogPost() {
 										to="/"
 										className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/40 hover:text-foreground transition-all"
 									>
-										Go home <Home className="size-3.5" />
+										<LanguageReveal inline>{t("common.goHome")}</LanguageReveal>{" "}
+										<Home className="size-3.5" />
 									</Link>
 								</div>
 							</div>

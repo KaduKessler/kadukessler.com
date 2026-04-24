@@ -1,4 +1,5 @@
 import { Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
 	SiDjango,
 	SiDocker,
@@ -14,6 +15,7 @@ import {
 	SiTypescript,
 } from "react-icons/si";
 import { TbBrandCSharp, TbSql } from "react-icons/tb";
+import { LanguageReveal } from "@/components/ui/language-reveal";
 import {
 	SectionReveal,
 	Stagger,
@@ -22,7 +24,7 @@ import {
 
 const stackCategories = [
 	{
-		label: "Languages & Runtimes",
+		key: "languages",
 		items: [
 			{ name: "C#", icon: TbBrandCSharp },
 			{ name: "TypeScript", icon: SiTypescript },
@@ -32,7 +34,7 @@ const stackCategories = [
 		],
 	},
 	{
-		label: "Frameworks & Libraries",
+		key: "frameworks",
 		items: [
 			{ name: "ASP.NET Core", icon: SiDotnet },
 			{ name: "React", icon: SiReact },
@@ -42,7 +44,7 @@ const stackCategories = [
 		],
 	},
 	{
-		label: "Infrastructure & Ecosystem",
+		key: "infrastructure",
 		items: [
 			{ name: "PostgreSQL", icon: SiPostgresql },
 			{ name: "Docker", icon: SiDocker },
@@ -54,18 +56,22 @@ const stackCategories = [
 ];
 
 export function Stack() {
+	const { t } = useTranslation();
+
 	return (
 		<SectionReveal delay={0.2}>
 			<section className="flex flex-col gap-6 py-2">
 				<h2 className="text-lg font-medium tracking-tight text-foreground">
-					Stack
+					<LanguageReveal inline>{t("stack.title")}</LanguageReveal>
 				</h2>
 
 				<Stagger className="flex flex-col gap-8" delay={0.08}>
 					{stackCategories.map((category) => (
-						<StaggerItem key={category.label} className="flex flex-col gap-3">
+						<StaggerItem key={category.key} className="flex flex-col gap-3">
 							<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/30">
-								{category.label}
+								<LanguageReveal inline>
+									{t(`stack.categories.${category.key}`)}
+								</LanguageReveal>
 							</span>
 
 							<div className="flex flex-wrap gap-2">

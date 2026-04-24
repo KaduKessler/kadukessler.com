@@ -9,11 +9,14 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useToast } from "@/components/ui/toast";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function Hero() {
+	const { t, i18n } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const { showToast } = useToast();
 	const { scrollY } = useScroll();
@@ -34,7 +37,7 @@ export function Hero() {
 		navigator.clipboard.writeText("contato@kadukessler.com");
 		setCopied(true);
 		triggerTap?.();
-		showToast("Email copied to clipboard");
+		showToast(t("common.copyEmail"));
 		setTimeout(() => setCopied(false), 2000);
 	};
 
@@ -79,15 +82,17 @@ export function Hero() {
 	const userOffset = -now.getTimezoneOffset();
 	const diffMinutes = santaOffset - userOffset;
 	const absDiffHours = Math.abs(diffMinutes / 60);
+	const isPortuguese = i18n.language.startsWith("pt");
 	const diffHoursLabel = Number.isInteger(absDiffHours)
 		? String(absDiffHours)
-		: absDiffHours.toFixed(1).replace(".", ",");
+		: absDiffHours.toFixed(1).replace(".", isPortuguese ? "," : ".");
+
 	const timezoneHint =
 		diffMinutes === 0
-			? "same timezone as you"
+			? t("hero.timezoneHint")
 			: diffMinutes > 0
-				? `${diffHoursLabel}h ahead`
-				: `${diffHoursLabel}h behind`;
+				? `${diffHoursLabel}${t("hero.ahead")}`
+				: `${diffHoursLabel}${t("hero.behind")}`;
 
 	return (
 		<SectionReveal>
@@ -191,7 +196,9 @@ export function Hero() {
 							</div>
 							<div className="flex min-w-0 flex-col">
 								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
-									Current Role
+									<LanguageReveal inline>
+										{t("hero.currentRole")}
+									</LanguageReveal>
 								</span>
 								<a
 									href="https://mpe.com.br/quem-somos/"
@@ -211,7 +218,7 @@ export function Hero() {
 							</div>
 							<div className="flex min-w-0 flex-col">
 								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
-									Location
+									<LanguageReveal inline>{t("hero.location")}</LanguageReveal>
 								</span>
 								<a
 									href="https://maps.google.com/?q=Santa+Maria,+RS"
@@ -231,14 +238,14 @@ export function Hero() {
 							</div>
 							<div className="flex flex-col min-w-0">
 								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
-									Local Time
+									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
 									<span>{santaMariaTime}</span>
 									<span className="opacity-30">•</span>
-									<span className="text-muted-foreground/70">
+									<LanguageReveal className="text-muted-foreground/70" inline>
 										{timezoneHint}
-									</span>
+									</LanguageReveal>
 								</div>
 							</div>
 						</div>

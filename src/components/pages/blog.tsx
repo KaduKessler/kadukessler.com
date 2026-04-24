@@ -9,7 +9,10 @@ import {
 	X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { LanguageReveal } from "@/components/ui/language-reveal";
+import { LanguageToggle } from "@/components/ui/language-toggle";
 import {
 	SectionReveal,
 	Stagger,
@@ -19,6 +22,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { getAllPosts, getAllTags } from "@/lib/blog";
 
 export function Blog() {
+	const { t } = useTranslation();
 	const allPosts = useMemo(() => getAllPosts(), []);
 	const allTags = useMemo(() => getAllTags(), []);
 
@@ -74,9 +78,12 @@ export function Blog() {
 							className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
 						>
 							<ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
-							Back to Home
+							<LanguageReveal inline>{t("common.backHome")}</LanguageReveal>
 						</Link>
-						<ThemeToggle />
+						<div className="flex items-center gap-1">
+							<LanguageToggle />
+							<ThemeToggle />
+						</div>
 					</div>
 
 					<div className="flex flex-col gap-1">
@@ -99,7 +106,7 @@ export function Blog() {
 							<Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground/50 group-focus-within:text-primary transition-colors" />
 							<input
 								type="text"
-								placeholder="Search posts..."
+								placeholder={t("common.searchPosts")}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 								className="w-full bg-card/20 border border-border/60 rounded-xl py-2.5 pl-11 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/30 transition-all placeholder:text-muted-foreground/40"
@@ -147,7 +154,7 @@ export function Blog() {
 											<Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground/60" />
 											<input
 												type="text"
-												placeholder="Search tags..."
+												placeholder={t("common.searchTags")}
 												value={tagSearch}
 												onChange={(e) => setTagSearch(e.target.value)}
 												className="w-full bg-background border border-border/60 rounded-lg py-1.5 pl-8 pr-2 text-xs focus:outline-none focus:ring-1 focus:ring-primary/40"
@@ -168,7 +175,9 @@ export function Blog() {
 													: "text-muted-foreground hover:bg-muted hover:text-foreground"
 											}`}
 										>
-											All Tags
+											<LanguageReveal inline>
+												{t("common.allTags")}
+											</LanguageReveal>
 											{selectedTag === null && (
 												<div className="size-1.5 rounded-full bg-primary" />
 											)}
@@ -197,7 +206,9 @@ export function Blog() {
 											))
 										) : (
 											<div className="px-3 py-4 text-center text-xs text-muted-foreground italic">
-												No tags found
+												<LanguageReveal inline>
+													{t("common.noResults")}
+												</LanguageReveal>
 											</div>
 										)}
 									</div>
@@ -218,7 +229,9 @@ export function Blog() {
 						>
 							<div className="flex flex-wrap items-center gap-4 text-[9px] font-mono font-bold uppercase tracking-widest text-muted-foreground/60">
 								<span className="flex items-center gap-2 px-2 py-0.5 rounded-md bg-primary text-primary-foreground font-bold text-[8px]">
-									Latest Story
+									<LanguageReveal inline>
+										{t("common.latestStory")}
+									</LanguageReveal>
 								</span>
 								<span className="flex items-center gap-2">
 									<Calendar className="size-3" />
@@ -229,7 +242,11 @@ export function Blog() {
 								</span>
 								<span className="flex items-center gap-2">
 									<Clock3 className="size-3" />
-									{featuredPost.readingTimeMinutes}m read
+									<LanguageReveal inline>
+										{t("common.minRead", {
+											count: featuredPost.readingTimeMinutes,
+										})}
+									</LanguageReveal>
 								</span>
 							</div>
 
@@ -243,7 +260,9 @@ export function Blog() {
 							</div>
 
 							<div className="flex items-center gap-2 text-xs font-bold text-primary">
-								Read full story{" "}
+								<LanguageReveal inline>
+									{t("common.readFullStory")}
+								</LanguageReveal>
 								<ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform" />
 							</div>
 						</Link>
@@ -275,7 +294,13 @@ export function Blog() {
 										</span>
 										<span className="flex items-center gap-2">
 											<Clock3 className="size-3" />
-											{post.readingTimeMinutes}m
+											<LanguageReveal inline>
+												{
+													t("common.minRead", {
+														count: post.readingTimeMinutes,
+													}).split(" ")[0]
+												}
+											</LanguageReveal>
 										</span>
 									</div>
 
@@ -311,7 +336,11 @@ export function Blog() {
 									<Search className="size-8 text-muted-foreground/40" />
 								</div>
 								<div className="flex flex-col gap-1">
-									<h3 className="text-xl font-bold">No results found</h3>
+									<h3 className="text-xl font-bold">
+										<LanguageReveal inline>
+											{t("common.noResults")}
+										</LanguageReveal>
+									</h3>
 									<p className="text-muted-foreground/60 text-sm max-w-[200px] mx-auto">
 										Try adjusting your search filters.
 									</p>
@@ -324,7 +353,9 @@ export function Blog() {
 									}}
 									className="text-xs font-bold text-primary hover:underline"
 								>
-									Clear all filters
+									<LanguageReveal inline>
+										{t("common.clearFilters")}
+									</LanguageReveal>
 								</button>
 							</div>
 						</SectionReveal>

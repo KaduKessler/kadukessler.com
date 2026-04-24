@@ -1,6 +1,8 @@
 import { ChevronDown, ExternalLink, GraduationCap } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
@@ -15,30 +17,25 @@ type EducationItem = {
 	current: boolean;
 };
 
-const education: EducationItem[] = [
-	{
-		institution: "PUCRS",
+type EducationTranslation = {
+	institution: string;
+	fullName: string;
+	course: string;
+	description: string;
+	period: string;
+	current: boolean;
+};
+
+const staticEducationData: Record<string, { url: string; logo?: string }> = {
+	PUCRS: {
 		url: "https://www.pucrs.br",
 		logo: "/images/edu_pucrs.svg",
-		fullName: "Pontifical Catholic University of Rio Grande do Sul",
-		course: "Analysis and Systems Development",
-		description:
-			"Full-stack curriculum centered on end-to-end delivery: React/Vite/MUI on the front-end, Node.js/TypeScript REST APIs with Docker and Prisma/SQL on the back-end, and microservices architecture with API Gateway, RabbitMQ, and cache strategies. Also covered secure engineering with cryptography fundamentals, STRIDE threat modeling, and LGPD-oriented practices.",
-		period: "02.2024 — 2026",
-		current: true,
 	},
-	{
-		institution: "UFSM",
+	UFSM: {
 		url: "https://www.ufsm.br",
 		logo: "/images/edu_ufsm.svg",
-		fullName: "Federal University of Santa Maria",
-		course: "Technical Degree in Informatics",
-		description:
-			"Built a strong technical foundation in relational modeling and SQL with PostgreSQL, plus practical web development using HTML/CSS, Bulma/Sass, and Django/Python integrations. Delivered a Java prototype for credit recovery workflows, studied networking fundamentals, and completed a capstone focused on designing and implementing a REST API with Django REST Framework.",
-		period: "05.2021 — 12.2023",
-		current: false,
 	},
-];
+};
 
 function EducationCard({
 	edu,
@@ -47,6 +44,7 @@ function EducationCard({
 	edu: EducationItem;
 	shouldReduceMotion: boolean;
 }) {
+	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(Boolean(edu.current));
 	const panelId = useId();
@@ -66,7 +64,9 @@ function EducationCard({
 					aria-controls={panelId}
 					className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 				>
-					<span className="sr-only">Toggle details for {edu.institution}</span>
+					<span className="sr-only">
+						{t("education.toggleDetails", { institution: edu.institution })}
+					</span>
 				</button>
 
 				<div className="relative z-10 pointer-events-none flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -92,8 +92,12 @@ function EducationCard({
 								{edu.institution}
 								<ExternalLink className="size-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 							</a>
-							<p className="text-sm text-muted-foreground">{edu.course}</p>
-							<p className="text-xs text-muted-foreground/60">{edu.fullName}</p>
+							<LanguageReveal className="text-sm text-muted-foreground">
+								{edu.course}
+							</LanguageReveal>
+							<LanguageReveal className="text-xs text-muted-foreground/60">
+								{edu.fullName}
+							</LanguageReveal>
 						</div>
 					</div>
 
@@ -110,11 +114,13 @@ function EducationCard({
 									repeat: Number.POSITIVE_INFINITY,
 								}}
 							>
-								In progress
+								<LanguageReveal inline>
+									{t("education.inProgress")}
+								</LanguageReveal>
 							</motion.span>
 						)}
 						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
-							{edu.period}
+							<LanguageReveal inline>{edu.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover:text-foreground">
 							<ChevronDown
@@ -137,30 +143,48 @@ function EducationCard({
 				transition={{ duration: 0.28, ease: "easeOut" }}
 				className="overflow-hidden"
 			>
-				<p className="select-text pl-12.5 text-sm leading-relaxed text-muted-foreground sm:pl-13">
+				<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-muted-foreground sm:pl-13">
 					{edu.description}
-				</p>
+				</LanguageReveal>
 			</motion.div>
 		</div>
 	);
 }
 
 export function Education() {
+	const { t } = useTranslation();
 	const shouldReduceMotion = useReducedMotion();
+
+	const educationItems = t("education.items", {
+		returnObjects: true,
+	}) as EducationTranslation[];
 
 	return (
 		<SectionReveal delay={0.15}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">Education</h2>
+				<h2 className="text-lg font-medium">
+					<LanguageReveal inline>{t("education.title")}</LanguageReveal>
+				</h2>
 
 				<div className="flex flex-col gap-4">
-					{education.map((edu) => (
-						<EducationCard
-							key={edu.institution}
-							edu={edu}
-							shouldReduceMotion={Boolean(shouldReduceMotion)}
-						/>
-					))}
+					{educationItems.map((item) => {
+						const staticData = staticEducationData[
+							item.institution as keyof typeof staticEducationData
+						] || { url: "#" };
+						return (
+							<EducationCard
+								key={item.institution}
+								edu={{
+									...item,
+									...staticData,
+									current:
+										item.period.includes("Present") ||
+										item.period.includes("2026"),
+								}}
+								shouldReduceMotion={Boolean(shouldReduceMotion)}
+							/>
+						);
+					})}
 				</div>
 			</section>
 		</SectionReveal>

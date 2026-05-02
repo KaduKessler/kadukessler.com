@@ -100,7 +100,7 @@ export function Hero() {
 				<div className="flex items-start gap-4 sm:gap-5">
 					<motion.div
 						style={{ opacity: logoOpacity, scale: logoScale }}
-						className="relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card/50 p-3 sm:size-16"
+						className="card-elevated relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-3 sm:size-16"
 					>
 						<img
 							src="/images/kadu_logo_white.svg"
@@ -138,14 +138,14 @@ export function Hero() {
 					</motion.div>
 				</div>
 
-				<div className="rounded-xl border border-border bg-card/40 p-3 sm:p-4">
+				<div className="card-elevated rounded-xl border border-border bg-card p-3 sm:p-4">
 					<div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
 						<div className="flex items-center gap-2.5">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
 								<Github className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
 									GitHub
 								</span>
 								<a
@@ -161,11 +161,11 @@ export function Hero() {
 						</div>
 
 						<div className="group flex items-center gap-2.5">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
 								<Mail className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
 									Email
 								</span>
 								<a
@@ -179,7 +179,7 @@ export function Hero() {
 							<button
 								type="button"
 								onClick={handleCopyEmail}
-								className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background/50 text-muted-foreground transition-all hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
+								className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
 								title="Copy email"
 							>
 								{copied ? (
@@ -191,11 +191,11 @@ export function Hero() {
 						</div>
 
 						<div className="flex items-center gap-2.5">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
 								<BriefcaseBusiness className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
 									<LanguageReveal inline>
 										{t("hero.currentRole")}
 									</LanguageReveal>
@@ -213,11 +213,11 @@ export function Hero() {
 						</div>
 
 						<div className="flex items-center gap-2.5">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
 								<MapPin className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
 									<LanguageReveal inline>{t("hero.location")}</LanguageReveal>
 								</span>
 								<a
@@ -233,11 +233,11 @@ export function Hero() {
 						</div>
 
 						<div className="flex items-center gap-2.5 sm:col-span-2">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50 transition-all">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background transition-all">
 								<Clock3 className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex flex-col min-w-0">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/50">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
 									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">

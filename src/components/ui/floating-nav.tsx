@@ -156,12 +156,14 @@ function DesktopNav({
 							<img
 								src="/images/kadu_logo_white.svg"
 								alt=""
-								className="hidden h-4.5 w-auto dark:block transition-transform group-hover:scale-110"
+								className="hidden dark:block max-w-none transition-transform group-hover:scale-110"
+								style={{ width: "20px", height: "20px" }}
 							/>
 							<img
 								src="/images/kadu_logo.svg"
 								alt=""
-								className="block h-4.5 w-auto dark:hidden transition-transform group-hover:scale-110"
+								className="block dark:hidden max-w-none transition-transform group-hover:scale-110"
+								style={{ width: "20px", height: "20px" }}
 							/>
 						</motion.button>
 					</motion.div>

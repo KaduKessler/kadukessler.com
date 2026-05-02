@@ -57,7 +57,7 @@
 	/* Dark Mode Override */
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0 / 50%);
+	--card: oklch(0.205 0 0);
 	--card-foreground: oklch(0.985 0 0);
 	--popover: oklch(0.205 0 0);
 	--popover-foreground: oklch(0.985 0 0);
@@ -191,6 +191,21 @@ body {
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.card-elevated {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.dark .card-elevated {
+	background-image: linear-gradient(
+		160deg,
+		oklch(0.22 0 0) 0%,
+		oklch(0.195 0 0) 100%
+	);
+	box-shadow:
+		0 4px 20px rgba(0, 0, 0, 0.4),
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hero-link {

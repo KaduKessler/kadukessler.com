@@ -16,7 +16,7 @@ export function About() {
 					<LanguageReveal inline>{t("about.title")}</LanguageReveal>
 				</h2>
 
-				<div className="rounded-xl border border-border bg-card/50 p-5 transition-colors duration-200 hover:border-muted-foreground/20">
+				<div className="card-elevated rounded-xl border border-border bg-card p-5 transition-colors duration-200 hover:border-muted-foreground/40">
 					<Stagger
 						className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground"
 						delay={0.08}

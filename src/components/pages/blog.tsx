@@ -11,6 +11,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { Background } from "@/components/ui/background";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import {
@@ -69,6 +70,7 @@ export function Blog() {
 
 	return (
 		<div className="container max-w-4xl mx-auto px-6 pt-10 pb-24 sm:pt-16 sm:pb-32">
+			<Background />
 			{/* Unified Header Navigation */}
 			<SectionReveal className="relative z-[110] mb-12">
 				<div className="flex flex-col gap-8">
@@ -109,7 +111,7 @@ export function Blog() {
 								placeholder={t("common.searchPosts")}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="w-full bg-card/20 border border-border/60 rounded-xl py-2.5 pl-11 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/30 transition-all placeholder:text-muted-foreground/40"
+								className="w-full bg-card border border-border/60 rounded-xl py-2.5 pl-11 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary/30 transition-all placeholder:text-muted-foreground/40"
 							/>
 							{searchQuery && (
 								<button
@@ -130,9 +132,9 @@ export function Blog() {
 									setIsTagsOpen(!isTagsOpen);
 									if (!isTagsOpen) setTagSearch("");
 								}}
-								className={`w-full h-full flex items-center justify-between bg-card/20 border rounded-xl py-2.5 px-4 text-sm font-medium transition-all ${
+								className={`w-full h-full flex items-center justify-between bg-card border rounded-xl py-2.5 px-4 text-sm font-medium transition-all ${
 									selectedTag
-										? "border-primary/40 text-primary bg-primary/5 shadow-[0_0_20px_rgba(var(--primary),0.1)]"
+										? "border-primary/40 text-primary shadow-[0_0_20px_rgba(var(--primary),0.1)]"
 										: "border-border/60 text-muted-foreground hover:bg-muted/30 hover:text-foreground"
 								}`}
 							>
@@ -225,7 +227,7 @@ export function Blog() {
 					<SectionReveal delay={0.2}>
 						<Link
 							to={`/blog/${featuredPost.slug}`}
-							className="group relative flex flex-col gap-4 p-6 sm:p-8 rounded-3xl border border-border/60 bg-card/10 hover:border-primary/30 hover:bg-card/20 transition-all duration-300 overflow-hidden"
+							className="group relative flex flex-col gap-4 p-6 sm:p-8 rounded-3xl border border-border/60 bg-card hover:border-primary/30 transition-all duration-300 overflow-hidden"
 						>
 							<div className="flex flex-wrap items-center gap-4 text-[9px] font-mono font-bold uppercase tracking-widest text-muted-foreground/60">
 								<span className="flex items-center gap-2 px-2 py-0.5 rounded-md bg-primary text-primary-foreground font-bold text-[8px]">
@@ -279,7 +281,7 @@ export function Blog() {
 							<StaggerItem key={post.slug} className="flex flex-col h-full">
 								<Link
 									to={`/blog/${post.slug}`}
-									className="group flex flex-col h-full gap-5 p-6 rounded-2xl border border-border/40 bg-card/10 hover:border-primary/20 hover:bg-card/20 transition-all duration-300"
+									className="group flex flex-col h-full gap-5 p-6 rounded-2xl border border-border/40 bg-card hover:border-primary/20 transition-all duration-300"
 								>
 									<div className="flex items-center justify-between text-[10px] font-mono font-bold text-muted-foreground/50 uppercase tracking-widest">
 										<span className="flex items-center gap-2">
@@ -331,7 +333,7 @@ export function Blog() {
 				) : (
 					!featuredPost && (
 						<SectionReveal>
-							<div className="flex flex-col items-center justify-center py-20 text-center gap-5 border border-dashed border-border/40 rounded-2xl bg-card/10">
+							<div className="flex flex-col items-center justify-center py-20 text-center gap-5 border border-dashed border-border/40 rounded-2xl bg-card">
 								<div className="size-16 rounded-full bg-muted/20 flex items-center justify-center">
 									<Search className="size-8 text-muted-foreground/40" />
 								</div>

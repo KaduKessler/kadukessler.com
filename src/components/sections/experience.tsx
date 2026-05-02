@@ -2,6 +2,7 @@ import { Briefcase, ChevronDown, Code2, ExternalLink } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import {
 	SectionReveal,
@@ -51,7 +52,7 @@ const staticExperienceData: Record<
 
 function TechPill({ name }: { name: string }) {
 	return (
-		<span className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-mono text-xs text-muted-foreground transition-colors duration-150 hover:border-muted-foreground/30 hover:bg-muted/80 hover:text-foreground">
+		<span className="rounded-md border border-border bg-background px-2 py-0.5 font-mono text-xs text-muted-foreground transition-colors duration-150 hover:border-muted-foreground/30 hover:bg-muted/50 hover:text-foreground">
 			{name}
 		</span>
 	);
@@ -95,7 +96,7 @@ function ExperienceRoleCard({
 					<div className="relative z-10 mt-5 size-2 rounded-full border border-border bg-muted" />
 				)}
 			</div>
-			<div className="group/role relative rounded-lg border border-border/50 bg-background/20 px-3 py-2.5 transition-colors duration-150 hover:border-muted-foreground/35">
+			<div className="group/role relative rounded-lg border border-border/50 bg-background/30 px-3 py-2.5 transition-colors duration-150 hover:border-muted-foreground/35">
 				<button
 					type="button"
 					onClick={handleToggle}
@@ -135,7 +136,7 @@ function ExperienceRoleCard({
 								</LanguageReveal>
 							</motion.span>
 						)}
-						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
+						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
 							<LanguageReveal inline>{role.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover/role:text-foreground">
@@ -206,14 +207,14 @@ export function Experience() {
 						return (
 							<div
 								key={item.company}
-								className="group relative rounded-xl border border-border bg-card/50 p-4 transition-colors duration-200 hover:border-muted-foreground/20 sm:p-5"
+								className="card-elevated group relative rounded-xl border border-border bg-card p-4 transition-colors duration-200 hover:border-muted-foreground/40 sm:p-5"
 							>
 								<div className="flex flex-col gap-5">
 									<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 										<div className="flex items-start gap-3">
-											<div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50">
+											<IconContainer>
 												<Briefcase className="size-4 text-muted-foreground" />
-											</div>
+											</IconContainer>
 											<div className="flex flex-col gap-1">
 												<div className="flex items-center gap-2">
 													<a

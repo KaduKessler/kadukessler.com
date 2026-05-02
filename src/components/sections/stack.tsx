@@ -15,6 +15,7 @@ import {
 	SiTypescript,
 } from "react-icons/si";
 import { TbBrandCSharp, TbSql } from "react-icons/tb";
+import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import {
 	SectionReveal,
@@ -65,33 +66,38 @@ export function Stack() {
 					<LanguageReveal inline>{t("stack.title")}</LanguageReveal>
 				</h2>
 
-				<Stagger className="flex flex-col gap-8" delay={0.08}>
-					{stackCategories.map((category) => (
-						<StaggerItem key={category.key} className="flex flex-col gap-3">
-							<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/30">
-								<LanguageReveal inline>
-									{t(`stack.categories.${category.key}`)}
-								</LanguageReveal>
-							</span>
+				<div className="card-elevated rounded-xl border border-border bg-card p-5 transition-colors duration-200 hover:border-muted-foreground/40">
+					<Stagger className="flex flex-col gap-6" delay={0.08}>
+						{stackCategories.map((category) => (
+							<StaggerItem key={category.key} className="flex flex-col gap-3">
+								<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
+									<LanguageReveal inline>
+										{t(`stack.categories.${category.key}`)}
+									</LanguageReveal>
+								</span>
 
-							<div className="flex flex-wrap gap-2">
-								{category.items.map((tech) => (
-									<div
-										key={tech.name}
-										className="group flex items-center gap-2 rounded-lg border border-border/40 bg-card/30 p-1 pr-2.5 transition-all duration-200 hover:border-border hover:bg-muted/50"
-									>
-										<div className="flex size-7 shrink-0 items-center justify-center rounded-md border border-border/60 bg-background/50 transition-colors group-hover:bg-background">
-											<tech.icon className="size-3.5 opacity-50 transition-opacity group-hover:opacity-100" />
+								<div className="flex flex-wrap gap-2">
+									{category.items.map((tech) => (
+										<div
+											key={tech.name}
+											className="group flex items-center gap-2 rounded-lg border border-border/60 bg-muted p-1 pr-2.5 transition-all duration-200 hover:border-muted-foreground/40 hover:bg-muted/80"
+										>
+											<IconContainer
+												size="sm"
+												className="transition-colors group-hover:bg-muted"
+											>
+												<tech.icon className="size-3.5 opacity-50 transition-opacity group-hover:opacity-100" />
+											</IconContainer>
+											<span className="whitespace-nowrap text-[13px] font-medium text-muted-foreground/80 transition-colors group-hover:text-foreground">
+												{tech.name}
+											</span>
 										</div>
-										<span className="whitespace-nowrap text-[13px] font-medium text-muted-foreground/80 transition-colors group-hover:text-foreground">
-											{tech.name}
-										</span>
-									</div>
-								))}
-							</div>
-						</StaggerItem>
-					))}
-				</Stagger>
+									))}
+								</div>
+							</StaggerItem>
+						))}
+					</Stagger>
+				</div>
 			</section>
 		</SectionReveal>
 	);

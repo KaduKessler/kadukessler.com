@@ -17,6 +17,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/sections/footer";
+import { Background } from "@/components/ui/background";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { MDXContent } from "@/components/ui/mdx-content";
@@ -528,6 +529,7 @@ export function BlogPost() {
 
 	return (
 		<div className="min-h-screen bg-background selection:bg-primary/10">
+			<Background />
 			<Helmet>
 				<title>{post.title} — Kadu Kessler</title>
 				<meta name="description" content={post.excerpt} />

@@ -15,7 +15,7 @@ export function Contact() {
 					<LanguageReveal inline>{t("contact.title")}</LanguageReveal>
 				</h2>
 
-				<div className="rounded-xl border border-border bg-card/50 p-6 transition-colors duration-200 hover:border-muted-foreground/20">
+				<div className="card-elevated rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-muted-foreground/40">
 					<div className="flex flex-col gap-4">
 						<LanguageReveal className="text-sm leading-relaxed text-muted-foreground">
 							{t("contact.description")}

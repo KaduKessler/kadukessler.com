@@ -2,6 +2,7 @@ import { ChevronDown, ExternalLink, GraduationCap } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
@@ -55,7 +56,7 @@ function EducationCard({
 	};
 
 	return (
-		<div className="group rounded-xl border border-border bg-card/50 p-4 transition-colors duration-200 hover:border-muted-foreground/20 sm:p-5">
+		<div className="card-elevated group rounded-xl border border-border bg-card p-4 transition-colors duration-200 hover:border-muted-foreground/40 sm:p-5">
 			<div className="relative">
 				<button
 					type="button"
@@ -71,7 +72,7 @@ function EducationCard({
 
 				<div className="relative z-10 pointer-events-none flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 					<div className="flex min-w-0 items-start gap-2.5 sm:gap-3">
-						<div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50">
+						<IconContainer>
 							{edu.logo ? (
 								<img
 									src={edu.logo}
@@ -81,7 +82,7 @@ function EducationCard({
 							) : (
 								<GraduationCap className="size-4 text-muted-foreground" />
 							)}
-						</div>
+						</IconContainer>
 						<div className="flex min-w-0 flex-col gap-1">
 							<a
 								href={edu.url}
@@ -119,7 +120,7 @@ function EducationCard({
 								</LanguageReveal>
 							</motion.span>
 						)}
-						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/40 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
+						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
 							<LanguageReveal inline>{edu.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover:text-foreground">

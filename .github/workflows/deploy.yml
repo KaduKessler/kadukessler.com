@@ -21,6 +21,8 @@ jobs:
 
     - name: Build
       run: pnpm build
+      env:
+        VITE_BLOG_ENABLED: ${{ vars.BLOG_ENABLED }}
 
     - name: Sync to server
       uses: burnett01/rsync-deployments@v8

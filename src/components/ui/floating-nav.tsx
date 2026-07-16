@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { BLOG_ENABLED } from "@/lib/flags";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 import { cn } from "@/lib/utils";
 
@@ -15,13 +16,17 @@ type NavItem = {
 	type: "section" | "route";
 };
 
-const navItems = [
+const allNavItems = [
 	{ key: "about", href: "#about", type: "section" },
 	{ key: "experience", href: "#experience", type: "section" },
 	{ key: "education", href: "#education", type: "section" },
 	{ key: "stack", href: "#stack", type: "section" },
 	{ key: "blog", href: "/blog", type: "route" },
 ] as const satisfies ReadonlyArray<NavItem>;
+
+const navItems = allNavItems.filter(
+	(item) => item.key !== "blog" || BLOG_ENABLED,
+);
 
 export function FloatingNav() {
 	const [isMobile, setIsMobile] = useState(false);

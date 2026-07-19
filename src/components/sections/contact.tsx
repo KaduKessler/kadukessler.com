@@ -11,13 +11,13 @@ export function Contact() {
 	return (
 		<SectionReveal delay={0.25}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">
+				<h2 className="text-xl font-semibold tracking-tight">
 					<LanguageReveal inline>{t("contact.title")}</LanguageReveal>
 				</h2>
 
 				<div className="card-elevated rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-muted-foreground/40">
 					<div className="flex flex-col gap-4">
-						<LanguageReveal className="text-sm leading-relaxed text-muted-foreground">
+						<LanguageReveal className="text-sm leading-relaxed text-foreground/80">
 							{t("contact.description")}
 						</LanguageReveal>
 

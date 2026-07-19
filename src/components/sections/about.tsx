@@ -12,13 +12,13 @@ export function About() {
 	return (
 		<SectionReveal delay={0.05}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">
+				<h2 className="text-xl font-semibold tracking-tight">
 					<LanguageReveal inline>{t("about.title")}</LanguageReveal>
 				</h2>
 
 				<div className="card-elevated rounded-xl border border-border bg-card p-5 transition-colors duration-200 hover:border-muted-foreground/40">
 					<Stagger
-						className="flex flex-col gap-3 text-sm leading-relaxed text-muted-foreground"
+						className="flex flex-col gap-3 text-sm leading-relaxed text-foreground/80"
 						delay={0.08}
 					>
 						<StaggerItem>

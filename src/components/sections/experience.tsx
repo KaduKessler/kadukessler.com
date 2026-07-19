@@ -52,7 +52,7 @@ const staticExperienceData: Record<
 
 function TechPill({ name }: { name: string }) {
 	return (
-		<span className="rounded-md border border-border bg-background px-2 py-0.5 font-mono text-xs text-muted-foreground transition-colors duration-150 hover:border-muted-foreground/30 hover:bg-muted/50 hover:text-foreground">
+		<span className="rounded-md border border-border bg-muted px-2 py-0.5 font-mono text-xs font-medium text-foreground/70 transition-colors duration-150 hover:border-muted-foreground/40 hover:text-foreground">
 			{name}
 		</span>
 	);
@@ -158,7 +158,7 @@ function ExperienceRoleCard({
 					transition={{ duration: 0.28, ease: "easeOut" }}
 					className="relative z-10 overflow-hidden"
 				>
-					<div className="pointer-events-auto text-sm leading-relaxed text-muted-foreground">
+					<div className="pointer-events-auto text-sm leading-relaxed text-foreground/80">
 						<LanguageReveal>
 							<Trans i18nKey={`${i18nPath}.description`}>
 								{role.description}
@@ -190,7 +190,7 @@ export function Experience() {
 	return (
 		<SectionReveal delay={0.1}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">
+				<h2 className="text-xl font-semibold tracking-tight">
 					<LanguageReveal inline>{t("experience.title")}</LanguageReveal>
 				</h2>
 

@@ -93,7 +93,7 @@ function EducationCard({
 								{edu.institution}
 								<ExternalLink className="size-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 							</a>
-							<LanguageReveal className="text-sm text-muted-foreground">
+							<LanguageReveal className="text-sm text-foreground/80">
 								{edu.course}
 							</LanguageReveal>
 							<LanguageReveal className="text-xs text-muted-foreground/60">
@@ -144,7 +144,7 @@ function EducationCard({
 				transition={{ duration: 0.28, ease: "easeOut" }}
 				className="overflow-hidden"
 			>
-				<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-muted-foreground sm:pl-13">
+				<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-foreground/80 sm:pl-13">
 					{edu.description}
 				</LanguageReveal>
 			</motion.div>
@@ -163,7 +163,7 @@ export function Education() {
 	return (
 		<SectionReveal delay={0.15}>
 			<section className="flex flex-col gap-5">
-				<h2 className="text-lg font-medium">
+				<h2 className="text-xl font-semibold tracking-tight">
 					<LanguageReveal inline>{t("education.title")}</LanguageReveal>
 				</h2>
 

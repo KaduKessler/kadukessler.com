@@ -62,7 +62,7 @@ export function Stack() {
 	return (
 		<SectionReveal delay={0.2}>
 			<section className="flex flex-col gap-6 py-2">
-				<h2 className="text-lg font-medium tracking-tight text-foreground">
+				<h2 className="text-xl font-semibold tracking-tight text-foreground">
 					<LanguageReveal inline>{t("stack.title")}</LanguageReveal>
 				</h2>
 
@@ -70,7 +70,7 @@ export function Stack() {
 					<Stagger className="flex flex-col gap-6" delay={0.08}>
 						{stackCategories.map((category) => (
 							<StaggerItem key={category.key} className="flex flex-col gap-3">
-								<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
+								<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/70">
 									<LanguageReveal inline>
 										{t(`stack.categories.${category.key}`)}
 									</LanguageReveal>
@@ -86,9 +86,9 @@ export function Stack() {
 												size="sm"
 												className="transition-colors group-hover:bg-muted"
 											>
-												<tech.icon className="size-3.5 opacity-50 transition-opacity group-hover:opacity-100" />
+												<tech.icon className="size-3.5 opacity-70 transition-opacity group-hover:opacity-100" />
 											</IconContainer>
-											<span className="whitespace-nowrap text-[13px] font-medium text-muted-foreground/80 transition-colors group-hover:text-foreground">
+											<span className="whitespace-nowrap text-[13px] font-medium text-foreground/75 transition-colors group-hover:text-foreground">
 												{tech.name}
 											</span>
 										</div>

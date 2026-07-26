@@ -1,0 +1,68 @@
+---
+title:
+  en: "BazarZ"
+  pt: "BazarZ"
+type:
+  en: "Personal project"
+  pt: "Projeto pessoal"
+summary:
+  en: "Marketplace for DayZ game servers: item catalog, order flow, and stock management with Discord login."
+  pt: "Marketplace para servidores de DayZ: catálogo de itens, fluxo de pedidos e gestão de estoque com login via Discord."
+periodStart: "06.2025"
+status: "public"
+stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Directus"]
+repo: "https://github.com/KaduKessler/BazarZ"
+cover: "/images/projects/bazarz-cover.png"
+coverAlt:
+  en: "BazarZ item catalog with filters and search"
+  pt: "Catálogo de itens do BazarZ com filtros e busca"
+order: 1
+wideMedia: true
+draft: false
+contentEn: |
+  ## Context
+
+  Started as an internal tool for a DayZ game clan, then generalized so any server could reuse it without fixed branding. Players browse a catalog, reserve items, and an admin tracks each order through to completion.
+
+  ## What I built
+
+  - Catalog with search, filters (type, status, tags), and price sorting, with an image carousel and zoom per item
+  - Order flow: reserve an item, track status under "My Orders", cancel while still pending
+  - Ammunition damage table, sortable, with a logarithmic magnitude bar since damage values range from tens to billions
+
+  ![Ammunition damage table with logarithmic magnitude scale](/images/projects/bazarz-tabela-dano.png)
+
+  - Discord login (NextAuth) with automatic user sync to Directus, plus a Discord webhook notifying on every new order
+  - Restricted admin panel for stock management, gated by user role
+
+  ## Stack
+
+  Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS 4 on the frontend; Directus as a headless CMS/backend running in Docker; NextAuth for Discord OAuth.
+
+  ## Focus
+
+  Keep the marketplace flow simple for players while giving admins full visibility over stock and orders, without hardcoding it to one specific clan or server.
+contentPt: |
+  ## Contexto
+
+  Começou como ferramenta interna de um clã do jogo DayZ, depois foi generalizado pra qualquer servidor reaproveitar, sem branding fixo. Jogadores navegam um catálogo, reservam itens, e um admin acompanha cada pedido até a conclusão.
+
+  ## O que construí
+
+  - Catálogo com busca, filtros (tipo, status, tags) e ordenação por preço, com carrossel de imagens e zoom por item
+  - Fluxo de pedidos: reservar um item, acompanhar o status em "Meus Pedidos", cancelar enquanto ainda está pendente
+  - Tabela de dano de munições, ordenável, com barra de magnitude logarítmica já que o dano varia de dezenas a bilhões
+
+  ![Tabela de dano por munições com escala de magnitude logarítmica](/images/projects/bazarz-tabela-dano.png)
+
+  - Login via Discord (NextAuth) com sincronização automática de usuário no Directus, mais um webhook do Discord notificando a cada novo pedido
+  - Painel administrativo restrito pra gestão de estoque, controlado por cargo de usuário
+
+  ## Stack
+
+  Next.js 15 (App Router), React 19, TypeScript e Tailwind CSS 4 no frontend; Directus como CMS/backend headless rodando em Docker; NextAuth pro OAuth do Discord.
+
+  ## Foco
+
+  Manter o fluxo do marketplace simples pro jogador enquanto dá ao admin visibilidade completa sobre estoque e pedidos, sem prender o projeto a um clã ou servidor específico.
+---

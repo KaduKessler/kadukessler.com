@@ -1,0 +1,56 @@
+---
+title:
+  en: "Spotify Widget"
+  pt: "Spotify Widget"
+type:
+  en: "Open source"
+  pt: "Open source"
+summary:
+  en: "Self-hosted dynamic SVG widget showing your current (or pinned) Spotify track, for GitHub READMEs or any site."
+  pt: "Widget SVG dinâmico self-hosted mostrando a música atual (ou fixa) do Spotify, pra README do GitHub ou qualquer site."
+periodStart: "11.2025"
+status: "public"
+stack: ["TypeScript", "React", "Fastify", "Prisma", "SQLite", "Docker"]
+repo: "https://github.com/KaduKessler/Spotify-Widget"
+logo: "/images/projects/spotify-widget_logo.png"
+logoAlt:
+  en: "Spotify Widget logo"
+  pt: "Logo do Spotify Widget"
+references:
+  - label: "Spotify Web API"
+    url: "https://developer.spotify.com/documentation/web-api"
+  - label: "GitHub OAuth Apps"
+    url: "https://docs.github.com/en/apps/oauth-apps"
+order: 2
+draft: false
+contentEn: |
+  ## Context
+
+  GitHub profile READMEs commonly embed a "now playing" Spotify widget, but most rely on someone else's hosted service and a shared API key. I wanted a self-hosted version anyone could run for themselves, with proper multi-user support instead of a single-owner script.
+
+  ## What I built
+
+  - **Backend**: Fastify API serving the public `/widget` SVG route and the admin panel's REST API, with SQLite + Prisma for storage
+  - **Admin SPA**: React + Vite panel to configure appearance (theme, background, scale, effects), manage users/roles, and generate the embed URL
+  - **Auth & RBAC**: password or GitHub OAuth login, with admin/user/viewer roles; each user stores their own Spotify credentials, no shared global API key
+  - **Deploy**: single `docker compose up` container, auto-generates an admin password on first run
+
+  ## Focus
+
+  Zero-config self-hosting and per-user isolation. Every instance owner controls their own Spotify link and appearance without touching a shared config.
+contentPt: |
+  ## Contexto
+
+  READMEs de perfil do GitHub costumam ter um widget "tocando agora" do Spotify, mas a maioria depende do serviço hospedado de outra pessoa e de uma API key compartilhada. Eu queria uma versão self-hosted que qualquer um pudesse rodar por conta própria, com suporte real a múltiplos usuários em vez de um script de dono único.
+
+  ## O que construí
+
+  - **Backend**: API em Fastify servindo a rota pública `/widget` (o SVG) e a API REST do painel administrativo, com SQLite + Prisma pro armazenamento
+  - **Admin SPA**: painel em React + Vite pra configurar aparência (tema, fundo, escala, efeitos), gerenciar usuários/papéis e gerar a URL de embed
+  - **Auth & RBAC**: login por senha ou GitHub OAuth, com papéis admin/user/viewer; cada usuário guarda suas próprias credenciais do Spotify, sem API key global compartilhada
+  - **Deploy**: um único container via `docker compose up`, que gera sozinho uma senha de admin na primeira execução
+
+  ## Foco
+
+  Self-hosting sem configuração e isolamento por usuário. Cada dono de instância controla seu próprio link do Spotify e a aparência do widget sem mexer numa config compartilhada.
+---

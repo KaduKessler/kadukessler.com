@@ -1,0 +1,57 @@
+---
+title:
+  en: "Medidas Pessoais"
+  pt: "Medidas Pessoais"
+type:
+  en: "Academic project"
+  pt: "Projeto acadêmico"
+summary:
+  en: "Web system for centralized body-measurement registration, with a public API partner stores can query using an access code."
+  pt: "Sistema web pra registro centralizado de medidas corporais, com API pública que lojas parceiras consultam via código de acesso."
+periodStart: "05.2026"
+periodEnd: "06.2026"
+status: "public"
+stack: ["NestJS", "React", "PostgreSQL", "Docker"]
+demo: "https://medidas.kadukessler.com"
+repo: "https://github.com/KaduKessler/medidas-pessoais"
+cover: "/images/projects/medidas-pessoais-cover.png"
+coverAlt:
+  en: "Medidas Pessoais login screen"
+  pt: "Tela de login do Medidas Pessoais"
+order: 6
+draft: false
+contentEn: |
+  ## Context
+
+  Built for the DevOps na Prática and Disciplina Integradora de Desenvolvimento de Projetos courses at PUCRS. The idea: a consumer registers their body measurements once and gets a code instead of re-entering sizes on every online store.
+
+  ## What I built
+
+  - NestJS API with JWT auth, and a public endpoint (no auth) partner stores can query by access code
+  - React frontend to register, edit, and delete measurements, plus account deletion with full data removal
+  - A `/loja` route simulating a partner store consuming the public API to auto-fill a product's recommended size
+  - CI pipeline and deployment on Oracle Cloud, with a public status page
+
+  ![Partner store simulation route, querying a measurement code](/images/projects/medidas-pessoais-loja.png)
+
+  ## Focus
+
+  Treat it like a real product, not just a course deliverable: CI, API docs, a status page, and LGPD-compliant account deletion.
+contentPt: |
+  ## Contexto
+
+  Construído pras disciplinas de DevOps na Prática e Disciplina Integradora de Desenvolvimento de Projetos na PUCRS. A ideia: o consumidor cadastra as medidas uma vez e recebe um código em vez de preencher tamanho em cada loja online.
+
+  ## O que construí
+
+  - API em NestJS com autenticação JWT, e um endpoint público (sem autenticação) que lojas parceiras consultam pelo código de acesso
+  - Frontend em React pra cadastrar, editar e excluir medidas, incluindo exclusão de conta com remoção completa dos dados
+  - Rota `/loja` simulando uma loja parceira consumindo a API pública pra preencher automaticamente o tamanho recomendado de um produto
+  - Pipeline de CI e deploy na Oracle Cloud, com página de status pública
+
+  ![Simulação de loja parceira consultando um código de medidas](/images/projects/medidas-pessoais-loja.png)
+
+  ## Foco
+
+  Tratar como produto de verdade, não só entrega de disciplina: CI, documentação de API, página de status e exclusão de conta alinhada à LGPD.
+---

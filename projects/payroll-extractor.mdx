@@ -11,18 +11,26 @@ summary:
 periodStart: "08.2024"
 periodEnd: "03.2025"
 status: "private"
-stack: ["Python"]
+stack: ["Python", "Playwright", "PySide6", "BeautifulSoup"]
 order: 7
 draft: false
 contentEn: |
   ## Context
 
-  Manually copying payroll data from PDF reports into spreadsheets for analysis was slow and error-prone. Built a small tool to automate that step.
+  Manually copying payroll data from PDF reports into spreadsheets for analysis was slow and error-prone, especially across years of accumulated records. Built a desktop tool to automate the whole flow end to end, since the source HR portal has no bulk-export feature.
 
   ## What I built
 
-  - Python script that parses the PDF report layout and extracts the relevant payroll fields
-  - Export to structured Excel spreadsheets, ready for further analysis
+  - Automated collection from the web-based HR portal with Playwright, handling pagination and duplicate records across large date ranges
+  - Parallelized HTML fetching to cut collection time well below the initial sequential approach
+  - HTML-to-PDF conversion with custom formatting, filename sanitization, and incremental indexing to avoid overwriting existing files
+  - Desktop GUI built with PySide6 to pick date ranges, select which records to process, and trigger the export
+  - Structured logging (colored console output plus persisted log files) for troubleshooting collection runs
+  - Packaged as a standalone Windows executable so it runs without a Python environment set up
+
+  ## Focus
+
+  Staying reliable across years of inconsistent report layouts, and keeping the experience simple for a non-technical end user running a packaged executable.
 
   ## Note
 
@@ -30,12 +38,20 @@ contentEn: |
 contentPt: |
   ## Contexto
 
-  Copiar dados de holerites em PDF manualmente pra planilha, pra depois analisar, era lento e sujeito a erro. Construí uma ferramenta pequena pra automatizar essa etapa.
+  Copiar dados de holerites em PDF manualmente pra planilha, pra depois analisar, era lento e sujeito a erro, principalmente com anos de registros acumulados. Construí uma ferramenta desktop pra automatizar o fluxo inteiro, já que o portal de RH de origem não tem opção de exportação em massa.
 
   ## O que construí
 
-  - Script em Python que interpreta o layout do relatório em PDF e extrai os campos relevantes do holerite
-  - Exportação pra planilhas Excel estruturadas, prontas pra análise
+  - Coleta automatizada do portal de RH via Playwright, tratando paginação e registros duplicados em intervalos de data grandes
+  - Coleta paralelizada de HTML, reduzindo bastante o tempo em relação à abordagem sequencial inicial
+  - Conversão de HTML pra PDF com formatação customizada, sanitização de nomes de arquivo e indexação incremental pra não sobrescrever arquivos existentes
+  - Interface desktop em PySide6 pra selecionar intervalos de data, escolher quais registros processar e disparar a exportação
+  - Logging estruturado (saída colorida no console mais arquivos de log persistidos) pra facilitar debug das execuções de coleta
+  - Empacotado como executável standalone do Windows, rodando sem precisar de ambiente Python configurado
+
+  ## Foco
+
+  Manter confiabilidade mesmo com anos de layouts de relatório inconsistentes, e manter a experiência simples pra um usuário final não-técnico rodando um executável empacotado.
 
   ## Nota
 

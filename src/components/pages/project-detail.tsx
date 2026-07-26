@@ -1,5 +1,7 @@
 import {
 	ArrowLeft,
+	ChevronLeft,
+	ChevronRight,
 	ExternalLink,
 	Lock,
 	SquareArrowOutUpRight,
@@ -152,9 +154,20 @@ export function ProjectDetail() {
 	const allProjects = useMemo(() => getAllProjects(lang), [lang]);
 	const projectIndex = allProjects.findIndex((p) => p.slug === slug);
 
+	const prevProject =
+		projectIndex >= 0 && allProjects.length > 1
+			? allProjects[
+					(projectIndex - 1 + allProjects.length) % allProjects.length
+				]
+			: null;
+	const nextProject =
+		projectIndex >= 0 && allProjects.length > 1
+			? allProjects[(projectIndex + 1) % allProjects.length]
+			: null;
+
 	useEffect(() => {
 		if (!project && slug) {
-			navigate("/", { replace: true });
+			navigate("/projects", { replace: true });
 			return;
 		}
 		window.scrollTo(0, 0);
@@ -234,11 +247,27 @@ export function ProjectDetail() {
 							)}
 							<SidebarLabel>{project.type}</SidebarLabel>
 							<span className="h-px flex-1 bg-border" />
-							{projectIndex >= 0 && (
-								<span className="font-mono text-[10px] text-muted-foreground/50">
-									{String(projectIndex + 1).padStart(2, "0")}/
-									{String(allProjects.length).padStart(2, "0")}
-								</span>
+							{prevProject && nextProject && (
+								<div className="flex items-center gap-1">
+									<Link
+										to={`/projects/${prevProject.slug}`}
+										aria-label={prevProject.title}
+										className="flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+									>
+										<ChevronLeft className="size-3.5" />
+									</Link>
+									<span className="font-mono text-[10px] text-muted-foreground/50">
+										{String(projectIndex + 1).padStart(2, "0")}/
+										{String(allProjects.length).padStart(2, "0")}
+									</span>
+									<Link
+										to={`/projects/${nextProject.slug}`}
+										aria-label={nextProject.title}
+										className="flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+									>
+										<ChevronRight className="size-3.5" />
+									</Link>
+								</div>
 							)}
 						</div>
 

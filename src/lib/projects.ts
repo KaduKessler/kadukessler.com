@@ -25,6 +25,7 @@ export type ProjectMeta = {
 	wideMedia: boolean;
 	references?: ProjectReference[];
 	order: number;
+	featured: boolean;
 };
 
 export type Project = ProjectMeta & {
@@ -57,6 +58,7 @@ function toMeta(
 		wideMedia: project.wideMedia,
 		references: project.references,
 		order: project.order,
+		featured: project.featured,
 	};
 }
 

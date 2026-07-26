@@ -59,8 +59,20 @@ function ProjectThumbnail({
 	const { t } = useTranslation();
 
 	return (
-		<div className={cn("w-full overflow-hidden bg-muted", aspectClassName)}>
-			{project.logo ? (
+		<div
+			className={cn(
+				"isolate w-full overflow-hidden bg-muted",
+				aspectClassName,
+			)}
+		>
+			{project.cover ? (
+				<FadeInImage
+					src={project.cover}
+					alt={project.coverAlt ?? project.title}
+					containerClassName="h-full"
+					imgClassName="h-full w-full object-cover object-top group-hover:scale-105"
+				/>
+			) : project.logo ? (
 				<div
 					className={cn(
 						"flex h-full w-full items-center justify-center",
@@ -74,13 +86,6 @@ function ProjectThumbnail({
 						imgClassName="max-h-full w-auto object-contain group-hover:scale-105"
 					/>
 				</div>
-			) : project.cover ? (
-				<FadeInImage
-					src={project.cover}
-					alt={project.coverAlt ?? project.title}
-					containerClassName="h-full"
-					imgClassName="h-full w-full object-cover object-top group-hover:scale-105"
-				/>
 			) : (
 				<div className="flex h-full w-full flex-col items-center justify-center gap-2">
 					{project.status === "private" ? (

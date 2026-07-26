@@ -20,8 +20,10 @@ export function Projects() {
 
 	if (allProjects.length === 0) return null;
 
-	const visible = allProjects.slice(0, HOME_LIMIT);
-	const [featured, ...rest] = visible;
+	const featured = allProjects.find((p) => p.featured) ?? allProjects[0];
+	const rest = allProjects
+		.filter((p) => p.slug !== featured.slug)
+		.slice(0, HOME_LIMIT - 1);
 	const hasMore = allProjects.length > HOME_LIMIT;
 
 	return (

@@ -21,6 +21,7 @@ const allNavItems = [
 	{ key: "experience", href: "#experience", type: "section" },
 	{ key: "education", href: "#education", type: "section" },
 	{ key: "stack", href: "#stack", type: "section" },
+	{ key: "projects", href: "#projects", type: "section" },
 	{ key: "blog", href: "/blog", type: "route" },
 ] as const satisfies ReadonlyArray<NavItem>;
 

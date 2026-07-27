@@ -110,37 +110,6 @@
   },
   {
     "title": {
-      "en": "Perícia Report Automation",
-      "pt": "Automação de Laudos Periciais"
-    },
-    "type": {
-      "en": "Client project",
-      "pt": "Projeto de cliente"
-    },
-    "summary": {
-      "en": "Automation tooling for expert-witness report generation and internal data workflows.",
-      "pt": "Ferramentas de automação pra geração de laudos e fluxos internos de dados."
-    },
-    "periodStart": "05.2022",
-    "periodEnd": "12.2024",
-    "status": "private",
-    "stack": [
-      "Python",
-      "Django",
-      "VBA",
-      "Web Scraping"
-    ],
-    "wideMedia": false,
-    "order": 3,
-    "featured": false,
-    "draft": false,
-    "contentEn": "const{Fragment:e,jsx:n,jsxs:t}=arguments[0];function _createMdxContent(r){const o={h2:\"h2\",li:\"li\",p:\"p\",ul:\"ul\",...r.components};return t(e,{children:[n(o.h2,{children:\"Context\"}),\"\\n\",n(o.p,{children:\"Built for Eloo Perícias, a forensic expert-witness firm. The team relied on manual, repetitive work to collect case data and assemble reports, so automation tools were built to take that load off day-to-day operations.\"}),\"\\n\",n(o.h2,{children:\"What I built\"}),\"\\n\",t(o.ul,{children:[\"\\n\",n(o.li,{children:\"Web scraping scripts to pull structured data from internal systems\"}),\"\\n\",n(o.li,{children:\"Report generation tooling to reduce manual document assembly\"}),\"\\n\",n(o.li,{children:\"VBA scripts automating recurring internal operations\"}),\"\\n\",n(o.li,{children:\"Internal web systems supporting financial and case workflows\"}),\"\\n\"]}),\"\\n\",n(o.h2,{children:\"Note\"}),\"\\n\",n(o.p,{children:\"Codebase and environment are private client property, so there's no public repository or demo available. This page is the reference for the work.\"})]})}return{default:function(e={}){const{wrapper:t}=e.components||{};return t?n(t,{...e,children:n(_createMdxContent,{...e})}):_createMdxContent(e)}};",
-    "contentPt": "const{Fragment:e,jsx:r,jsxs:n}=arguments[0];function _createMdxContent(a){const o={h2:\"h2\",li:\"li\",p:\"p\",ul:\"ul\",...a.components};return n(e,{children:[r(o.h2,{children:\"Contexto\"}),\"\\n\",r(o.p,{children:\"Construído pra Eloo Perícias, um escritório de perícia forense. A equipe dependia de trabalho manual e repetitivo pra coletar dados de processos e montar laudos, então ferramentas de automação foram criadas pra tirar essa carga da operação diária.\"}),\"\\n\",r(o.h2,{children:\"O que construí\"}),\"\\n\",n(o.ul,{children:[\"\\n\",r(o.li,{children:\"Scripts de scraping pra extrair dados estruturados de sistemas internos\"}),\"\\n\",r(o.li,{children:\"Ferramenta de geração de laudos pra reduzir a montagem manual de documentos\"}),\"\\n\",r(o.li,{children:\"Scripts em VBA automatizando operações internas recorrentes\"}),\"\\n\",r(o.li,{children:\"Sistemas web internos dando suporte aos fluxos financeiros e de casos\"}),\"\\n\"]}),\"\\n\",r(o.h2,{children:\"Nota\"}),\"\\n\",r(o.p,{children:\"Código e ambiente são propriedade privada do cliente, por isso não existe repositório ou demo pública. Essa página é a referência disponível sobre o trabalho.\"})]})}return{default:function(e={}){const{wrapper:n}=e.components||{};return n?r(n,{...e,children:r(_createMdxContent,{...e})}):_createMdxContent(e)}};",
-    "slug": "eloo-laudos",
-    "permalink": "/projects/eloo-laudos"
-  },
-  {
-    "title": {
       "en": "Eloo Offices",
       "pt": "Eloo Offices"
     },

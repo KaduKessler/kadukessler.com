@@ -55,7 +55,7 @@ function Lightbox({
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
 			onClick={onClose}
-			className="fixed inset-0 z-100 flex cursor-zoom-out items-center justify-center bg-background/95 p-4 backdrop-blur-lg sm:p-10"
+			className="fixed inset-0 z-100 flex cursor-zoom-out items-center justify-center bg-background/95 p-4 backdrop-blur-sm sm:p-10"
 		>
 			<button
 				type="button"

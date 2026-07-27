@@ -10,6 +10,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import {
 	Children,
+	cloneElement,
 	isValidElement,
 	useCallback,
 	useEffect,
@@ -138,31 +139,61 @@ export function ProjectDetail() {
 					</a>
 				);
 			},
-			img: ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+			img: ({
+				src,
+				alt,
+				grid,
+			}: React.ImgHTMLAttributes<HTMLImageElement> & { grid?: boolean }) => {
 				if (!src || typeof src !== "string") return null;
 				const isExternal = /^https?:\/\//.test(src);
 				return (
 					<button
 						type="button"
 						onClick={() => openLightbox({ src, alt })}
-						className={`group my-6 block w-full appearance-none cursor-zoom-in overflow-hidden rounded-xl border border-border ${project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
+						className={`group block w-full appearance-none cursor-zoom-in overflow-hidden rounded-xl border border-border ${grid ? "" : project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
 					>
 						<FadeInImage
 							src={src}
 							alt={alt ?? ""}
-							containerClassName={isExternal ? "min-h-0" : undefined}
-							imgClassName="w-full group-hover:scale-[1.02]"
+							containerClassName={grid ? "aspect-video" : isExternal ? "min-h-0" : undefined}
+							imgClassName={
+								grid
+									? "h-full w-full object-cover object-top group-hover:scale-105"
+									: "w-full group-hover:scale-[1.02]"
+							}
 						/>
 					</button>
 				);
 			},
 			p: ({ children }: { children?: React.ReactNode }) => {
-				const childArray = Children.toArray(children);
-				const isImageOnly =
-					childArray.length === 1 &&
-					isValidElement(childArray[0]) &&
-					"src" in (childArray[0].props as Record<string, unknown>);
-				if (isImageOnly) return <>{children}</>;
+				const meaningful = Children.toArray(children).filter(
+					(child) => !(typeof child === "string" && child.trim() === ""),
+				);
+				const images = meaningful.filter(
+					(child) =>
+						isValidElement(child) &&
+						"src" in (child.props as Record<string, unknown>),
+				);
+				const isImageParagraph =
+					images.length > 0 && images.length === meaningful.length;
+
+				if (isImageParagraph && images.length > 1) {
+					return (
+						<div className="my-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+							{images.map((child, i) =>
+								isValidElement(child)
+									? cloneElement(
+											child as React.ReactElement<{ grid?: boolean }>,
+											{ key: i, grid: true },
+										)
+									: child,
+							)}
+						</div>
+					);
+				}
+				if (isImageParagraph) {
+					return <div className="my-6">{children}</div>;
+				}
 				return <p>{children}</p>;
 			},
 		}),

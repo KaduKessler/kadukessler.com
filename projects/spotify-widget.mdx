@@ -10,8 +10,12 @@ summary:
   pt: "Widget SVG dinâmico self-hosted mostrando a música atual (ou fixa) do Spotify, pra README do GitHub ou qualquer site."
 periodStart: "11.2025"
 status: "public"
-stack: ["TypeScript", "React", "Fastify", "Prisma", "SQLite", "Docker"]
+stack: ["TypeScript", "React", "Tailwind CSS", "Fastify", "Prisma", "SQLite", "Docker"]
 repo: "https://github.com/KaduKessler/Spotify-Widget"
+cover: "/images/projects/spotify-widget-cover.png"
+coverAlt:
+  en: "Spotify Widget admin dashboard, configuring widget appearance"
+  pt: "Painel administrativo do Spotify Widget, configurando a aparência do widget"
 logo: "/images/projects/spotify-widget_logo.png"
 logoAlt:
   en: "Spotify Widget logo"
@@ -35,6 +39,8 @@ contentEn: |
   - **Auth & RBAC**: password or GitHub OAuth login, with admin/user/viewer roles; each user stores their own Spotify credentials, no shared global API key
   - **Deploy**: single `docker compose up` container, auto-generates an admin password on first run
 
+  ![Live widget embed, showing whatever I'm currently playing on Spotify](https://spotify.kadukessler.com/widget?user=KaduKessler)
+
   ## Focus
 
   Zero-config self-hosting and per-user isolation. Every instance owner controls their own Spotify link and appearance without touching a shared config.
@@ -49,6 +55,8 @@ contentPt: |
   - **Admin SPA**: painel em React + Vite pra configurar aparência (tema, fundo, escala, efeitos), gerenciar usuários/papéis e gerar a URL de embed
   - **Auth & RBAC**: login por senha ou GitHub OAuth, com papéis admin/user/viewer; cada usuário guarda suas próprias credenciais do Spotify, sem API key global compartilhada
   - **Deploy**: um único container via `docker compose up`, que gera sozinho uma senha de admin na primeira execução
+
+  ![Widget ao vivo, mostrando o que eu tô ouvindo agora no Spotify](https://spotify.kadukessler.com/widget?user=KaduKessler)
 
   ## Foco
 

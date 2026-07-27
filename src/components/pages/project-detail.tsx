@@ -8,7 +8,14 @@ import {
 	X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+	Children,
+	isValidElement,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -133,19 +140,30 @@ export function ProjectDetail() {
 			},
 			img: ({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
 				if (!src || typeof src !== "string") return null;
+				const isExternal = /^https?:\/\//.test(src);
 				return (
 					<button
 						type="button"
 						onClick={() => openLightbox({ src, alt })}
-						className={`group my-6 block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border ${project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
+						className={`group my-6 block w-full appearance-none cursor-zoom-in overflow-hidden rounded-xl border border-border ${project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
 					>
 						<FadeInImage
 							src={src}
 							alt={alt ?? ""}
+							containerClassName={isExternal ? "min-h-0" : undefined}
 							imgClassName="w-full group-hover:scale-[1.02]"
 						/>
 					</button>
 				);
+			},
+			p: ({ children }: { children?: React.ReactNode }) => {
+				const childArray = Children.toArray(children);
+				const isImageOnly =
+					childArray.length === 1 &&
+					isValidElement(childArray[0]) &&
+					"src" in (childArray[0].props as Record<string, unknown>);
+				if (isImageOnly) return <>{children}</>;
+				return <p>{children}</p>;
 			},
 		}),
 		[openLightbox, project?.wideMedia],
@@ -433,7 +451,8 @@ export function ProjectDetail() {
 							prose-p:text-foreground/80 prose-p:text-sm prose-p:leading-relaxed
 							prose-li:text-foreground/80 prose-li:text-sm
 							prose-strong:text-foreground
-							prose-a:text-foreground"
+							prose-a:text-foreground
+						prose-img:my-0"
 						>
 							<MDXContent code={project.content} components={mdxComponents} />
 						</div>

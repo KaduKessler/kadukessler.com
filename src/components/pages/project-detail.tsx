@@ -452,7 +452,8 @@ export function ProjectDetail() {
 							prose-li:text-foreground/80 prose-li:text-sm
 							prose-strong:text-foreground
 							prose-a:text-foreground
-						prose-img:my-0"
+							prose-img:my-0
+							prose-code:rounded-md prose-code:border prose-code:border-border prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-[13px] prose-code:font-medium prose-code:font-mono prose-code:text-foreground/70 prose-code:before:content-none prose-code:after:content-none"
 						>
 							<MDXContent code={project.content} components={mdxComponents} />
 						</div>

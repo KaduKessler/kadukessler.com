@@ -117,7 +117,7 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 				aria-label={`${project.title}: ${t("projects.viewDetails")}`}
 			/>
 
-			<ProjectThumbnail project={project} aspectClassName="aspect-[21/9]" />
+			<ProjectThumbnail project={project} aspectClassName="aspect-video" />
 
 			<div className="flex flex-col gap-4 p-4 sm:p-5">
 				<div className="flex items-start justify-between gap-3">
@@ -184,7 +184,7 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 		>
 			<ProjectThumbnail
 				project={project}
-				aspectClassName="aspect-[16/9]"
+				aspectClassName="aspect-video"
 				logoPadding="p-6"
 			/>
 
@@ -235,7 +235,7 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 				aria-label={`${project.title}: ${t("projects.viewDetails")}`}
 			/>
 
-			<ProjectThumbnail project={project} aspectClassName="aspect-[16/10]" />
+			<ProjectThumbnail project={project} aspectClassName="aspect-video" />
 
 			<div className="flex flex-1 flex-col gap-2.5 p-4">
 				<div className="flex items-start justify-between gap-2">

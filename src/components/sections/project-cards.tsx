@@ -50,7 +50,7 @@ function ExternalLinkBadge({
 function ProjectThumbnail({
 	project,
 	aspectClassName,
-	logoPadding = "p-8",
+	logoPadding = "p-5",
 }: {
 	project: ProjectMeta;
 	aspectClassName: string;
@@ -61,7 +61,7 @@ function ProjectThumbnail({
 	return (
 		<div
 			className={cn(
-				"isolate w-full overflow-hidden bg-muted",
+				"isolate w-full overflow-hidden bg-gradient-to-br from-muted to-card",
 				aspectClassName,
 			)}
 		>

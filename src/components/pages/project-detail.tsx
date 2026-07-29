@@ -29,10 +29,11 @@ import { MDXContent } from "@/components/ui/mdx-content";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
+import { cn } from "@/lib/utils";
 
 import "highlight.js/styles/github-dark.css";
 
-type LightboxImage = { src: string; alt?: string };
+type LightboxImage = { src: string; alt?: string; variant?: "cover" | "logo" };
 
 function Lightbox({
 	image,
@@ -72,7 +73,12 @@ function Lightbox({
 				transition={{ type: "spring", damping: 26, stiffness: 300 }}
 				src={image.src}
 				alt={image.alt ?? ""}
-				className="max-h-full max-w-full cursor-default rounded-lg object-contain shadow-2xl"
+				className={cn(
+						"cursor-default rounded-lg object-contain shadow-2xl",
+						image.variant === "logo"
+							? "max-h-40 max-w-64 sm:max-h-48 sm:max-w-80"
+							: "max-h-full max-w-full",
+					)}
 				onClick={(e) => e.stopPropagation()}
 			/>
 			{image.alt && (
@@ -283,7 +289,11 @@ export function ProjectDetail() {
 									type="button"
 									onClick={() =>
 										project.logo &&
-										openLightbox({ src: project.logo, alt: project.logoAlt })
+										openLightbox({
+											src: project.logo,
+											alt: project.logoAlt,
+											variant: "logo",
+										})
 									}
 									className="flex h-6 shrink-0 cursor-zoom-in items-center opacity-80 transition-opacity hover:opacity-100"
 								>

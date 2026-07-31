@@ -287,21 +287,33 @@ export function ProjectDetail() {
 							{project.logo && (
 								<button
 									type="button"
-									onClick={() =>
-										project.logo &&
-										openLightbox({
-											src: project.logo,
-											alt: project.logoAlt,
-											variant: "logo",
-										})
-									}
+									onClick={() => {
+										const isDark =
+											document.documentElement.classList.contains("dark");
+										const src =
+											(isDark && project.logoDark) || project.logo;
+										if (src) {
+											openLightbox({ src, alt: project.logoAlt, variant: "logo" });
+										}
+									}}
 									className="flex h-6 shrink-0 cursor-zoom-in items-center opacity-80 transition-opacity hover:opacity-100"
 								>
 									<img
 										src={project.logo}
 										alt={project.logoAlt ?? ""}
-										className="h-full w-auto max-w-28 object-contain"
+										className={
+											project.logoDark
+												? "h-full w-auto max-w-28 object-contain dark:hidden"
+												: "h-full w-auto max-w-28 object-contain"
+										}
 									/>
+									{project.logoDark && (
+										<img
+											src={project.logoDark}
+											alt={project.logoAlt ?? ""}
+											className="hidden h-full w-auto max-w-28 object-contain dark:block"
+										/>
+									)}
 								</button>
 							)}
 							<SidebarLabel>{project.type}</SidebarLabel>

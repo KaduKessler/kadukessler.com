@@ -21,6 +21,7 @@ export default defineConfig({
 					cover: s.string().optional(),
 					coverAlt: s.object({ en: s.string(), pt: s.string() }).optional(),
 					logo: s.string().optional(),
+					logoDark: s.string().optional(),
 					logoAlt: s.object({ en: s.string(), pt: s.string() }).optional(),
 					wideMedia: s.boolean().default(false),
 					references: s

@@ -21,6 +21,7 @@ export type ProjectMeta = {
 	cover?: string;
 	coverAlt?: string;
 	logo?: string;
+	logoDark?: string;
 	logoAlt?: string;
 	wideMedia: boolean;
 	references?: ProjectReference[];
@@ -54,6 +55,7 @@ function toMeta(
 		cover: project.cover,
 		coverAlt: project.coverAlt?.[lang],
 		logo: project.logo,
+		logoDark: project.logoDark,
 		logoAlt: project.logoAlt?.[lang],
 		wideMedia: project.wideMedia,
 		references: project.references,

@@ -86,14 +86,14 @@ function ProjectThumbnail({
 							"min-h-[60px]",
 							project.logoDark && "dark:hidden",
 						)}
-						imgClassName="max-h-full w-auto object-contain group-hover:scale-105"
+						imgClassName="mx-auto block max-h-16 w-auto object-contain group-hover:scale-105"
 					/>
 					{project.logoDark && (
 						<FadeInImage
 							src={project.logoDark}
 							alt={project.logoAlt ?? project.title}
 							containerClassName="hidden min-h-[60px] dark:block"
-							imgClassName="max-h-full w-auto object-contain group-hover:scale-105"
+							imgClassName="mx-auto block max-h-16 w-auto object-contain group-hover:scale-105"
 						/>
 					)}
 				</div>

@@ -238,7 +238,7 @@ export function ProjectDetail() {
 		<div className="min-h-screen bg-background">
 			<Background />
 			<Helmet>
-				<title>{project.title} — Kadu Kessler</title>
+				<title>{project.title} | Kadu Kessler</title>
 				<meta name="description" content={project.summary} />
 				<link
 					rel="canonical"

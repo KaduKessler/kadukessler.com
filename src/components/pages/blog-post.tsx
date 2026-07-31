@@ -531,7 +531,7 @@ export function BlogPost() {
 		<div className="min-h-screen bg-background selection:bg-primary/10">
 			<Background />
 			<Helmet>
-				<title>{post.title} — Kadu Kessler</title>
+				<title>{post.title} | Kadu Kessler</title>
 				<meta name="description" content={post.excerpt} />
 				<link
 					rel="canonical"

@@ -143,7 +143,9 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 					{project.status === "private" && (
 						<span className="flex items-center gap-1 whitespace-nowrap rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
 							<Lock className="size-2.5" />
-							<LanguageReveal inline>{t("projects.privateBadge")}</LanguageReveal>
+							<LanguageReveal inline>
+								{t("projects.privateBadge")}
+							</LanguageReveal>
 						</span>
 					)}
 				</div>

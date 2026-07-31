@@ -232,6 +232,7 @@ body {
 	}
 
 	.card-elevated img {
+		/* biome-ignore lint/complexity/noImportantStyles: must win over group-hover: scale utilities for reduced-motion users */
 		transform: none !important;
 	}
 }

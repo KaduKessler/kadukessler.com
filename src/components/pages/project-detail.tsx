@@ -74,11 +74,11 @@ function Lightbox({
 				src={image.src}
 				alt={image.alt ?? ""}
 				className={cn(
-						"cursor-default rounded-lg object-contain shadow-2xl",
-						image.variant === "logo"
-							? "max-h-40 max-w-64 sm:max-h-48 sm:max-w-80"
-							: "max-h-full max-w-full",
-					)}
+					"cursor-default rounded-lg object-contain shadow-2xl",
+					image.variant === "logo"
+						? "max-h-40 max-w-64 sm:max-h-48 sm:max-w-80"
+						: "max-h-full max-w-full",
+				)}
 				onClick={(e) => e.stopPropagation()}
 			/>
 			{image.alt && (
@@ -161,7 +161,9 @@ export function ProjectDetail() {
 						<FadeInImage
 							src={src}
 							alt={alt ?? ""}
-							containerClassName={grid ? "aspect-video" : isExternal ? "min-h-0" : undefined}
+							containerClassName={
+								grid ? "aspect-video" : isExternal ? "min-h-0" : undefined
+							}
 							imgClassName={
 								grid
 									? "h-full w-full object-cover object-top group-hover:scale-105"
@@ -190,7 +192,11 @@ export function ProjectDetail() {
 								isValidElement(child)
 									? cloneElement(
 											child as React.ReactElement<{ grid?: boolean }>,
-											{ key: i, grid: true },
+											{
+												key:
+													(child.props as { src?: string }).src ?? `image-${i}`,
+												grid: true,
+											},
 										)
 									: child,
 							)}
@@ -290,10 +296,13 @@ export function ProjectDetail() {
 									onClick={() => {
 										const isDark =
 											document.documentElement.classList.contains("dark");
-										const src =
-											(isDark && project.logoDark) || project.logo;
+										const src = (isDark && project.logoDark) || project.logo;
 										if (src) {
-											openLightbox({ src, alt: project.logoAlt, variant: "logo" });
+											openLightbox({
+												src,
+												alt: project.logoAlt,
+												variant: "logo",
+											});
 										}
 									}}
 									className="flex h-6 shrink-0 cursor-zoom-in items-center opacity-80 transition-opacity hover:opacity-100"

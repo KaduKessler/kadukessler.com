@@ -11,6 +11,7 @@ summary:
 periodStart: "09.2025"
 periodEnd: "12.2025"
 status: "private"
+demo: "https://honorarios.kadukessler.com/"
 stack: ["Next.js", "TypeScript", "Tailwind CSS", "React Hook Form", "Zod"]
 cover: "/images/projects/mvp-honorarios-cover.png"
 coverAlt:
@@ -20,44 +21,48 @@ logo: "/images/projects/mvp-honorarios-logo.png"
 logoAlt:
   en: "Honorários scale-of-justice logo"
   pt: "Logo de balança da Honorários"
-order: 8
+order: 5
 draft: false
 contentEn: |
   ## Context
 
-  Built for the Entrepreneurship and Solution Modeling course: validate a product idea end to end, from business model to a working MVP. Independent professionals often price services by gut feeling — this tool grounds the number in an official reference table instead.
+  Built for the Entrepreneurship and Solution Modeling course: validate a product idea end to end, from business model to a working MVP. Independent professionals often price services by gut feeling, so this tool grounds the number in an official reference table instead.
 
   ## What I built
 
-  - Fee suggestion based on the OAB/RS reference table, adjusted by service complexity and risk factors
-  - Cash vs. installment comparison, with an alert and required justification when the effective value falls below the OAB reference minimum
-  - Full calculation breakdown (base value, adjustments, discount, installments) for transparency
-  - Persistent calculation history, with editing and clearing
+  - Search over the OAB/RS 2026 fee table: 787 services across 30 categories, loaded on demand
+  - Fee suggestion based on the table, adjusted by service complexity and default-risk factors
+  - Cash vs. installment comparison (compound interest, Tabela Price), with an alert when the effective installment rate exceeds the 1%/month ceiling recognized by the STJ
+  - Compliance alerts for fee undervaluation, steep discounts, or values disproportionate to the reference table, with justification required on critical alerts
+  - Full calculation breakdown (base value, adjustments, discount, installments) exportable as PDF
+  - Persistent local history (no backend), with editing and clearing
 
   ## Focus
 
-  Ground pricing decisions in an official reference instead of guesswork, in a flow fast enough for quick use on mobile.
+  Ground pricing decisions in an official reference instead of guesswork, in a flow fast enough for quick use on mobile, entirely client-side.
 
   ## Note
 
-  Repository and demo are currently private/offline while the deployment is revisited.
+  Live at [honorarios.kadukessler.com](https://honorarios.kadukessler.com/). Repository is private.
 contentPt: |
   ## Contexto
 
-  Feito pra disciplina de Empreendimento e Modelagem de Soluções: validar uma ideia de produto de ponta a ponta, do modelo de negócio até um MVP funcional. Profissional liberal costuma precificar no chute — essa ferramenta ancora o valor numa tabela de referência oficial.
+  Feito pra disciplina de Empreendimento e Modelagem de Soluções: validar uma ideia de produto de ponta a ponta, do modelo de negócio até um MVP funcional. Profissional liberal costuma precificar no chute, então essa ferramenta ancora o valor numa tabela de referência oficial.
 
   ## O que construí
 
-  - Sugestão de honorário baseada na tabela de referência OAB/RS, ajustada por complexidade do serviço e fatores de risco
-  - Comparação à vista vs. parcelado, com alerta e justificativa obrigatória quando o valor efetivo fica abaixo do mínimo referencial da OAB
-  - Memória de cálculo completa (valor base, ajustes, desconto, parcelas) pra transparência
-  - Histórico de cálculos persistente, com edição e limpeza
+  - Busca na Tabela OAB/RS 2026: 787 serviços em 30 categorias, carregados sob demanda
+  - Sugestão de honorário baseada na tabela, ajustada por complexidade do serviço e fatores de risco de inadimplência
+  - Comparação à vista vs. parcelado (juros compostos, Tabela Price), com alerta quando a taxa efetiva do parcelamento ultrapassa o teto de 1% ao mês reconhecido pelo STJ
+  - Alertas de conformidade pra aviltamento de honorários, desconto elevado ou valor desproporcional à tabela, com justificativa obrigatória nos alertas críticos
+  - Memória de cálculo completa (valor base, ajustes, desconto, parcelas) exportável em PDF
+  - Histórico local persistente (sem backend), com edição e limpeza
 
   ## Foco
 
-  Ancorar a decisão de preço numa referência oficial em vez de chute, num fluxo rápido o suficiente pro uso no celular.
+  Ancorar a decisão de preço numa referência oficial em vez de chute, num fluxo rápido o suficiente pro uso no celular, tudo no navegador.
 
   ## Nota
 
-  Repositório e demo estão privados/fora do ar no momento enquanto o deploy é revisado.
+  No ar em [honorarios.kadukessler.com](https://honorarios.kadukessler.com/). Repositório é privado.
 ---

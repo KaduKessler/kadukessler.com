@@ -1,5 +1,5 @@
 import { ArrowLeft, Search, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { GalleryCard } from "@/components/sections/project-cards";
@@ -21,6 +21,10 @@ export function ProjectsPage() {
 
 	const [query, setQuery] = useState("");
 	const [selectedType, setSelectedType] = useState<string | null>(null);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	const types = useMemo(
 		() => Array.from(new Set(allProjects.map((p) => p.type))),

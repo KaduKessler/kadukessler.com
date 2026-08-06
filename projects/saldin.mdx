@@ -1,0 +1,82 @@
+---
+title:
+  en: "Saldin"
+  pt: "Saldin"
+type:
+  en: "Personal project"
+  pt: "Projeto pessoal"
+summary:
+  en: "Personal finance assistant via Telegram and web dashboard, with automatic receipt scanning and bill-splitting between friends."
+  pt: "Assistente financeiro pessoal via Telegram e painel web, com leitura automática de nota fiscal e divisão de conta entre amigos."
+periodStart: "07.2025"
+status: "private"
+stack: ["Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "React", "TypeScript", "Tailwind CSS", "aiogram"]
+cover: "/images/projects/saldin-cover.png"
+coverAlt:
+  en: "Saldin login screen"
+  pt: "Tela de login do Saldin"
+logo: "/images/projects/saldin-logo.png"
+logoAlt:
+  en: "Saldin logo"
+  pt: "Logo do Saldin"
+order: 8
+draft: false
+contentEn: |
+  ## Context
+
+  Personal expense tracking usually means opening a spreadsheet, which most people skip after a week. The idea: log a purchase by just describing it in a chat, text, voice, or photo, and let the app work out the details. Also solves a recurring real problem: splitting a shared purchase with friends straight from the scanned receipt.
+
+  Self-hosted on my own VM (Oracle Linux 8 + Docker), no third-party backend dependency.
+
+  ## What I built
+
+  - Expense/income logging via chat (text, audio, or photo), interpreted by multimodal AI (Gemini) with function calling that picks the right account on its own and asks for clarification when ambiguous
+  - Receipt reading (Brazilian NFCe/DANFE): scans the QR code or accepts the access key typed in, extracts items automatically via a per-state adapter, with AI vision as a fallback when there's no QR code
+  - Bill splitting: assigns items per participant from a scanned receipt, calculates settlement, and generates a Pix charge (copy-paste BR Code + QR, generated locally, no banking integration)
+  - Installments and recurring bills, with a scheduler job that materializes daily occurrences and catches up on restart
+  - Financial engine validated against Firefly III and a real budgeting reference, covering balance effects for accounts, cards, and installments down to the cent
+  - Full transaction history with month navigation, filters, inline editing that reverts and reapplies balance effects correctly
+  - Planning view for category limits, financial goals, and upcoming recurring commitments, kept separate from day-to-day tracking
+  - Same business logic shared between the Telegram bot and the web dashboard
+  - Responsive web dashboard with its own mobile layout (bottom nav, stacked cards), not just a scaled-down desktop view
+
+  ![Bill-splitting screen: participants, items assigned per person, and Pix charges](/images/projects/saldin-split.png)
+  ![Chat logging a real expense through natural conversation, with an undo option](/images/projects/saldin-chat.png)
+
+  ## Focus
+
+  Making expense tracking frictionless enough to survive daily use, while keeping the financial logic (installments, recurrence, balance effects) correct down to the cent.
+
+  ## Note
+
+  Still in active development. Repository is private.
+contentPt: |
+  ## Contexto
+
+  Controle de gasto pessoal geralmente significa abrir planilha, que a maioria abandona depois de uma semana. A ideia: registrar uma compra só descrevendo ela numa conversa, texto, áudio ou foto, e deixar o app resolver os detalhes. Também resolve um problema real recorrente: dividir compra com amigos direto da nota fiscal escaneada.
+
+  Self-hosted numa VM própria (Oracle Linux 8 + Docker), sem depender de backend de terceiros.
+
+  ## O que construí
+
+  - Registro de gasto/receita via chat (texto, áudio ou foto), interpretado por IA multimodal (Gemini) com function calling que escolhe a conta certa sozinho e pede esclarecimento quando ambíguo
+  - Leitura de nota fiscal (NFCe/DANFE): escaneia o QR code ou aceita a chave de acesso digitada, extrai os itens automaticamente via adapter por estado, com IA vision como fallback quando não tem QR code
+  - Divisão de conta: atribui itens por participante a partir da nota escaneada, calcula o settlement e gera cobrança via Pix (BR Code copia-e-cola + QR, gerado localmente, sem integração bancária)
+  - Parcelamento e contas recorrentes, com job de scheduler que materializa ocorrências diárias e recupera atrasos ao reiniciar
+  - Motor financeiro validado contra o Firefly III e uma referência real de orçamento, cobrindo efeito de saldo em contas, cartões e parcelas até o centavo
+  - Histórico completo de transações com navegação por mês, filtros, edição inline que reverte e reaplica o efeito de saldo corretamente
+  - Tela de planejamento pra limite por categoria, metas financeiras e próximos compromissos recorrentes, separada do uso do dia a dia
+  - Mesma lógica de negócio compartilhada entre o bot do Telegram e o painel web
+  - Painel web responsivo com layout mobile próprio (navegação inferior, cards empilhados), não só uma versão desktop redimensionada
+
+  ![Tela de divisão de conta: participantes, itens atribuídos por pessoa e cobranças via Pix](/images/projects/saldin-split.png)
+  ![Chat registrando um gasto real numa conversa natural, com opção de desfazer](/images/projects/saldin-chat.png)
+
+  ## Foco
+
+  Deixar o registro de gasto fluido o suficiente pra sobreviver ao uso diário, mantendo a lógica financeira (parcelas, recorrência, efeito de saldo) correta até o centavo.
+
+  ## Nota
+
+  Ainda em desenvolvimento ativo. Repositório é privado.
+---

@@ -1,0 +1,76 @@
+---
+title:
+  en: "BDK Paddock"
+  pt: "BDK Paddock"
+type:
+  en: "Personal project"
+  pt: "Projeto pessoal"
+summary:
+  en: "Real-time race-weekend hub for a private group: live countdown, interactive season calendar, and a role-based admin control panel."
+  pt: "Painel de fim de semana de corrida em tempo real pra um grupo fechado: contagem regressiva ao vivo, calendário interativo da temporada e painel administrativo por roles."
+periodStart: "01.2026"
+status: "private"
+stack: [".NET", "SQLite", "Entity Framework Core", "JavaScript", "Tailwind CSS", "Docker"]
+cover: "/images/projects/bdk-paddock-cover.png"
+coverAlt:
+  en: "BDK Paddock login screen"
+  pt: "Tela de login do BDK Paddock"
+logo: "/images/projects/bdk-paddock-logo.png"
+logoAlt:
+  en: "BDK Paddock logo"
+  pt: "Logo do BDK Paddock"
+order: 11
+draft: false
+contentEn: |
+  ## Context
+
+  Built for a private group to follow a race season together: who's around, what's happening next, and a shared calendar, instead of everyone tracking it separately.
+
+  ## What I built
+
+  - Role-based authentication separating regular members from admins, gating an exclusive control panel
+  - Real-time countdown and live status for the next race weekend
+  - Interactive season calendar with drag navigation, per-session details, and times localized to each member
+  - Admin control room for broadcasting announcements and rotating access credentials, isolated from the main app
+  - Hardened auth: PBKDF2 with per-user salt, artificial delay on failed attempts, and audit logging
+  - Automated security regression suite (server-side + a Node script) run before every deploy
+  - CI/CD via GitHub Actions: SSH deploy and Docker Compose rebuild on every push to main
+  - Dockerized deployment with SQLite persisted outside the container
+
+  ![BDK Paddock dashboard: member header, season calendar, and admin control room](/images/projects/bdk-paddock-dashboard.png)
+  ![Race weekend detail: sessions, windows, and local time zones](/images/projects/bdk-paddock-detalhe.png)
+
+  ## Focus
+
+  Keeping real-time data in sync and access control strict enough to actually trust for a private group, backed by a real security test suite instead of hand-waving.
+
+  ## Note
+
+  In active use by a private group. Repository is private.
+contentPt: |
+  ## Contexto
+
+  Feito pra um grupo fechado acompanhar uma temporada de corridas junto: quem tá por perto, o que vem a seguir, e um calendário compartilhado, em vez de cada um acompanhar por conta própria.
+
+  ## O que construí
+
+  - Autenticação por roles separando membro comum de admin, protegendo um painel de controle exclusivo
+  - Contagem regressiva e status em tempo real pro próximo fim de semana de corrida
+  - Calendário interativo da temporada com navegação por arraste, detalhe por sessão e horários localizados pra cada membro
+  - Sala de controle administrativa pra emitir avisos e rotacionar credenciais de acesso, isolada do app principal
+  - Autenticação reforçada: PBKDF2 com salt por usuário, delay artificial em tentativas falhas e log de auditoria
+  - Suíte automatizada de testes de regressão de segurança (server-side + script Node) rodando antes de todo deploy
+  - CI/CD via GitHub Actions: deploy via SSH e rebuild do Docker Compose a cada push na main
+  - Deploy via Docker com SQLite persistido fora do container
+
+  ![Dashboard do BDK Paddock: header do membro, calendário da temporada e sala de controle admin](/images/projects/bdk-paddock-dashboard.png)
+  ![Detalhe do fim de semana de corrida: sessões, janelas e fusos horários locais](/images/projects/bdk-paddock-detalhe.png)
+
+  ## Foco
+
+  Manter dado em tempo real sincronizado e controle de acesso rígido o suficiente pra realmente confiar num grupo fechado, com uma suíte de segurança de verdade em vez de promessa.
+
+  ## Nota
+
+  Em uso ativo por um grupo fechado. Repositório é privado.
+---

@@ -27,7 +27,6 @@ export default defineConfig({
 					references: s
 						.array(s.object({ label: s.string(), url: s.string() }))
 						.optional(),
-					order: s.number().default(99),
 					featured: s.boolean().default(false),
 					draft: s.boolean().default(false),
 					contentEn: s.mdx(),

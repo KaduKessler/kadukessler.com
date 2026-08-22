@@ -1,4 +1,5 @@
 import { projects } from "content";
+import { projectOrder } from "@/lib/project-order";
 
 export type ProjectLang = "en" | "pt";
 
@@ -25,7 +26,6 @@ export type ProjectMeta = {
 	logoAlt?: string;
 	wideMedia: boolean;
 	references?: ProjectReference[];
-	order: number;
 	featured: boolean;
 };
 
@@ -33,9 +33,14 @@ export type Project = ProjectMeta & {
 	content: string;
 };
 
+function orderIndex(slug: string): number {
+	const index = projectOrder.indexOf(slug);
+	return index === -1 ? projectOrder.length : index;
+}
+
 const sortedProjects = [...projects]
 	.filter((project) => !project.draft)
-	.sort((a, b) => a.order - b.order);
+	.sort((a, b) => orderIndex(a.slug) - orderIndex(b.slug));
 
 function toMeta(
 	project: (typeof sortedProjects)[number],
@@ -59,7 +64,6 @@ function toMeta(
 		logoAlt: project.logoAlt?.[lang],
 		wideMedia: project.wideMedia,
 		references: project.references,
-		order: project.order,
 		featured: project.featured,
 	};
 }

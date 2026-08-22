@@ -33,7 +33,7 @@ const resources = {
 				backToTop: "Back to top",
 			},
 			hero: {
-				taglines: ["Full-Stack Junior", ".NET + React", "Above and Beyond"],
+				taglines: ["Software Engineer", ".NET + React", "Above and Beyond"],
 				location: "Location",
 				localTime: "Local Time",
 				currentRole: "Current Role",
@@ -43,9 +43,9 @@ const resources = {
 			},
 			about: {
 				title: "About",
-				p1: "Full-Stack Developer focused on <dotnet>.NET</dotnet> and <react>React</react>, currently working as a <role>Full-Stack Junior</role> at <company>2M/MPE</company>. I build production-ready systems, integrate IoT devices, and manage complex data flows.",
+				p1: "I build complete systems: <dotnet>.NET</dotnet> and <react>React</react> code together with the deployment, infrastructure, and security around it, not just isolated features. Currently a <role>Software Engineer</role> at <company>2M/MPE</company>, building production-ready systems, integrating IoT devices, and managing complex data flows.",
 				p2: "I'm a core contributor to <alertai>AlertAI</alertai>, a web platform for event management, security, and intelligent monitoring. Currently finishing my degree in <course>Analysis and Systems Development</course> at <uni>PUCRS</uni>.",
-				p3: "Beyond building software, I enjoy infrastructure and understanding how things work from end-to-end. I run a home setup with <proxmox>Proxmox</proxmox> and manage cloud instances on <oci>OCI (Oracle Linux)</oci> to host my own services and experiment with the DevOps mindset.",
+				p3: "That mindset carries into my own infrastructure: I run a <proxmox>Proxmox</proxmox> homelab and manage cloud instances on <oci>OCI (Oracle Linux)</oci> to self-host most of my personal projects, with the same discipline I'd apply to production: monitoring, containers, and CI/CD.",
 				p4: "In my free time, I'm usually iterating on new ideas, watching anime, or gaming; always driven by the curiosity of creating practical solutions.",
 			},
 			experience: {
@@ -193,7 +193,7 @@ const resources = {
 				backToTop: "Voltar ao topo",
 			},
 			hero: {
-				taglines: ["Full-Stack Junior", ".NET + React", "Above and Beyond"],
+				taglines: ["Software Engineer", ".NET + React", "Above and Beyond"],
 				location: "Localização",
 				localTime: "Hora Local",
 				currentRole: "Cargo Atual",
@@ -203,9 +203,9 @@ const resources = {
 			},
 			about: {
 				title: "Sobre",
-				p1: "Desenvolvedor Full-Stack focado em <dotnet>.NET</dotnet> e <react>React</react>, atualmente trabalhando como <role>Full-Stack Junior</role> na <company>2M/MPE</company>. Construo sistemas prontos para produção, integro dispositivos IoT e gerencio fluxos de dados complexos.",
+				p1: "Construo sistemas completos: código em <dotnet>.NET</dotnet> e <react>React</react> junto com o deploy, a infraestrutura e a segurança em volta, não só features isoladas. Atualmente <role>Software Engineer</role> na <company>2M/MPE</company>, construindo sistemas prontos para produção, integrando dispositivos IoT e gerenciando fluxos de dados complexos.",
 				p2: "Sou um dos principais contribuidores do <alertai>AlertAI</alertai>, uma plataforma web para gestão de eventos, segurança e monitoramento inteligente. Atualmente cursando <course>Análise e Desenvolvimento de Sistemas</course> na <uni>PUCRS</uni>.",
-				p3: "Além de construir software, gosto de infraestrutura e de entender como as coisas funcionam de ponta a ponta. Mantenho um laboratório doméstico com <proxmox>Proxmox</proxmox> e gerencio instâncias em nuvem na <oci>OCI (Oracle Linux)</oci> para hospedar meus próprios serviços e experimentar com a mentalidade DevOps.",
+				p3: "Essa mentalidade se estende pra minha própria infraestrutura: mantenho um homelab com <proxmox>Proxmox</proxmox> e gerencio instâncias na <oci>OCI (Oracle Linux)</oci> pra hospedar a maioria dos meus projetos pessoais, com a mesma disciplina que eu aplicaria em produção: monitoramento, containers e CI/CD.",
 				p4: "No meu tempo livre, costumo iterar em novas ideias, assistir anime ou jogar; sempre movido pela curiosidade de criar soluções práticas.",
 			},
 			experience: {

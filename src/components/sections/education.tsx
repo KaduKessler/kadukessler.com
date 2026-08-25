@@ -1,11 +1,12 @@
 import { ChevronDown, ExternalLink, GraduationCap } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
+import { cn } from "@/lib/utils";
 
 type EducationItem = {
 	institution: string;
@@ -104,21 +105,16 @@ function EducationCard({
 
 					<div className="flex w-full flex-wrap items-center gap-1.5 sm:w-auto sm:shrink-0 sm:gap-2 sm:pl-2">
 						{edu.current && (
-							<motion.span
-								className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-blue-400"
-								animate={
-									shouldReduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }
-								}
-								transition={{
-									duration: 1.6,
-									ease: "easeInOut",
-									repeat: Number.POSITIVE_INFINITY,
-								}}
+							<span
+								className={cn(
+									"rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-blue-400",
+									!shouldReduceMotion && "animate-pulse",
+								)}
 							>
 								<LanguageReveal inline>
 									{t("education.inProgress")}
 								</LanguageReveal>
-							</motion.span>
+							</span>
 						)}
 						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
 							<LanguageReveal inline>{edu.period}</LanguageReveal>
@@ -133,28 +129,32 @@ function EducationCard({
 				</div>
 			</div>
 
-			<motion.div
+			<div
 				id={panelId}
-				initial={false}
-				animate={{
-					height: isOpen ? "auto" : 0,
-					opacity: isOpen ? 1 : 0,
-					marginTop: isOpen ? 12 : 0,
-				}}
-				transition={{ duration: 0.28, ease: "easeOut" }}
-				className="overflow-hidden"
+				className="grid transition-[grid-template-rows] duration-[280ms] ease-out"
+				style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
 			>
-				<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-foreground/80 sm:pl-13">
-					{edu.description}
-				</LanguageReveal>
-			</motion.div>
+				<div className="overflow-hidden">
+					<div
+						style={{
+							opacity: isOpen ? 1 : 0,
+							marginTop: isOpen ? 12 : 0,
+							transition: "opacity 0.28s ease-out, margin-top 0.28s ease-out",
+						}}
+					>
+						<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-foreground/80 sm:pl-13">
+							{edu.description}
+						</LanguageReveal>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
 
 export function Education() {
 	const { t } = useTranslation();
-	const shouldReduceMotion = useReducedMotion();
+	const shouldReduceMotion = usePrefersReducedMotion();
 
 	const educationItems = t("education.items", {
 		returnObjects: true,

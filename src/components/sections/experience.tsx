@@ -1,5 +1,4 @@
 import { Briefcase, ChevronDown, Code2, ExternalLink } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { IconContainer } from "@/components/ui/icon-container";
@@ -9,7 +8,9 @@ import {
 	Stagger,
 	StaggerItem,
 } from "@/components/ui/section-reveal";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
+import { cn } from "@/lib/utils";
 
 type Role = {
 	title: string;
@@ -120,21 +121,16 @@ function ExperienceRoleCard({
 					</div>
 					<div className="flex w-full flex-wrap items-center gap-1.5 sm:w-auto sm:shrink-0 sm:gap-2 sm:pl-2">
 						{role.current && (
-							<motion.span
-								className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400"
-								animate={
-									shouldReduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }
-								}
-								transition={{
-									duration: 1.6,
-									ease: "easeInOut",
-									repeat: Number.POSITIVE_INFINITY,
-								}}
+							<span
+								className={cn(
+									"rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400",
+									!shouldReduceMotion && "animate-pulse",
+								)}
 							>
 								<LanguageReveal inline>
 									{t("experience.current")}
 								</LanguageReveal>
-							</motion.span>
+							</span>
 						)}
 						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
 							<LanguageReveal inline>{role.period}</LanguageReveal>
@@ -147,33 +143,36 @@ function ExperienceRoleCard({
 						</span>
 					</div>
 				</div>
-				<motion.div
+				<div
 					id={panelId}
-					initial={false}
-					animate={{
-						height: isOpen ? "auto" : 0,
-						opacity: isOpen ? 1 : 0,
-						marginTop: isOpen ? 8 : 0,
-					}}
-					transition={{ duration: 0.28, ease: "easeOut" }}
-					className="relative z-10 overflow-hidden"
+					className="relative z-10 grid transition-[grid-template-rows] duration-[280ms] ease-out"
+					style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
 				>
-					<div className="pointer-events-auto text-sm leading-relaxed text-foreground/80">
-						<LanguageReveal>
-							<Trans i18nKey={`${i18nPath}.description`}>
-								{role.description}
-								<a
-									href="https://alertai.com.br"
-									target="_blank"
-									rel="noopener noreferrer"
-									className="font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground"
-								>
-									AlertAI
-								</a>
-							</Trans>
-						</LanguageReveal>
+					<div className="overflow-hidden">
+						<div
+							style={{
+								opacity: isOpen ? 1 : 0,
+								marginTop: isOpen ? 8 : 0,
+								transition: "opacity 0.28s ease-out, margin-top 0.28s ease-out",
+							}}
+							className="pointer-events-auto text-sm leading-relaxed text-foreground/80"
+						>
+							<LanguageReveal>
+								<Trans i18nKey={`${i18nPath}.description`}>
+									{role.description}
+									<a
+										href="https://alertai.com.br"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground"
+									>
+										AlertAI
+									</a>
+								</Trans>
+							</LanguageReveal>
+						</div>
 					</div>
-				</motion.div>
+				</div>
 			</div>
 		</div>
 	);
@@ -181,7 +180,7 @@ function ExperienceRoleCard({
 
 export function Experience() {
 	const { t } = useTranslation();
-	const shouldReduceMotion = useReducedMotion();
+	const shouldReduceMotion = usePrefersReducedMotion();
 
 	const experienceItems = t("experience.items", {
 		returnObjects: true,

@@ -1,14 +1,57 @@
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import {
+	Children,
+	type CSSProperties,
+	cloneElement,
+	createContext,
+	isValidElement,
+	type ReactElement,
+	type ReactNode,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
+
+/**
+ * CSS-only replacement for the framer-motion scroll-reveal wrappers this
+ * file used to export. Same visual result (fade + blur + scale-in on
+ * first scroll into view, staggered for list items), zero motion library
+ * cost: no vendor chunk, no per-instance animation object setup, just an
+ * IntersectionObserver flipping a class.
+ */
+
+function useInView(amount: number) {
+	const ref = useRef<HTMLDivElement>(null);
+	const [inView, setInView] = useState(false);
+
+	useEffect(() => {
+		const el = ref.current;
+		if (!el) return;
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					setInView(true);
+					observer.disconnect();
+				}
+			},
+			{ threshold: amount },
+		);
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [amount]);
+
+	return { ref, inView };
+}
 
 type SectionRevealProps = {
 	children: ReactNode;
 	className?: string;
 	delay?: number;
-	/** Skip the opacity/blur entrance animation for content already in the
-	 * first viewport, so it doesn't sit invisible waiting on the
-	 * whileInView trigger and cost LCP. */
+	/** Skip the entrance animation for content already in the first
+	 * viewport, so it doesn't sit invisible waiting on the observer and
+	 * cost LCP. */
 	immediate?: boolean;
 };
 
@@ -32,24 +75,34 @@ export function SectionReveal({
 	delay = 0,
 	immediate = false,
 }: SectionRevealProps) {
-	const shouldReduceMotion = useReducedMotion();
+	const reduced = usePrefersReducedMotion();
+	const { ref, inView } = useInView(0.1);
 
-	if (shouldReduceMotion || immediate) {
+	if (reduced || immediate) {
 		return <div className={className}>{children}</div>;
 	}
 
+	const style: CSSProperties = {
+		opacity: inView ? 1 : 0,
+		transform: inView ? "scale(1)" : "scale(0.985)",
+		filter: inView ? "blur(0px)" : "blur(6px)",
+		transition:
+			"opacity 0.45s ease-out, transform 0.45s ease-out, filter 0.45s ease-out",
+		transitionDelay: `${delay}s`,
+	};
+
 	return (
-		<motion.div
-			className={className}
-			initial={{ opacity: 0, scale: 0.985, filter: "blur(6px)" }}
-			whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-			viewport={{ once: true, amount: 0.1 }}
-			transition={{ duration: 0.45, ease: "easeOut", delay }}
-		>
+		<div ref={ref} className={className} style={style}>
 			{children}
-		</motion.div>
+		</div>
 	);
 }
+
+const StaggerContext = createContext<{
+	inView: boolean;
+	stagger: number;
+	baseDelay: number;
+} | null>(null);
 
 export function Stagger({
 	children,
@@ -58,34 +111,25 @@ export function Stagger({
 	stagger = 0.06,
 	immediate = false,
 }: StaggerProps) {
-	const shouldReduceMotion = useReducedMotion();
+	const reduced = usePrefersReducedMotion();
+	const { ref, inView } = useInView(0.1);
 
-	if (shouldReduceMotion || immediate) {
+	if (reduced || immediate) {
 		return <div className={className}>{children}</div>;
 	}
 
 	return (
-		<motion.div
-			className={className}
-			initial="hidden"
-			whileInView="show"
-			viewport={{ once: true, amount: 0.1 }}
-			variants={{
-				hidden: { opacity: 0, scale: 0.99 },
-				show: {
-					opacity: 1,
-					scale: 1,
-					transition: {
-						duration: 0.4,
-						ease: "easeOut",
-						delay,
-						staggerChildren: stagger,
-					},
-				},
-			}}
-		>
-			{children}
-		</motion.div>
+		<div ref={ref} className={className}>
+			<StaggerContext.Provider value={{ inView, stagger, baseDelay: delay }}>
+				{Children.map(children, (child, index) =>
+					isValidElement(child)
+						? cloneElement(child as ReactElement<{ index?: number }>, {
+								index,
+							})
+						: child,
+				)}
+			</StaggerContext.Provider>
+		</div>
 	);
 }
 
@@ -93,22 +137,26 @@ export function StaggerItem({
 	children,
 	className,
 	immediate = false,
-}: StaggerItemProps) {
-	const shouldReduceMotion = useReducedMotion();
+	index = 0,
+}: StaggerItemProps & { index?: number }) {
+	const reduced = usePrefersReducedMotion();
+	const ctx = useContext(StaggerContext);
 
-	if (shouldReduceMotion || immediate) {
+	if (reduced || immediate || !ctx) {
 		return <div className={className}>{children}</div>;
 	}
 
+	const totalDelay = ctx.baseDelay + index * ctx.stagger;
+	const style: CSSProperties = {
+		opacity: ctx.inView ? 1 : 0,
+		transform: ctx.inView ? "scale(1)" : "scale(0.99)",
+		transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
+		transitionDelay: `${totalDelay}s`,
+	};
+
 	return (
-		<motion.div
-			className={cn(className)}
-			variants={{
-				hidden: { opacity: 0, scale: 0.99 },
-				show: { opacity: 1, scale: 1 },
-			}}
-		>
+		<div className={cn(className)} style={style}>
 			{children}
-		</motion.div>
+		</div>
 	);
 }

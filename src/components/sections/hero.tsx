@@ -7,27 +7,53 @@ import {
 	Mail,
 	MapPin,
 } from "lucide-react";
-import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useToast } from "@/components/ui/toast";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
+/** rAF-throttled scroll progress (0..1) over `distance` px, no motion lib. */
+function useScrollProgress(distance: number) {
+	const [progress, setProgress] = useState(0);
+
+	useEffect(() => {
+		let raf = 0;
+		const update = () => {
+			setProgress(Math.min(1, Math.max(0, window.scrollY / distance)));
+		};
+		const onScroll = () => {
+			cancelAnimationFrame(raf);
+			raf = requestAnimationFrame(update);
+		};
+		update();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		return () => {
+			window.removeEventListener("scroll", onScroll);
+			cancelAnimationFrame(raf);
+		};
+	}, [distance]);
+
+	return progress;
+}
+
 export function Hero() {
 	const { t, i18n } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const { showToast } = useToast();
-	const { scrollY } = useScroll();
 
 	// Transformações sincronizadas com o scroll (0 a 100px)
-	const logoOpacity = useTransform(scrollY, [0, 80], [1, 0]);
-	const logoScale = useTransform(scrollY, [0, 80], [1, 0.8]);
-	const textX = useTransform(scrollY, [0, 100], [0, -76]); // 60px (logo) + 16px (gap)
+	const logoScrollT = useScrollProgress(80);
+	const textScrollT = useScrollProgress(100);
+	const logoOpacity = 1 - logoScrollT;
+	const logoScale = 1 - 0.2 * logoScrollT;
+	const textX = -76 * textScrollT; // 60px (logo) + 16px (gap)
 
 	const taglines = ["Full-Stack Junior", ".NET + React", "Above and Beyond"];
 	const [activeTagline, setActiveTagline] = useState(0);
+	const [taglineVisible, setTaglineVisible] = useState(true);
+	const prevTagline = useRef(activeTagline);
 	const [now, setNow] = useState(() => new Date());
 	const [copied, setCopied] = useState(false);
 
@@ -47,6 +73,14 @@ export function Hero() {
 		}, 3000);
 		return () => window.clearInterval(intervalId);
 	}, [taglines.length]);
+
+	useEffect(() => {
+		if (prevTagline.current === activeTagline) return;
+		prevTagline.current = activeTagline;
+		setTaglineVisible(false);
+		const id = requestAnimationFrame(() => setTaglineVisible(true));
+		return () => cancelAnimationFrame(id);
+	}, [activeTagline]);
 
 	useEffect(() => {
 		const timerId = window.setInterval(() => setNow(new Date()), 1000);
@@ -98,8 +132,11 @@ export function Hero() {
 		<SectionReveal immediate>
 			<section className="flex flex-col gap-6">
 				<div className="flex items-start gap-4 sm:gap-5">
-					<motion.div
-						style={{ opacity: logoOpacity, scale: logoScale }}
+					<div
+						style={{
+							opacity: logoOpacity,
+							transform: `scale(${logoScale})`,
+						}}
 						className="card-elevated relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-3 sm:size-16"
 					>
 						<img
@@ -116,30 +153,32 @@ export function Hero() {
 							height={28}
 							className="block h-7 w-auto dark:hidden sm:h-8"
 						/>
-					</motion.div>
+					</div>
 
-					<motion.div
-						style={{ x: textX }}
+					<div
+						style={{ transform: `translateX(${textX}px)` }}
 						className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5"
 					>
 						<h1 className="text-3xl font-semibold tracking-tight sm:text-[2.6rem]">
 							Kadu Kessler
 						</h1>
 						<p className="min-h-5 font-mono text-sm text-muted-foreground">
-							<AnimatePresence mode="wait" initial={false}>
-								<motion.span
-									key={taglines[activeTagline]}
-									initial={{ opacity: 0, y: 4, filter: "blur(1px)" }}
-									animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-									exit={{ opacity: 0, y: -4, filter: "blur(1px)" }}
-									transition={{ duration: 0.28, ease: "easeOut" }}
-									className="inline-block"
-								>
-									{taglines[activeTagline]}
-								</motion.span>
-							</AnimatePresence>
+							<span
+								style={{
+									opacity: taglineVisible ? 1 : 0,
+									filter: taglineVisible ? "blur(0px)" : "blur(1px)",
+									transform: taglineVisible
+										? "translateY(0)"
+										: "translateY(4px)",
+									transition:
+										"opacity 0.28s ease-out, filter 0.28s ease-out, transform 0.28s ease-out",
+								}}
+								className="inline-block"
+							>
+								{taglines[activeTagline]}
+							</span>
 						</p>
-					</motion.div>
+					</div>
 				</div>
 
 				<div className="card-elevated rounded-xl border border-border bg-card p-3 sm:p-4">

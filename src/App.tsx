@@ -1,10 +1,14 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "@/components/pages/home";
-import { NotFound } from "@/components/ui/not-found";
 import { ToastProvider } from "@/components/ui/toast";
 import { BLOG_ENABLED } from "@/lib/flags";
 
+// Lazy so the 404 page's parallax-starfield motion usage never loads on
+// the routes people actually land on.
+const NotFound = lazy(() =>
+	import("@/components/ui/not-found").then((m) => ({ default: m.NotFound })),
+);
 const Blog = lazy(() =>
 	import("@/components/pages/blog").then((m) => ({ default: m.Blog })),
 );

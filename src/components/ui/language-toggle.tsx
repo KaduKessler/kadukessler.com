@@ -1,19 +1,28 @@
 import { Languages } from "lucide-react";
-import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function LanguageToggle() {
 	const { i18n } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
+	const currentLang = i18n.language.startsWith("en") ? "EN" : "PT";
+	const [entered, setEntered] = useState(true);
+	const prevLang = useRef(currentLang);
+
+	useEffect(() => {
+		if (prevLang.current === currentLang) return;
+		prevLang.current = currentLang;
+		setEntered(false);
+		const id = requestAnimationFrame(() => setEntered(true));
+		return () => cancelAnimationFrame(id);
+	}, [currentLang]);
 
 	const toggleLanguage = () => {
 		triggerTap?.();
 		const nextLang = i18n.language.startsWith("en") ? "pt" : "en";
 		i18n.changeLanguage(nextLang);
 	};
-
-	const currentLang = i18n.language.startsWith("en") ? "EN" : "PT";
 
 	return (
 		<button
@@ -24,16 +33,16 @@ export function LanguageToggle() {
 		>
 			<Languages className="size-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
 			<div className="relative h-4 w-6 overflow-hidden">
-				<motion.span
-					key={currentLang}
-					initial={{ y: 10, opacity: 0 }}
-					animate={{ y: 0, opacity: 1 }}
-					exit={{ y: -10, opacity: 0 }}
-					transition={{ type: "spring", damping: 20, stiffness: 300 }}
+				<span
+					style={{
+						transform: `translateY(${entered ? 0 : 10}px)`,
+						opacity: entered ? 1 : 0,
+						transition: "transform 0.25s ease-out, opacity 0.2s ease-out",
+					}}
 					className="absolute inset-0 flex items-center justify-end text-[10px] font-bold tracking-tighter"
 				>
 					{currentLang}
-				</motion.span>
+				</span>
 			</div>
 		</button>
 	);

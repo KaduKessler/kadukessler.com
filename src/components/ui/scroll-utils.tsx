@@ -1,20 +1,45 @@
 import { ArrowUp } from "lucide-react";
-import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
+import { useDelayedUnmount } from "@/lib/use-delayed-unmount";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
+function useScrollYProgress() {
+	const [progress, setProgress] = useState(0);
+
+	useEffect(() => {
+		let raf = 0;
+		const update = () => {
+			const scrollable =
+				document.documentElement.scrollHeight - window.innerHeight;
+			setProgress(scrollable > 0 ? window.scrollY / scrollable : 0);
+		};
+		const onScroll = () => {
+			cancelAnimationFrame(raf);
+			raf = requestAnimationFrame(update);
+		};
+		update();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		window.addEventListener("resize", onScroll);
+		return () => {
+			window.removeEventListener("scroll", onScroll);
+			window.removeEventListener("resize", onScroll);
+			cancelAnimationFrame(raf);
+		};
+	}, []);
+
+	return progress;
+}
+
 export function ScrollProgress() {
-	const { scrollYProgress } = useScroll();
-	const scaleX = useSpring(scrollYProgress, {
-		stiffness: 100,
-		damping: 30,
-		restDelta: 0.001,
-	});
+	const progress = useScrollYProgress();
 
 	return (
-		<motion.div
+		<div
 			className="fixed top-0 left-0 right-0 z-60 h-0.5 origin-left bg-foreground/30"
-			style={{ scaleX }}
+			style={{
+				transform: `scaleX(${progress})`,
+				transition: "transform 0.1s linear",
+			}}
 		/>
 	);
 }
@@ -22,13 +47,14 @@ export function ScrollProgress() {
 export function BackToTop() {
 	const { triggerTap } = useTouchHaptics();
 	const [isVisible, setIsVisible] = useState(false);
-	const { scrollY } = useScroll();
+	const mounted = useDelayedUnmount(isVisible, 200);
 
 	useEffect(() => {
-		return scrollY.on("change", (latest) => {
-			setIsVisible(latest > 400);
-		});
-	}, [scrollY]);
+		const onScroll = () => setIsVisible(window.scrollY > 400);
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		return () => window.removeEventListener("scroll", onScroll);
+	}, []);
 
 	const scrollToTop = () => {
 		triggerTap?.();
@@ -38,22 +64,27 @@ export function BackToTop() {
 		});
 	};
 
+	if (!mounted) return null;
+
 	return (
-		<AnimatePresence>
-			{isVisible && (
-				<motion.button
-					initial={{ opacity: 0, y: 20, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					exit={{ opacity: 0, y: 20, scale: 0.8 }}
-					whileHover={{ scale: 1.1 }}
-					whileTap={{ scale: 0.9 }}
-					onClick={scrollToTop}
-					className="fixed right-6 bottom-6 z-40 flex size-10 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground backdrop-blur-md transition-colors hover:border-foreground/20 hover:text-foreground"
-					aria-label="Back to top"
-				>
-					<ArrowUp className="size-4" />
-				</motion.button>
-			)}
-		</AnimatePresence>
+		<div
+			className="fixed right-6 bottom-6 z-40"
+			style={{
+				opacity: isVisible ? 1 : 0,
+				transform: isVisible
+					? "translateY(0) scale(1)"
+					: "translateY(20px) scale(0.8)",
+				transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
+			}}
+		>
+			<button
+				type="button"
+				onClick={scrollToTop}
+				className="flex size-10 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground backdrop-blur-md transition-all hover:border-foreground/20 hover:text-foreground hover:scale-110 active:scale-90"
+				aria-label="Back to top"
+			>
+				<ArrowUp className="size-4" />
+			</button>
+		</div>
 	);
 }

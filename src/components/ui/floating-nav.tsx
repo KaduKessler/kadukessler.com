@@ -1,14 +1,31 @@
 import { ChevronDown } from "lucide-react";
-import { AnimatePresence, motion, useScroll } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import {
+	type CSSProperties,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { BLOG_ENABLED } from "@/lib/flags";
+import { useDelayedUnmount } from "@/lib/use-delayed-unmount";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 import { cn } from "@/lib/utils";
+
+/**
+ * CSS-only replacement for this file's framer-motion usage (layout
+ * animation, layoutId shared-element pill, spring-physics hover tilt,
+ * AnimatePresence mount/unmount). None of those have an exact CSS
+ * equivalent — springs become cubic-bezier transitions, the layoutId
+ * pill becomes a manually-measured sliding indicator, AnimatePresence's
+ * exit-before-unmount becomes a delayed-unmount hook. Close visually,
+ * not identical, in exchange for not shipping the motion vendor chunk
+ * on every page (this nav is always mounted).
+ */
 
 type NavItem = {
 	key: string;
@@ -31,7 +48,6 @@ const navItems = allNavItems.filter(
 
 export function FloatingNav() {
 	const [isMobile, setIsMobile] = useState(false);
-	const { scrollY } = useScroll();
 	const [hasScrolled, setHasScrolled] = useState(false);
 	const [activeSection, setActiveSection] = useState("");
 
@@ -41,9 +57,9 @@ export function FloatingNav() {
 		checkMobile();
 		mql.addEventListener("change", checkMobile);
 
-		const unsubScroll = scrollY.on("change", (latest) => {
-			setHasScrolled(latest > 100);
-		});
+		const onScroll = () => setHasScrolled(window.scrollY > 100);
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
 
 		const options = {
 			root: null,
@@ -69,10 +85,10 @@ export function FloatingNav() {
 
 		return () => {
 			mql.removeEventListener("change", checkMobile);
-			unsubScroll();
+			window.removeEventListener("scroll", onScroll);
 			observer.disconnect();
 		};
-	}, [scrollY]);
+	}, []);
 
 	if (isMobile) {
 		return (
@@ -93,7 +109,12 @@ function DesktopNav({
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const logoRef = useRef<HTMLButtonElement>(null);
+	const listRef = useRef<HTMLUListElement>(null);
+	const itemRefs = useRef<Map<string, HTMLLIElement>>(new Map());
 	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const [pill, setPill] = useState<{ left: number; width: number } | null>(
+		null,
+	);
 
 	const handleMouseMove = (e: React.MouseEvent) => {
 		if (!logoRef.current) return;
@@ -120,73 +141,85 @@ function DesktopNav({
 		elem?.scrollIntoView({ behavior: "smooth" });
 	};
 
-	return (
-		<motion.nav
-			layout
-			initial={false}
-			className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border border-border bg-background/60 p-1.5 px-3 backdrop-blur-md"
-			transition={{
-				layout: { type: "spring", stiffness: 260, damping: 25 },
-			}}
-		>
-			<AnimatePresence mode="popLayout" initial={false}>
-				{hasScrolled && (
-					<motion.div
-						key="logo"
-						layout
-						initial={{ opacity: 0, scale: 0, rotate: -45 }}
-						animate={{ opacity: 1, scale: 1, rotate: 0 }}
-						exit={{ opacity: 0, scale: 0, rotate: -45 }}
-						transition={{ type: "spring", stiffness: 260, damping: 20 }}
-						className="flex items-center justify-center pl-1.5 pr-1"
-					>
-						<motion.button
-							ref={logoRef}
-							type="button"
-							onMouseMove={handleMouseMove}
-							onMouseLeave={resetPosition}
-							animate={{ x: position.x, y: position.y }}
-							transition={{
-								type: "spring",
-								stiffness: 150,
-								damping: 15,
-								mass: 0.1,
-							}}
-							onClick={() => {
-								triggerTap?.();
-								window.scrollTo({ top: 0, behavior: "smooth" });
-							}}
-							className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 transition-colors hover:bg-muted active:scale-90"
-							aria-label={t("common.backToTop")}
-						>
-							<img
-								src="/images/kadu_logo_white.svg"
-								alt=""
-								width={20}
-								height={20}
-								className="hidden dark:block max-w-none transition-transform group-hover:scale-110"
-								style={{ width: "20px", height: "20px" }}
-							/>
-							<img
-								src="/images/kadu_logo.svg"
-								alt=""
-								width={20}
-								height={20}
-								className="block dark:hidden max-w-none transition-transform group-hover:scale-110"
-								style={{ width: "20px", height: "20px" }}
-							/>
-						</motion.button>
-					</motion.div>
-				)}
-			</AnimatePresence>
+	useLayoutEffect(() => {
+		const activeEl = itemRefs.current.get(activeSection);
+		const listEl = listRef.current;
+		if (!activeEl || !listEl) {
+			setPill(null);
+			return;
+		}
+		const listBox = listEl.getBoundingClientRect();
+		const itemBox = activeEl.getBoundingClientRect();
+		setPill({ left: itemBox.left - listBox.left, width: itemBox.width });
+	}, [activeSection]);
 
-			<motion.ul layout className="flex items-center gap-1">
+	return (
+		<nav className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border border-border bg-background/60 p-1.5 px-3 backdrop-blur-md">
+			<div
+				className="grid transition-[grid-template-columns] duration-300 ease-out"
+				style={{
+					gridTemplateColumns: hasScrolled ? "1fr" : "0fr",
+				}}
+			>
+				<div className="flex items-center justify-center overflow-hidden">
+					<button
+						ref={logoRef}
+						type="button"
+						onMouseMove={handleMouseMove}
+						onMouseLeave={resetPosition}
+						onClick={() => {
+							triggerTap?.();
+							window.scrollTo({ top: 0, behavior: "smooth" });
+						}}
+						style={{
+							transform: `translate(${position.x}px, ${position.y}px) scale(${hasScrolled ? 1 : 0}) rotate(${hasScrolled ? 0 : -45}deg)`,
+							opacity: hasScrolled ? 1 : 0,
+							transition:
+								"transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease-out",
+						}}
+						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 transition-colors hover:bg-muted active:scale-90"
+						aria-label={t("common.backToTop")}
+					>
+						<img
+							src="/images/kadu_logo_white.svg"
+							alt=""
+							width={20}
+							height={20}
+							className="hidden dark:block max-w-none transition-transform group-hover:scale-110"
+							style={{ width: "20px", height: "20px" }}
+						/>
+						<img
+							src="/images/kadu_logo.svg"
+							alt=""
+							width={20}
+							height={20}
+							className="block dark:hidden max-w-none transition-transform group-hover:scale-110"
+							style={{ width: "20px", height: "20px" }}
+						/>
+					</button>
+				</div>
+			</div>
+
+			<ul ref={listRef} className="relative flex items-center gap-1">
+				{pill && (
+					<span
+						className="absolute inset-y-0 z-[-1] rounded-full bg-muted shadow-sm transition-[left,width] duration-300 ease-out"
+						style={{ left: pill.left, width: pill.width }}
+					/>
+				)}
 				{navItems.map((item) => {
 					const isActive =
 						item.type === "section" &&
 						activeSection === item.href.replace("#", "");
 					return (
-						<motion.li layout key={item.key} className="flex items-center">
+						<li
+							key={item.key}
+							ref={(el) => {
+								if (el) itemRefs.current.set(item.href.replace("#", ""), el);
+								else itemRefs.current.delete(item.href.replace("#", ""));
+							}}
+							className="flex items-center"
+						>
 							{item.type === "section" ? (
 								<a
 									href={item.href}
@@ -194,22 +227,11 @@ function DesktopNav({
 									className={cn(
 										"relative rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors",
 										isActive
-											? "text-foreground bg-muted/50"
+											? "text-foreground"
 											: "text-muted-foreground hover:bg-muted hover:text-foreground",
 									)}
 								>
 									<LanguageReveal inline>{t(`nav.${item.key}`)}</LanguageReveal>
-									{isActive && (
-										<motion.div
-											layoutId="activeSection"
-											className="absolute inset-0 z-[-1] rounded-full bg-muted shadow-sm"
-											transition={{
-												type: "spring",
-												stiffness: 380,
-												damping: 30,
-											}}
-										/>
-									)}
 								</a>
 							) : (
 								<Link
@@ -220,19 +242,16 @@ function DesktopNav({
 									<LanguageReveal inline>{t(`nav.${item.key}`)}</LanguageReveal>
 								</Link>
 							)}
-						</motion.li>
+						</li>
 					);
 				})}
-			</motion.ul>
+			</ul>
 
-			<motion.div
-				layout
-				className="flex items-center gap-1 ml-1 pl-1 border-l border-border/40"
-			>
+			<div className="flex items-center gap-1 ml-1 pl-1 border-l border-border/40">
 				<LanguageToggle />
 				<ThemeToggle />
-			</motion.div>
-		</motion.nav>
+			</div>
+		</nav>
 	);
 }
 
@@ -246,6 +265,7 @@ function MobileNav({
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(false);
+	const menuMounted = useDelayedUnmount(isOpen, 220);
 
 	const handleScroll = (
 		e: React.MouseEvent<HTMLAnchorElement>,
@@ -266,23 +286,26 @@ function MobileNav({
 
 	const activeLabel = activeItem ? t(`nav.${activeItem.key}`) : t("nav.menu");
 
+	const menuStyle: CSSProperties = {
+		opacity: isOpen ? 1 : 0,
+		transform: isOpen
+			? "translateY(0) scale(1)"
+			: "translateY(-10px) scale(0.95)",
+		transition: "opacity 0.22s ease-out, transform 0.22s ease-out",
+	};
+
 	return (
 		<div className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2 px-4 w-full max-w-[340px]">
-			<motion.nav
-				layout
-				transition={{ type: "spring", stiffness: 260, damping: 25 }}
-				className="flex w-full items-center justify-between rounded-full border border-border bg-background/60 p-1.5 px-4 backdrop-blur-md shadow-lg"
-			>
+			<nav className="flex w-full items-center justify-between rounded-full border border-border bg-background/60 p-1.5 px-4 backdrop-blur-md shadow-lg">
 				<div className="flex flex-1 items-center min-w-0">
-					{/* Logo Container com animação de largura para evitar sobreposição */}
-					<motion.div
-						animate={{
-							width: hasScrolled ? "auto" : 0,
+					<div
+						style={{
+							maxWidth: hasScrolled ? "48px" : "0px",
 							opacity: hasScrolled ? 1 : 0,
-							marginRight: hasScrolled ? 16 : 0,
+							marginRight: hasScrolled ? "16px" : "0px",
+							transition:
+								"max-width 0.3s ease-out, opacity 0.25s ease-out, margin-right 0.3s ease-out",
 						}}
-						initial={false}
-						transition={{ type: "spring", stiffness: 300, damping: 30 }}
 						className="overflow-hidden shrink-0"
 					>
 						<button
@@ -309,11 +332,9 @@ function MobileNav({
 								className="block h-5 w-auto dark:hidden"
 							/>
 						</button>
-					</motion.div>
+					</div>
 
-					{/* Seção Ativa (Texto Solto) */}
-					<motion.button
-						layout
+					<button
 						type="button"
 						onClick={() => {
 							triggerTap?.();
@@ -324,73 +345,69 @@ function MobileNav({
 						<LanguageReveal inline className="truncate">
 							{activeLabel}
 						</LanguageReveal>
-						<motion.div
-							animate={{ rotate: isOpen ? 180 : 0 }}
-							transition={{ type: "spring", stiffness: 260, damping: 20 }}
+						<div
+							style={{
+								transform: `rotate(${isOpen ? 180 : 0}deg)`,
+								transition: "transform 0.25s ease-out",
+							}}
 							className="shrink-0"
 						>
 							<ChevronDown className="size-3 text-muted-foreground" />
-						</motion.div>
-					</motion.button>
+						</div>
+					</button>
 				</div>
 
 				<div className="flex items-center gap-1 pl-2 shrink-0 border-l border-border/40 ml-2">
 					<LanguageToggle />
 					<ThemeToggle />
 				</div>
-			</motion.nav>
+			</nav>
 
-			{/* Menu Dropdown Expandível */}
-			<AnimatePresence>
-				{isOpen && (
-					<motion.ul
-						initial={{ opacity: 0, y: -10, scale: 0.95 }}
-						animate={{ opacity: 1, y: 0, scale: 1 }}
-						exit={{ opacity: 0, y: -10, scale: 0.95 }}
-						transition={{ type: "spring", stiffness: 300, damping: 25 }}
-						className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl"
-					>
-						{navItems.map((item) => {
-							const isActive =
-								item.type === "section" &&
-								activeSection === item.href.replace("#", "");
-							return (
-								<li key={item.key}>
-									{item.type === "section" ? (
-										<a
-											href={item.href}
-											onClick={(e) => handleScroll(e, item.href)}
-											className={cn(
-												"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all active:scale-[0.98]",
-												isActive
-													? "bg-muted text-foreground"
-													: "text-muted-foreground hover:bg-muted/50",
-											)}
-										>
-											<LanguageReveal inline>
-												{t(`nav.${item.key}`)}
-											</LanguageReveal>
-										</a>
-									) : (
-										<Link
-											to={item.href}
-											onClick={() => {
-												triggerTap?.();
-												setIsOpen(false);
-											}}
-											className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all hover:bg-muted/50 active:scale-[0.98]"
-										>
-											<LanguageReveal inline>
-												{t(`nav.${item.key}`)}
-											</LanguageReveal>
-										</Link>
-									)}
-								</li>
-							);
-						})}
-					</motion.ul>
-				)}
-			</AnimatePresence>
+			{menuMounted && (
+				<ul
+					style={menuStyle}
+					className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl"
+				>
+					{navItems.map((item) => {
+						const isActive =
+							item.type === "section" &&
+							activeSection === item.href.replace("#", "");
+						return (
+							<li key={item.key}>
+								{item.type === "section" ? (
+									<a
+										href={item.href}
+										onClick={(e) => handleScroll(e, item.href)}
+										className={cn(
+											"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all active:scale-[0.98]",
+											isActive
+												? "bg-muted text-foreground"
+												: "text-muted-foreground hover:bg-muted/50",
+										)}
+									>
+										<LanguageReveal inline>
+											{t(`nav.${item.key}`)}
+										</LanguageReveal>
+									</a>
+								) : (
+									<Link
+										to={item.href}
+										onClick={() => {
+											triggerTap?.();
+											setIsOpen(false);
+										}}
+										className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all hover:bg-muted/50 active:scale-[0.98]"
+									>
+										<LanguageReveal inline>
+											{t(`nav.${item.key}`)}
+										</LanguageReveal>
+									</Link>
+								)}
+							</li>
+						);
+					})}
+				</ul>
+			)}
 		</div>
 	);
 }

@@ -13,10 +13,15 @@ export function LanguageReveal({
 	children,
 	className,
 	inline = false,
+	suppressHydrationWarning = false,
 }: {
 	children: ReactNode;
 	className?: string;
 	inline?: boolean;
+	/** For content that's legitimately visitor-environment-dependent (e.g.
+	 * derived from the visitor's own timezone), which will always differ
+	 * from the prerendered snapshot's build-time value. */
+	suppressHydrationWarning?: boolean;
 }) {
 	const { i18n } = useTranslation();
 	const [visible, setVisible] = useState(true);
@@ -32,6 +37,7 @@ export function LanguageReveal({
 
 	return (
 		<span
+			suppressHydrationWarning={suppressHydrationWarning}
 			className={cn(
 				className,
 				"[transition:opacity_0.2s_ease-out,filter_0.2s_ease-out,transform_0.2s_ease-out]",

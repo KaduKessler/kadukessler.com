@@ -290,7 +290,17 @@ export function Hero() {
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
 									<span suppressHydrationWarning>{santaMariaTime}</span>
 									<span className="opacity-30">•</span>
-									<LanguageReveal className="text-muted-foreground/70" inline>
+									{/* timezoneHint is derived from the visitor's own
+									browser timezone offset (now.getTimezoneOffset()),
+									which is always the prerender build server's
+									timezone (CI, effectively UTC) at snapshot time —
+									guaranteed to differ from a real visitor's for
+									anyone not in UTC. */}
+									<LanguageReveal
+										className="text-muted-foreground/70"
+										inline
+										suppressHydrationWarning
+									>
 										{timezoneHint}
 									</LanguageReveal>
 								</div>

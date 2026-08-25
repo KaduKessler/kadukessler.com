@@ -86,7 +86,10 @@ export function Stack() {
 												size="sm"
 												className="transition-colors group-hover:bg-muted"
 											>
-												<tech.icon className="size-3.5 opacity-70 transition-opacity group-hover:opacity-100" />
+												<tech.icon
+													aria-hidden="true"
+													className="size-3.5 opacity-70 transition-opacity group-hover:opacity-100"
+												/>
 											</IconContainer>
 											<span className="whitespace-nowrap text-[13px] font-medium text-foreground/75 transition-colors group-hover:text-foreground">
 												{tech.name}

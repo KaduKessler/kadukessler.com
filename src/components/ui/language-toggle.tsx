@@ -20,7 +20,7 @@ export function LanguageToggle() {
 			type="button"
 			onClick={toggleLanguage}
 			className="group relative flex h-8 min-w-14 cursor-pointer items-center justify-between rounded-lg px-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground active:scale-95 border border-transparent hover:border-border/40"
-			aria-label="Toggle language"
+			aria-label={`Toggle language (${currentLang})`}
 		>
 			<Languages className="size-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
 			<div className="relative h-4 w-6 overflow-hidden">

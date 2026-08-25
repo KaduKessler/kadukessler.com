@@ -105,11 +105,15 @@ export function Hero() {
 						<img
 							src="/images/kadu_logo_white.svg"
 							alt=""
+							width={28}
+							height={28}
 							className="hidden h-7 w-auto dark:block sm:h-8"
 						/>
 						<img
 							src="/images/kadu_logo.svg"
 							alt=""
+							width={28}
+							height={28}
 							className="block h-7 w-auto dark:hidden sm:h-8"
 						/>
 					</motion.div>

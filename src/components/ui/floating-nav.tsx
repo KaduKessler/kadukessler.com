@@ -162,12 +162,16 @@ function DesktopNav({
 							<img
 								src="/images/kadu_logo_white.svg"
 								alt=""
+								width={20}
+								height={20}
 								className="hidden dark:block max-w-none transition-transform group-hover:scale-110"
 								style={{ width: "20px", height: "20px" }}
 							/>
 							<img
 								src="/images/kadu_logo.svg"
 								alt=""
+								width={20}
+								height={20}
 								className="block dark:hidden max-w-none transition-transform group-hover:scale-110"
 								style={{ width: "20px", height: "20px" }}
 							/>
@@ -293,11 +297,15 @@ function MobileNav({
 							<img
 								src="/images/kadu_logo_white.svg"
 								alt=""
+								width={20}
+								height={20}
 								className="hidden h-5 w-auto dark:block"
 							/>
 							<img
 								src="/images/kadu_logo.svg"
 								alt=""
+								width={20}
+								height={20}
 								className="block h-5 w-auto dark:hidden"
 							/>
 						</button>

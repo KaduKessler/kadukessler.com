@@ -1,0 +1,55 @@
+---
+title:
+  en: "Restaurant POS Fiscal Integration"
+  pt: "Integração Fiscal de PDV"
+type:
+  en: "Client project"
+  pt: "Projeto de cliente"
+summary:
+  en: "Fiscal note emission (NFC-e via SEFAZ/FocusNFe) integrated into an existing restaurant point-of-sale system, taken over and extended from someone else's codebase."
+  pt: "Emissão de nota fiscal (NFC-e via SEFAZ/FocusNFe) integrada a um PDV de restaurante já existente, herdado e estendido a partir do código de outra pessoa."
+periodStart: "07.2026"
+status: "private"
+stack: ["FocusNFe", "SEFAZ/NFC-e", "Supabase", "Cloudflare Workers"]
+draft: true
+contentEn: |
+  ## Context
+
+  A restaurant needed to start issuing fiscal notes to comply with a legal deadline. The point-of-sale system already existed, built by someone else; I fixed existing issues in it and integrated fiscal note emission on top.
+
+  ## What I built
+
+  - Full order-to-fiscal flow (table, counter, and delivery) through payment and NFC-e emission via FocusNFe, validated end to end in SEFAZ's test environment
+  - Fiscal classification (NCM, CFOP, CSOSN, origin) reviewed and approved by the client's accountant, not guessed
+  - Real DANFE display for the customer after payment, with access key and QR code
+  - NFC-e cancellation flow respecting the legal 30-minute window, with its own panel and pending-status tracking
+  - Diagnosed and fixed a broken account-creation trigger with no impact on real users
+
+  ## Focus
+
+  Getting the fiscal side right on inherited code and a real legal deadline, with the accountant's sign-off standing in for guesswork.
+
+  ## Note
+
+  In active development. Repository is private and belongs to the client.
+contentPt: |
+  ## Contexto
+
+  Um restaurante precisava começar a emitir nota fiscal pra cumprir um prazo legal. O PDV já existia, construído por outra pessoa; corrigi problemas existentes nele e integrei a emissão fiscal em cima.
+
+  ## O que construí
+
+  - Fluxo completo de pedido até nota fiscal (mesa, balcão e delivery), passando por pagamento e emissão de NFC-e via FocusNFe, validado de ponta a ponta no ambiente de testes da SEFAZ
+  - Classificação fiscal (NCM, CFOP, CSOSN, origem) revisada e aprovada pelo contador do cliente, não chutada
+  - DANFE real exibido pro cliente após o pagamento, com chave de acesso e QR code
+  - Fluxo de cancelamento de NFC-e respeitando a janela legal de 30 minutos, com painel próprio e acompanhamento de pendência
+  - Diagnóstico e correção de um trigger de criação de conta quebrado, sem impacto em usuário real
+
+  ## Foco
+
+  Acertar a parte fiscal em cima de código herdado e prazo legal real, com aprovação do contador no lugar de chute.
+
+  ## Nota
+
+  Em desenvolvimento ativo. Repositório é privado e pertence ao cliente.
+---

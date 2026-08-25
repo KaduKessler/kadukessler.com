@@ -16,5 +16,6 @@ export const projectOrder: string[] = [
 	"alertai-cli",
 	"payroll-extractor",
 	"bdk-paddock",
+	"pdv-fiscal",
 	"amigopet",
 ];

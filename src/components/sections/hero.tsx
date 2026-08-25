@@ -192,7 +192,7 @@ export function Hero() {
 								<Github className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									GitHub
 								</span>
 								<a
@@ -212,7 +212,7 @@ export function Hero() {
 								<Mail className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									Email
 								</span>
 								<a
@@ -242,7 +242,7 @@ export function Hero() {
 								<BriefcaseBusiness className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>
 										{t("hero.currentRole")}
 									</LanguageReveal>
@@ -264,7 +264,7 @@ export function Hero() {
 								<MapPin className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>{t("hero.location")}</LanguageReveal>
 								</span>
 								<a
@@ -284,7 +284,7 @@ export function Hero() {
 								<Clock3 className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex flex-col min-w-0">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground/70">
+								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
@@ -297,7 +297,7 @@ export function Hero() {
 									guaranteed to differ from a real visitor's for
 									anyone not in UTC. */}
 									<LanguageReveal
-										className="text-muted-foreground/70"
+										className="text-muted-foreground"
 										inline
 										suppressHydrationWarning
 									>

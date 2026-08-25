@@ -70,7 +70,7 @@ export function Stack() {
 					<Stagger className="flex flex-col gap-6" delay={0.08}>
 						{stackCategories.map((category) => (
 							<StaggerItem key={category.key} className="flex flex-col gap-3">
-								<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/70">
+								<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
 									<LanguageReveal inline>
 										{t(`stack.categories.${category.key}`)}
 									</LanguageReveal>

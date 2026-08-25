@@ -31,7 +31,12 @@ async function main() {
 	});
 	const base = `http://localhost:4321`;
 
-	const browser = await puppeteer.launch({ headless: true });
+	const browser = await puppeteer.launch({
+		headless: true,
+		// CI runners (GitHub Actions' ubuntu-latest) don't have unprivileged
+		// user namespaces available for Chromium's sandbox.
+		args: ["--no-sandbox", "--disable-setuid-sandbox"],
+	});
 
 	try {
 		for (const route of routes) {

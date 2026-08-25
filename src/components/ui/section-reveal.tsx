@@ -6,6 +6,10 @@ type SectionRevealProps = {
 	children: ReactNode;
 	className?: string;
 	delay?: number;
+	/** Skip the opacity/blur entrance animation for content already in the
+	 * first viewport, so it doesn't sit invisible waiting on the
+	 * whileInView trigger and cost LCP. */
+	immediate?: boolean;
 };
 
 type StaggerProps = {
@@ -13,21 +17,24 @@ type StaggerProps = {
 	className?: string;
 	delay?: number;
 	stagger?: number;
+	immediate?: boolean;
 };
 
 type StaggerItemProps = {
 	children: ReactNode;
 	className?: string;
+	immediate?: boolean;
 };
 
 export function SectionReveal({
 	children,
 	className,
 	delay = 0,
+	immediate = false,
 }: SectionRevealProps) {
 	const shouldReduceMotion = useReducedMotion();
 
-	if (shouldReduceMotion) {
+	if (shouldReduceMotion || immediate) {
 		return <div className={className}>{children}</div>;
 	}
 
@@ -49,10 +56,11 @@ export function Stagger({
 	className,
 	delay = 0,
 	stagger = 0.06,
+	immediate = false,
 }: StaggerProps) {
 	const shouldReduceMotion = useReducedMotion();
 
-	if (shouldReduceMotion) {
+	if (shouldReduceMotion || immediate) {
 		return <div className={className}>{children}</div>;
 	}
 
@@ -81,10 +89,14 @@ export function Stagger({
 	);
 }
 
-export function StaggerItem({ children, className }: StaggerItemProps) {
+export function StaggerItem({
+	children,
+	className,
+	immediate = false,
+}: StaggerItemProps) {
 	const shouldReduceMotion = useReducedMotion();
 
-	if (shouldReduceMotion) {
+	if (shouldReduceMotion || immediate) {
 		return <div className={className}>{children}</div>;
 	}
 

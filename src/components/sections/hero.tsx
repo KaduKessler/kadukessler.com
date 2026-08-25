@@ -95,7 +95,7 @@ export function Hero() {
 				: `${diffHoursLabel}${t("hero.behind")}`;
 
 	return (
-		<SectionReveal>
+		<SectionReveal immediate>
 			<section className="flex flex-col gap-6">
 				<div className="flex items-start gap-4 sm:gap-5">
 					<motion.div

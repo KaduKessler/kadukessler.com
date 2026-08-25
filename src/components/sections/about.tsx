@@ -10,7 +10,7 @@ export function About() {
 	const { t } = useTranslation();
 
 	return (
-		<SectionReveal delay={0.05}>
+		<SectionReveal delay={0.05} immediate>
 			<section className="flex flex-col gap-5">
 				<h2 className="text-xl font-semibold tracking-tight">
 					<LanguageReveal inline>{t("about.title")}</LanguageReveal>
@@ -20,8 +20,9 @@ export function About() {
 					<Stagger
 						className="flex flex-col gap-3 text-sm leading-relaxed text-foreground/80"
 						delay={0.08}
+						immediate
 					>
-						<StaggerItem>
+						<StaggerItem immediate>
 							<LanguageReveal>
 								<Trans
 									i18nKey="about.p1"
@@ -40,7 +41,7 @@ export function About() {
 								</Trans>
 							</LanguageReveal>
 						</StaggerItem>
-						<StaggerItem>
+						<StaggerItem immediate>
 							<LanguageReveal>
 								<Trans
 									i18nKey="about.p2"
@@ -58,7 +59,7 @@ export function About() {
 								</Trans>
 							</LanguageReveal>
 						</StaggerItem>
-						<StaggerItem>
+						<StaggerItem immediate>
 							<LanguageReveal>
 								<Trans
 									i18nKey="about.p3"
@@ -75,7 +76,7 @@ export function About() {
 								</Trans>
 							</LanguageReveal>
 						</StaggerItem>
-						<StaggerItem>
+						<StaggerItem immediate>
 							<LanguageReveal>{t("about.p4")}</LanguageReveal>
 						</StaggerItem>
 					</Stagger>

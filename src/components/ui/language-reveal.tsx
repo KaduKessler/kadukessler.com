@@ -18,7 +18,7 @@ export function LanguageReveal({
 	const { i18n } = useTranslation();
 
 	return (
-		<AnimatePresence mode="wait">
+		<AnimatePresence mode="wait" initial={false}>
 			<motion.span
 				key={i18n.language}
 				initial={{ opacity: 0, filter: "blur(4px)", y: 2 }}

@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/sections/footer";
@@ -530,51 +529,46 @@ export function BlogPost() {
 	return (
 		<div className="min-h-screen bg-background selection:bg-primary/10">
 			<Background />
-			<Helmet>
-				<title>{post.title} | Kadu Kessler</title>
-				<meta name="description" content={post.excerpt} />
-				<link
-					rel="canonical"
-					href={`https://kadukessler.com/blog/${post.slug}`}
-				/>
+			<title>{`${post.title} | Kadu Kessler`}</title>
+			<meta name="description" content={post.excerpt} />
+			<link
+				rel="canonical"
+				href={`https://kadukessler.com/blog/${post.slug}`}
+			/>
 
-				{/* Open Graph / Facebook */}
-				<meta property="og:type" content="article" />
-				<meta
-					property="og:url"
-					content={`https://kadukessler.com/blog/${post.slug}`}
-				/>
-				<meta property="og:title" content={post.title} />
-				<meta property="og:description" content={post.excerpt} />
-				{post.cover && <meta property="og:image" content={post.cover} />}
+			<meta property="og:type" content="article" />
+			<meta
+				property="og:url"
+				content={`https://kadukessler.com/blog/${post.slug}`}
+			/>
+			<meta property="og:title" content={post.title} />
+			<meta property="og:description" content={post.excerpt} />
+			{post.cover && <meta property="og:image" content={post.cover} />}
 
-				{/* Twitter */}
-				<meta property="twitter:card" content="summary_large_image" />
-				<meta
-					property="twitter:url"
-					content={`https://kadukessler.com/blog/${post.slug}`}
-				/>
-				<meta property="twitter:title" content={post.title} />
-				<meta property="twitter:description" content={post.excerpt} />
-				{post.cover && <meta property="twitter:image" content={post.cover} />}
+			<meta property="twitter:card" content="summary_large_image" />
+			<meta
+				property="twitter:url"
+				content={`https://kadukessler.com/blog/${post.slug}`}
+			/>
+			<meta property="twitter:title" content={post.title} />
+			<meta property="twitter:description" content={post.excerpt} />
+			{post.cover && <meta property="twitter:image" content={post.cover} />}
 
-				{/* JSON-LD Structured Data */}
-				<script type="application/ld+json">
-					{JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "BlogPosting",
-						headline: post.title,
-						description: post.excerpt,
-						image: post.cover,
-						datePublished: post.publishedAt,
-						author: {
-							"@type": "Person",
-							name: "Kadu Kessler",
-							url: "https://kadukessler.com",
-						},
-					})}
-				</script>
-			</Helmet>
+			<script type="application/ld+json">
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "BlogPosting",
+					headline: post.title,
+					description: post.excerpt,
+					image: post.cover,
+					datePublished: post.publishedAt,
+					author: {
+						"@type": "Person",
+						name: "Kadu Kessler",
+						url: "https://kadukessler.com",
+					},
+				})}
+			</script>
 
 			<ReadingProgressBar />
 

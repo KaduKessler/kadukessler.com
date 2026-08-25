@@ -325,19 +325,48 @@ const resources = {
 	},
 };
 
-i18n
-	.use(LanguageDetector)
-	.use(initReactI18next)
-	.init({
-		resources,
-		fallbackLng: "en",
-		interpolation: {
-			escapeValue: false,
-		},
-		detection: {
+// lng is pinned to the prerendered fallback so the client's first hydration
+// pass matches the static HTML exactly (dist/ ships pre-rendered English
+// per scripts/prerender.mjs). The visitor's real language is detected and
+// applied afterward, from a client-only effect (see applyDetectedLanguage
+// below) so it's a normal post-hydration update instead of a mismatch
+// React has to reconcile on mount.
+i18n.use(initReactI18next).init({
+	resources,
+	lng: "en",
+	fallbackLng: "en",
+	interpolation: {
+		escapeValue: false,
+	},
+});
+
+export function applyDetectedLanguage() {
+	if (typeof window === "undefined") return;
+
+	const detector = new LanguageDetector();
+	detector.init(
+		{ languageUtils: i18n.services.languageUtils },
+		{
 			order: ["querystring", "localStorage", "navigator"],
 			caches: ["localStorage"],
 		},
+	);
+
+	// Replicates what wiring LanguageDetector as an i18next plugin does
+	// automatically, since it's used standalone here to keep it out of
+	// the init/hydration path (see comment above).
+	i18n.on("languageChanged", (lng) => {
+		detector.cacheUserLanguage(lng);
 	});
+
+	const detected = detector.detect();
+	const lng = Array.isArray(detected) ? detected[0] : detected;
+	if (!lng) return;
+
+	const normalized = lng.startsWith("pt") ? "pt" : "en";
+	if (normalized !== i18n.language) {
+		i18n.changeLanguage(normalized);
+	}
+}
 
 export default i18n;

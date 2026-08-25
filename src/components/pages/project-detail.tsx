@@ -17,7 +17,6 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/sections/footer";
@@ -243,14 +242,58 @@ export function ProjectDetail() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Background />
-			<Helmet>
-				<title>{project.title} | Kadu Kessler</title>
-				<meta name="description" content={project.summary} />
-				<link
-					rel="canonical"
-					href={`https://kadukessler.com/projects/${project.slug}`}
+			<title>{`${project.title} | Kadu Kessler`}</title>
+			<meta name="description" content={project.summary} />
+			<link
+				rel="canonical"
+				href={`https://kadukessler.com/projects/${project.slug}`}
+			/>
+
+			<meta property="og:type" content="website" />
+			<meta
+				property="og:url"
+				content={`https://kadukessler.com/projects/${project.slug}`}
+			/>
+			<meta property="og:title" content={project.title} />
+			<meta property="og:description" content={project.summary} />
+			{project.logo && (
+				<meta
+					property="og:image"
+					content={`https://kadukessler.com${project.logo}`}
 				/>
-			</Helmet>
+			)}
+
+			<meta property="twitter:card" content="summary_large_image" />
+			<meta
+				property="twitter:url"
+				content={`https://kadukessler.com/projects/${project.slug}`}
+			/>
+			<meta property="twitter:title" content={project.title} />
+			<meta property="twitter:description" content={project.summary} />
+			{project.logo && (
+				<meta
+					property="twitter:image"
+					content={`https://kadukessler.com${project.logo}`}
+				/>
+			)}
+
+			<script type="application/ld+json">
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "CreativeWork",
+					name: project.title,
+					description: project.summary,
+					url: `https://kadukessler.com/projects/${project.slug}`,
+					image: project.logo
+						? `https://kadukessler.com${project.logo}`
+						: undefined,
+					creator: {
+						"@type": "Person",
+						name: "Kadu Kessler",
+						url: "https://kadukessler.com",
+					},
+				})}
+			</script>
 
 			<AnimatePresence>
 				{lightboxImage && (

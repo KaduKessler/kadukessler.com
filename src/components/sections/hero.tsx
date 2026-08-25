@@ -54,7 +54,10 @@ export function Hero() {
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [taglineVisible, setTaglineVisible] = useState(true);
 	const prevTagline = useRef(activeTagline);
-	const [now, setNow] = useState(() => new Date());
+	// Starts null so the prerendered HTML and the first client render agree;
+	// the real clock is filled in client-side after mount (avoids a
+	// hydration mismatch on every single build/visit).
+	const [now, setNow] = useState<Date | null>(null);
 	const [copied, setCopied] = useState(false);
 
 	const handleCopyEmail = (e: React.MouseEvent) => {
@@ -83,17 +86,20 @@ export function Hero() {
 	}, [activeTagline]);
 
 	useEffect(() => {
+		setNow(new Date());
 		const timerId = window.setInterval(() => setNow(new Date()), 1000);
 		return () => window.clearInterval(timerId);
 	}, []);
 
-	const santaMariaTime = new Intl.DateTimeFormat("pt-BR", {
-		timeZone: "America/Sao_Paulo",
-		hour: "2-digit",
-		minute: "2-digit",
-		second: "2-digit",
-		hour12: false,
-	}).format(now);
+	const santaMariaTime = now
+		? new Intl.DateTimeFormat("pt-BR", {
+				timeZone: "America/Sao_Paulo",
+				hour: "2-digit",
+				minute: "2-digit",
+				second: "2-digit",
+				hour12: false,
+			}).format(now)
+		: "--:--:--";
 
 	const getUtcOffsetMinutes = (timeZone: string, date: Date) => {
 		const formatter = new Intl.DateTimeFormat("en-US", {
@@ -112,21 +118,23 @@ export function Hero() {
 		return sign * (hours * 60 + minutes);
 	};
 
-	const santaOffset = getUtcOffsetMinutes("America/Sao_Paulo", now);
-	const userOffset = -now.getTimezoneOffset();
-	const diffMinutes = santaOffset - userOffset;
-	const absDiffHours = Math.abs(diffMinutes / 60);
 	const isPortuguese = i18n.language.startsWith("pt");
-	const diffHoursLabel = Number.isInteger(absDiffHours)
-		? String(absDiffHours)
-		: absDiffHours.toFixed(1).replace(".", isPortuguese ? "," : ".");
-
-	const timezoneHint =
-		diffMinutes === 0
-			? t("hero.timezoneHint")
-			: diffMinutes > 0
-				? `${diffHoursLabel}${t("hero.ahead")}`
-				: `${diffHoursLabel}${t("hero.behind")}`;
+	const timezoneHint = now
+		? (() => {
+				const santaOffset = getUtcOffsetMinutes("America/Sao_Paulo", now);
+				const userOffset = -now.getTimezoneOffset();
+				const diffMinutes = santaOffset - userOffset;
+				const absDiffHours = Math.abs(diffMinutes / 60);
+				const diffHoursLabel = Number.isInteger(absDiffHours)
+					? String(absDiffHours)
+					: absDiffHours.toFixed(1).replace(".", isPortuguese ? "," : ".");
+				return diffMinutes === 0
+					? t("hero.timezoneHint")
+					: diffMinutes > 0
+						? `${diffHoursLabel}${t("hero.ahead")}`
+						: `${diffHoursLabel}${t("hero.behind")}`;
+			})()
+		: t("hero.timezoneHint");
 
 	return (
 		<SectionReveal immediate>

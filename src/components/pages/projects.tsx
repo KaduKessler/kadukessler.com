@@ -46,8 +46,28 @@ export function ProjectsPage() {
 
 	const showFilters = allProjects.length > 5;
 
+	const itemListJsonLd = {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		itemListElement: allProjects.map((project, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			url: `https://kadukessler.com/projects/${project.slug}`,
+			name: project.title,
+		})),
+	};
+
 	return (
 		<div className="min-h-screen bg-background">
+			<title>Projects | Kadu Kessler</title>
+			<meta
+				name="description"
+				content="Client and personal projects built by Kadu Kessler: full-stack web systems, automation tools, and integrations."
+			/>
+			<link rel="canonical" href="https://kadukessler.com/projects" />
+			<script type="application/ld+json">
+				{JSON.stringify(itemListJsonLd)}
+			</script>
 			<Background />
 			<main className="relative mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-16 sm:px-6 sm:pt-14 sm:pb-24">
 				<SectionReveal>

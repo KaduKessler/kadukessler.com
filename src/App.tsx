@@ -1,8 +1,9 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "@/components/pages/home";
 import { ToastProvider } from "@/components/ui/toast";
 import { BLOG_ENABLED } from "@/lib/flags";
+import { applyDetectedLanguage } from "@/lib/i18n";
 
 // Lazy so the 404 page's parallax-starfield motion usage never loads on
 // the routes people actually land on.
@@ -27,6 +28,10 @@ const ProjectsPage = lazy(() =>
 );
 
 export default function App() {
+	useEffect(() => {
+		applyDetectedLanguage();
+	}, []);
+
 	return (
 		<ToastProvider>
 			<BrowserRouter>

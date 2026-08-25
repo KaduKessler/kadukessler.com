@@ -1,0 +1,31 @@
+# Kadu Kessler
+
+> Full-Stack Developer (.NET + React) based in Santa Maria, RS, Brazil. Software Engineer at 2M/MPE, core contributor to AlertAI (a security/event-monitoring platform). Finishing a degree in Analysis and Systems Development at PUCRS.
+
+Builds complete systems end to end: application code, deployment, infrastructure, and security, not just isolated features. Runs a homelab on Proxmox and manages cloud instances on OCI (Oracle Linux). This site is a bilingual (English/Portuguese) single-page portfolio; every page below also exists in Portuguese via an in-page language toggle, same URL.
+
+## Site
+
+- [Home](https://kadukessler.com/): about, current role, experience timeline, education, tech stack.
+- [Projects](https://kadukessler.com/projects): full list of shipped projects, client and personal.
+
+## Projects
+
+- [AlertAI](https://kadukessler.com/projects/alertai): AI-driven security platform with facial recognition access control and real-time monitoring, for schools and universities.
+- [AlertAI CLI](https://kadukessler.com/projects/alertai-cli): a dotnet global tool that consolidates day-to-day developer commands for AlertAI's codebase into one place, used daily by the team.
+- [Saldin](https://kadukessler.com/projects/saldin): personal finance assistant via Telegram and web dashboard, with automatic receipt scanning and bill-splitting between friends.
+- [BDK Paddock](https://kadukessler.com/projects/bdk-paddock): real-time race-weekend hub for a private group — live countdown, interactive season calendar, role-based admin panel.
+- [Honorário Certo](https://kadukessler.com/projects/mvp-honorarios): fee-pricing calculator aligned to the OAB/RS reference table, for independent lawyers.
+- [Medidas Pessoais](https://kadukessler.com/projects/medidas-pessoais): centralized body-measurement registration system with a public API partner stores can query.
+- [Adelaine Nutrição](https://kadukessler.com/projects/nutri-adelaine): institutional landing page for a nutritionist — 100/100 on every PageSpeed category, mobile and desktop.
+- [Eloo Perícias](https://kadukessler.com/projects/eloo-pericias-site): institutional website for a forensic accounting expertise firm.
+- [Eloo Offices](https://kadukessler.com/projects/eloo-offices): marketing site for a coworking space in Santa Maria.
+- [BazarZ](https://kadukessler.com/projects/bazarz): marketplace for DayZ game servers — item catalog, order flow, stock management, Discord login.
+- [AmigoPet](https://kadukessler.com/projects/amigopet): fictional pet shop concept site — products, service booking, pet registration.
+- [Payroll PDF Extractor](https://kadukessler.com/projects/payroll-extractor): parses payroll PDF reports from an HR portal into structured Excel spreadsheets.
+- [Spotify Widget](https://kadukessler.com/projects/spotify-widget): self-hosted dynamic SVG widget showing a current/pinned Spotify track, for GitHub READMEs or any site.
+
+## Contact
+
+- GitHub: https://github.com/kadukessler
+- Email: contato@kadukessler.com

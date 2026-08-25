@@ -3,10 +3,18 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import generateSitemap from "vite-plugin-sitemap";
-import { posts } from "./.velite";
+import { posts, projects } from "./.velite";
 
+const BLOG_ENABLED = process.env.VITE_BLOG_ENABLED === "true";
+const projectRoutes = projects
+	.filter((project) => !project.draft)
+	.map((project) => `projects/${project.slug}`);
 const blogRoutes = posts.map((post) => `blog/${post.slug}`);
-const dynamicRoutes = ["blog", ...blogRoutes];
+const dynamicRoutes = [
+	"projects",
+	...projectRoutes,
+	...(BLOG_ENABLED ? ["blog", ...blogRoutes] : []),
+];
 
 // https://vite.dev/config/
 export default defineConfig({

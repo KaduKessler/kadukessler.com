@@ -31,6 +31,7 @@
 		"includes": [
 			"src/**",
 			"public/**",
+			"!public/**/*.svg",
 			"index.html",
 			"package.json",
 			"vite.config.ts",

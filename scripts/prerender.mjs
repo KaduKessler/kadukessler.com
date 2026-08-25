@@ -7,18 +7,17 @@ import fs from "node:fs";
 import path from "node:path";
 import puppeteer from "puppeteer";
 import { preview } from "vite";
-import { posts, projects } from "../.velite/index.js";
+// import { posts, projects } from "../.velite/index.js"; -- needed again
+// once the routes list below is restored, see comment.
 
-const BLOG_ENABLED = process.env.VITE_BLOG_ENABLED === "true";
-
-const routes = [
-	"/",
-	"/projects",
-	...projects.map((p) => `/projects/${p.slug}`),
-	...(BLOG_ENABLED
-		? ["/blog", ...posts.map((post) => `/blog/${post.slug}`)]
-		: []),
-];
+// TEMPORARY: only "/" for now. Prerendering /projects and /projects/:slug
+// writes dist/projects/<slug>/index.html — pm2's static server can't
+// resolve a directory to its index.html (throws EISDIR, 500s the route,
+// worse than the pre-prerender SPA-fallback 200 it replaced). Broke
+// production on first deploy. Restore the full route list (see git log
+// for this file) once the server side is fixed — e.g. swap pm2 serve for
+// the `serve` package — and verified against a real deploy.
+const routes = ["/"];
 
 function outputPathFor(route) {
 	if (route === "/") return path.join("dist", "index.html");

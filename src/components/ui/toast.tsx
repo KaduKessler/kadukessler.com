@@ -45,9 +45,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 							transform: entered
 								? "translateY(0) scale(1)"
 								: "translateY(10px) scale(0.9)",
-							transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
 						}}
-						className="flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-2 text-sm font-medium text-foreground shadow-lg backdrop-blur-md"
+						className="flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-2 text-sm font-medium text-foreground shadow-lg backdrop-blur-md [transition:opacity_0.2s_ease-out,transform_0.2s_ease-out]"
 					>
 						<CheckCircle2 className="size-4 text-emerald-500" />
 						{toast}

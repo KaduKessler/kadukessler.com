@@ -54,10 +54,14 @@ export function Hero() {
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [taglineVisible, setTaglineVisible] = useState(true);
 	const prevTagline = useRef(activeTagline);
-	// Starts null so the prerendered HTML and the first client render agree;
-	// the real clock is filled in client-side after mount (avoids a
-	// hydration mismatch on every single build/visit).
-	const [now, setNow] = useState<Date | null>(null);
+	// Real value from the first render: the prerendered snapshot
+	// (scripts/prerender.mjs) waits for render-event, which fires after
+	// mount, so it always captures a real ticking clock too, not a blank
+	// placeholder. A null-then-fill pattern would just swap one hydration
+	// mismatch for another (placeholder vs. the snapshot's real time).
+	// suppressHydrationWarning on the displayed span below is the correct
+	// tool for "this will legitimately differ by a few seconds."
+	const [now, setNow] = useState(() => new Date());
 	const [copied, setCopied] = useState(false);
 
 	const handleCopyEmail = (e: React.MouseEvent) => {
@@ -86,20 +90,17 @@ export function Hero() {
 	}, [activeTagline]);
 
 	useEffect(() => {
-		setNow(new Date());
 		const timerId = window.setInterval(() => setNow(new Date()), 1000);
 		return () => window.clearInterval(timerId);
 	}, []);
 
-	const santaMariaTime = now
-		? new Intl.DateTimeFormat("pt-BR", {
-				timeZone: "America/Sao_Paulo",
-				hour: "2-digit",
-				minute: "2-digit",
-				second: "2-digit",
-				hour12: false,
-			}).format(now)
-		: "--:--:--";
+	const santaMariaTime = new Intl.DateTimeFormat("pt-BR", {
+		timeZone: "America/Sao_Paulo",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false,
+	}).format(now);
 
 	const getUtcOffsetMinutes = (timeZone: string, date: Date) => {
 		const formatter = new Intl.DateTimeFormat("en-US", {
@@ -119,22 +120,19 @@ export function Hero() {
 	};
 
 	const isPortuguese = i18n.language.startsWith("pt");
-	const timezoneHint = now
-		? (() => {
-				const santaOffset = getUtcOffsetMinutes("America/Sao_Paulo", now);
-				const userOffset = -now.getTimezoneOffset();
-				const diffMinutes = santaOffset - userOffset;
-				const absDiffHours = Math.abs(diffMinutes / 60);
-				const diffHoursLabel = Number.isInteger(absDiffHours)
-					? String(absDiffHours)
-					: absDiffHours.toFixed(1).replace(".", isPortuguese ? "," : ".");
-				return diffMinutes === 0
-					? t("hero.timezoneHint")
-					: diffMinutes > 0
-						? `${diffHoursLabel}${t("hero.ahead")}`
-						: `${diffHoursLabel}${t("hero.behind")}`;
-			})()
-		: t("hero.timezoneHint");
+	const santaOffset = getUtcOffsetMinutes("America/Sao_Paulo", now);
+	const userOffset = -now.getTimezoneOffset();
+	const diffMinutes = santaOffset - userOffset;
+	const absDiffHours = Math.abs(diffMinutes / 60);
+	const diffHoursLabel = Number.isInteger(absDiffHours)
+		? String(absDiffHours)
+		: absDiffHours.toFixed(1).replace(".", isPortuguese ? "," : ".");
+	const timezoneHint =
+		diffMinutes === 0
+			? t("hero.timezoneHint")
+			: diffMinutes > 0
+				? `${diffHoursLabel}${t("hero.ahead")}`
+				: `${diffHoursLabel}${t("hero.behind")}`;
 
 	return (
 		<SectionReveal immediate>
@@ -178,10 +176,8 @@ export function Hero() {
 									transform: taglineVisible
 										? "translateY(0)"
 										: "translateY(4px)",
-									transition:
-										"opacity 0.28s ease-out, filter 0.28s ease-out, transform 0.28s ease-out",
 								}}
-								className="inline-block"
+								className="inline-block [transition:opacity_0.28s_ease-out,filter_0.28s_ease-out,transform_0.28s_ease-out]"
 							>
 								{taglines[activeTagline]}
 							</span>
@@ -292,7 +288,7 @@ export function Hero() {
 									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
-									<span>{santaMariaTime}</span>
+									<span suppressHydrationWarning>{santaMariaTime}</span>
 									<span className="opacity-30">•</span>
 									<LanguageReveal className="text-muted-foreground/70" inline>
 										{timezoneHint}

@@ -35,20 +35,61 @@ export default function App() {
 	return (
 		<ToastProvider>
 			<BrowserRouter>
-				<Suspense fallback={null}>
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/projects" element={<ProjectsPage />} />
-						<Route path="/projects/:slug" element={<ProjectDetail />} />
-						{BLOG_ENABLED && (
-							<>
-								<Route path="/blog" element={<Blog />} />
-								<Route path="/blog/:slug" element={<BlogPost />} />
-							</>
-						)}
-						<Route path="*" element={<NotFound />} />
-					</Routes>
-				</Suspense>
+				<Routes>
+					{/* No Suspense boundary here: Home is prerendered
+					(scripts/prerender.mjs) and hydrated against that static
+					snapshot. The snapshot is a plain client-rendered DOM (via
+					puppeteer), which doesn't contain the comment-node markers
+					React's Suspense boundaries need for hydration, so wrapping
+					this route in Suspense throws a hydration-mismatch error on
+					every single load. The other routes are lazy-loaded but never
+					prerendered, so Suspense around them is safe. */}
+					<Route path="/" element={<Home />} />
+					<Route
+						path="/projects"
+						element={
+							<Suspense fallback={null}>
+								<ProjectsPage />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/projects/:slug"
+						element={
+							<Suspense fallback={null}>
+								<ProjectDetail />
+							</Suspense>
+						}
+					/>
+					{BLOG_ENABLED && (
+						<>
+							<Route
+								path="/blog"
+								element={
+									<Suspense fallback={null}>
+										<Blog />
+									</Suspense>
+								}
+							/>
+							<Route
+								path="/blog/:slug"
+								element={
+									<Suspense fallback={null}>
+										<BlogPost />
+									</Suspense>
+								}
+							/>
+						</>
+					)}
+					<Route
+						path="*"
+						element={
+							<Suspense fallback={null}>
+								<NotFound />
+							</Suspense>
+						}
+					/>
+				</Routes>
 			</BrowserRouter>
 		</ToastProvider>
 	);

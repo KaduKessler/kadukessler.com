@@ -1,5 +1,6 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 /**
  * CSS-only replacement for the framer-motion crossfade this used to do.
@@ -31,14 +32,15 @@ export function LanguageReveal({
 
 	return (
 		<span
-			className={className}
+			className={cn(
+				className,
+				"[transition:opacity_0.2s_ease-out,filter_0.2s_ease-out,transform_0.2s_ease-out]",
+			)}
 			style={{
 				display: inline ? "inline-block" : "block",
 				opacity: visible ? 1 : 0,
 				filter: visible ? "blur(0px)" : "blur(4px)",
 				transform: visible ? "translateY(0)" : "translateY(2px)",
-				transition:
-					"opacity 0.2s ease-out, filter 0.2s ease-out, transform 0.2s ease-out",
 			}}
 		>
 			{children}

@@ -45,23 +45,27 @@ export function ThemeToggle() {
 			className="relative flex size-8 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-90"
 			aria-label="Toggle theme"
 		>
+			{/* suppressHydrationWarning: theme reads the live <html> class, which
+			the prerendered snapshot baked in from whatever the build-time
+			puppeteer session defaulted to — legitimately differs from a real
+			visitor's actual preference. */}
 			<div
+				suppressHydrationWarning
 				style={{
 					transform: `rotate(${theme === "dark" ? 0 : 90}deg) scale(${theme === "dark" ? 1 : 0})`,
 					opacity: theme === "dark" ? 1 : 0,
-					transition: "transform 0.25s ease-out, opacity 0.2s ease-out",
 				}}
-				className="absolute"
+				className="absolute [transition:transform_0.25s_ease-out,opacity_0.2s_ease-out]"
 			>
 				<Moon className="size-4" />
 			</div>
 			<div
+				suppressHydrationWarning
 				style={{
 					transform: `rotate(${theme === "light" ? 0 : -90}deg) scale(${theme === "light" ? 1 : 0})`,
 					opacity: theme === "light" ? 1 : 0,
-					transition: "transform 0.25s ease-out, opacity 0.2s ease-out",
 				}}
-				className="absolute"
+				className="absolute [transition:transform_0.25s_ease-out,opacity_0.2s_ease-out]"
 			>
 				<Sun className="size-4" />
 			</div>

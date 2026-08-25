@@ -1,5 +1,5 @@
 import { Briefcase, ChevronDown, Code2, ExternalLink } from "lucide-react";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
@@ -75,7 +75,14 @@ function ExperienceRoleCard({
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(Boolean(role.current));
-	const panelId = useId();
+	// Derived from i18nPath (deterministic per role) instead of useId():
+	// useId() generates a value tied to React's internal render-pass
+	// bookkeeping, which differs between the prerender build's independent
+	// createRoot pass (scripts/prerender.mjs) and a real visitor's
+	// hydrateRoot pass, even for an identical tree — causing a spurious
+	// hydration mismatch every time. A plain data-derived string is
+	// identical in both.
+	const panelId = `panel-${i18nPath}`;
 
 	const handleToggle = () => {
 		triggerTap?.();
@@ -153,9 +160,8 @@ function ExperienceRoleCard({
 							style={{
 								opacity: isOpen ? 1 : 0,
 								marginTop: isOpen ? 8 : 0,
-								transition: "opacity 0.28s ease-out, margin-top 0.28s ease-out",
 							}}
-							className="pointer-events-auto text-sm leading-relaxed text-foreground/80"
+							className="pointer-events-auto text-sm leading-relaxed text-foreground/80 [transition:opacity_0.28s_ease-out,margin-top_0.28s_ease-out]"
 						>
 							<LanguageReveal>
 								<Trans i18nKey={`${i18nPath}.description`}>

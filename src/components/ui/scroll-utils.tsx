@@ -35,10 +35,9 @@ export function ScrollProgress() {
 
 	return (
 		<div
-			className="fixed top-0 left-0 right-0 z-60 h-0.5 origin-left bg-foreground/30"
+			className="fixed top-0 left-0 right-0 z-60 h-0.5 origin-left bg-foreground/30 [transition:transform_0.1s_linear]"
 			style={{
 				transform: `scaleX(${progress})`,
-				transition: "transform 0.1s linear",
 			}}
 		/>
 	);
@@ -68,13 +67,12 @@ export function BackToTop() {
 
 	return (
 		<div
-			className="fixed right-6 bottom-6 z-40"
+			className="fixed right-6 bottom-6 z-40 [transition:opacity_0.2s_ease-out,transform_0.2s_ease-out]"
 			style={{
 				opacity: isVisible ? 1 : 0,
 				transform: isVisible
 					? "translateY(0) scale(1)"
 					: "translateY(20px) scale(0.8)",
-				transition: "opacity 0.2s ease-out, transform 0.2s ease-out",
 			}}
 		>
 			<button

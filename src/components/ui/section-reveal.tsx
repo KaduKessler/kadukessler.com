@@ -86,13 +86,18 @@ export function SectionReveal({
 		opacity: inView ? 1 : 0,
 		transform: inView ? "scale(1)" : "scale(0.985)",
 		filter: inView ? "blur(0px)" : "blur(6px)",
-		transition:
-			"opacity 0.45s ease-out, transform 0.45s ease-out, filter 0.45s ease-out",
 		transitionDelay: `${delay}s`,
 	};
 
 	return (
-		<div ref={ref} className={className} style={style}>
+		<div
+			ref={ref}
+			className={cn(
+				className,
+				"[transition:opacity_0.45s_ease-out,transform_0.45s_ease-out,filter_0.45s_ease-out]",
+			)}
+			style={style}
+		>
 			{children}
 		</div>
 	);
@@ -150,12 +155,17 @@ export function StaggerItem({
 	const style: CSSProperties = {
 		opacity: ctx.inView ? 1 : 0,
 		transform: ctx.inView ? "scale(1)" : "scale(0.99)",
-		transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
 		transitionDelay: `${totalDelay}s`,
 	};
 
 	return (
-		<div className={cn(className)} style={style}>
+		<div
+			className={cn(
+				className,
+				"[transition:opacity_0.4s_ease-out,transform_0.4s_ease-out]",
+			)}
+			style={style}
+		>
 			{children}
 		</div>
 	);

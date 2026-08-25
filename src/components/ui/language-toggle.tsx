@@ -37,9 +37,8 @@ export function LanguageToggle() {
 					style={{
 						transform: `translateY(${entered ? 0 : 10}px)`,
 						opacity: entered ? 1 : 0,
-						transition: "transform 0.25s ease-out, opacity 0.2s ease-out",
 					}}
-					className="absolute inset-0 flex items-center justify-end text-[10px] font-bold tracking-tighter"
+					className="absolute inset-0 flex items-center justify-end text-[10px] font-bold tracking-tighter [transition:transform_0.25s_ease-out,opacity_0.2s_ease-out]"
 				>
 					{currentLang}
 				</span>

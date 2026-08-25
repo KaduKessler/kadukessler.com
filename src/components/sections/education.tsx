@@ -1,5 +1,5 @@
 import { ChevronDown, ExternalLink, GraduationCap } from "lucide-react";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
@@ -49,7 +49,14 @@ function EducationCard({
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(Boolean(edu.current));
-	const panelId = useId();
+	// Derived from edu.institution (deterministic, and already the list
+	// key) instead of useId(): useId() ties its value to React's internal
+	// render-pass bookkeeping, which differs between the prerender build's
+	// independent createRoot pass (scripts/prerender.mjs) and a real
+	// visitor's hydrateRoot pass, even for an identical tree — causing a
+	// spurious hydration mismatch every time. A plain data-derived string
+	// is identical in both.
+	const panelId = `panel-${edu.institution}`;
 
 	const handleToggle = () => {
 		triggerTap?.();
@@ -139,8 +146,8 @@ function EducationCard({
 						style={{
 							opacity: isOpen ? 1 : 0,
 							marginTop: isOpen ? 12 : 0,
-							transition: "opacity 0.28s ease-out, margin-top 0.28s ease-out",
 						}}
+						className="[transition:opacity_0.28s_ease-out,margin-top_0.28s_ease-out]"
 					>
 						<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-foreground/80 sm:pl-13">
 							{edu.description}

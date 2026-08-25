@@ -174,10 +174,8 @@ function DesktopNav({
 						style={{
 							transform: `translate(${position.x}px, ${position.y}px) scale(${hasScrolled ? 1 : 0}) rotate(${hasScrolled ? 0 : -45}deg)`,
 							opacity: hasScrolled ? 1 : 0,
-							transition:
-								"transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease-out",
 						}}
-						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 transition-colors hover:bg-muted active:scale-90"
+						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 [transition:transform_0.25s_cubic-bezier(0.34,1.56,0.64,1),opacity_0.2s_ease-out] hover:bg-muted active:scale-90"
 						aria-label={t("common.backToTop")}
 					>
 						<img
@@ -291,7 +289,6 @@ function MobileNav({
 		transform: isOpen
 			? "translateY(0) scale(1)"
 			: "translateY(-10px) scale(0.95)",
-		transition: "opacity 0.22s ease-out, transform 0.22s ease-out",
 	};
 
 	return (
@@ -303,10 +300,8 @@ function MobileNav({
 							maxWidth: hasScrolled ? "48px" : "0px",
 							opacity: hasScrolled ? 1 : 0,
 							marginRight: hasScrolled ? "16px" : "0px",
-							transition:
-								"max-width 0.3s ease-out, opacity 0.25s ease-out, margin-right 0.3s ease-out",
 						}}
-						className="overflow-hidden shrink-0"
+						className="overflow-hidden shrink-0 [transition:max-width_0.3s_ease-out,opacity_0.25s_ease-out,margin-right_0.3s_ease-out]"
 					>
 						<button
 							type="button"
@@ -348,9 +343,8 @@ function MobileNav({
 						<div
 							style={{
 								transform: `rotate(${isOpen ? 180 : 0}deg)`,
-								transition: "transform 0.25s ease-out",
 							}}
-							className="shrink-0"
+							className="shrink-0 [transition:transform_0.25s_ease-out]"
 						>
 							<ChevronDown className="size-3 text-muted-foreground" />
 						</div>
@@ -366,7 +360,7 @@ function MobileNav({
 			{menuMounted && (
 				<ul
 					style={menuStyle}
-					className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl"
+					className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl [transition:opacity_0.22s_ease-out,transform_0.22s_ease-out]"
 				>
 					{navItems.map((item) => {
 						const isActive =

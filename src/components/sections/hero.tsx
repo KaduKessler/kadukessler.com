@@ -7,7 +7,7 @@ import {
 	Mail,
 	MapPin,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
@@ -53,7 +53,6 @@ export function Hero() {
 	const taglines = ["Full-Stack Junior", ".NET + React", "Above and Beyond"];
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [taglineVisible, setTaglineVisible] = useState(true);
-	const prevTagline = useRef(activeTagline);
 	// Real value from the first render: the prerendered snapshot
 	// (scripts/prerender.mjs) waits for render-event, which fires after
 	// mount, so it always captures a real ticking clock too, not a blank
@@ -76,18 +75,23 @@ export function Hero() {
 
 	useEffect(() => {
 		const intervalId = window.setInterval(() => {
-			setActiveTagline((previous) => (previous + 1) % taglines.length);
+			setTaglineVisible(false);
 		}, 3000);
 		return () => window.clearInterval(intervalId);
-	}, [taglines.length]);
+	}, []);
 
 	useEffect(() => {
-		if (prevTagline.current === activeTagline) return;
-		prevTagline.current = activeTagline;
-		setTaglineVisible(false);
-		const id = requestAnimationFrame(() => setTaglineVisible(true));
-		return () => cancelAnimationFrame(id);
-	}, [activeTagline]);
+		// Swap the text only once it's faded out, then fade the new text back
+		// in — swapping first (the old activeTagline-driven effect) changed
+		// the text before the fade ran, so the crossfade never had anything
+		// to animate.
+		if (taglineVisible) return;
+		const timeoutId = window.setTimeout(() => {
+			setActiveTagline((previous) => (previous + 1) % taglines.length);
+			setTaglineVisible(true);
+		}, 280);
+		return () => window.clearTimeout(timeoutId);
+	}, [taglineVisible, taglines.length]);
 
 	useEffect(() => {
 		const timerId = window.setInterval(() => setNow(new Date()), 1000);

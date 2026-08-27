@@ -39,7 +39,7 @@ function ExternalLinkBadge({
 			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
-			className="relative z-20 inline-flex items-center gap-1 rounded text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground hover:underline"
+			className="relative z-20 -my-1 -mr-1 inline-flex items-center gap-1 rounded px-1 py-1 text-[11px] text-muted-foreground/70 transition-colors hover:text-foreground hover:underline"
 		>
 			<Icon className="size-3" />
 			<LanguageReveal inline>{label}</LanguageReveal>

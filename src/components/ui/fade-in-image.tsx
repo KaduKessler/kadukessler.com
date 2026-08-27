@@ -17,7 +17,19 @@ export function FadeInImage({
 
 	return (
 		<div className={cn("relative w-full", containerClassName)}>
-			{!loaded && <Skeleton className="absolute inset-0 rounded-none" />}
+			{/* Always mounted (visibility toggled via class, not conditional
+			render): the prerender snapshot (scripts/prerender.mjs) captures
+			the page after the real image has already loaded, so a client-only
+			`{!loaded && <Skeleton />}` bakes in two different DOM shapes
+			(skeleton present vs. absent) depending on prerender timing —
+			a guaranteed hydration mismatch on every fresh mount, since
+			hydration always starts from `loaded: false`. */}
+			<Skeleton
+				className={cn(
+					"absolute inset-0 rounded-none transition-opacity duration-300 ease-out",
+					loaded ? "pointer-events-none opacity-0" : "opacity-100",
+				)}
+			/>
 			<img
 				src={src}
 				alt={alt}

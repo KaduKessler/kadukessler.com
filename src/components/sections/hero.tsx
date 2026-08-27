@@ -181,7 +181,14 @@ export function Hero() {
 							Kadu Kessler
 						</h1>
 						<p className="min-h-5 font-mono text-sm text-muted-foreground">
+							{/* The prerender snapshot (scripts/prerender.mjs) captures
+							the page up to 3s after mount, racing this same-length
+							3s rotation interval — the snapshot can bake in whichever
+							tagline had already rotated in by then, while a fresh
+							hydration always starts at index 0. suppressHydrationWarning
+							lets the client's real value win instead of throwing. */}
 							<span
+								suppressHydrationWarning
 								style={{
 									opacity: taglineVisible ? 1 : 0,
 									filter: taglineVisible ? "blur(0px)" : "blur(1px)",

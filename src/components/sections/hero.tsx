@@ -191,12 +191,21 @@ export function Hero() {
 								suppressHydrationWarning
 								style={{
 									opacity: taglineVisible ? 1 : 0,
+									// Also gated by visibility (not opacity alone): axe's
+									// color-contrast check only respects visibility/display,
+									// not computed opacity, so a Lighthouse/axe scan landing
+									// mid-fade sees opacity:0 text as "visible" and flags it
+									// for insufficient contrast. Delaying the hide until the
+									// fade-out finishes (and showing instantly on fade-in)
+									// keeps the animation identical while fixing that.
+									visibility: taglineVisible ? "visible" : "hidden",
 									filter: taglineVisible ? "blur(0px)" : "blur(1px)",
 									transform: taglineVisible
 										? "translateY(0)"
 										: "translateY(4px)",
+									transition: `opacity 0.28s ease-out, filter 0.28s ease-out, transform 0.28s ease-out, visibility 0s linear ${taglineVisible ? "0s" : "0.28s"}`,
 								}}
-								className="inline-block [transition:opacity_0.28s_ease-out,filter_0.28s_ease-out,transform_0.28s_ease-out]"
+								className="inline-block"
 							>
 								{taglines[activeTagline]}
 							</span>

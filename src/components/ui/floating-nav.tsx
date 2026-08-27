@@ -34,11 +34,11 @@ type NavItem = {
 };
 
 const allNavItems = [
+	{ key: "projects", href: "#projects", type: "section" },
 	{ key: "about", href: "#about", type: "section" },
 	{ key: "experience", href: "#experience", type: "section" },
 	{ key: "education", href: "#education", type: "section" },
 	{ key: "stack", href: "#stack", type: "section" },
-	{ key: "projects", href: "#projects", type: "section" },
 	{ key: "blog", href: "/blog", type: "route" },
 ] as const satisfies ReadonlyArray<NavItem>;
 
@@ -175,7 +175,7 @@ function DesktopNav({
 							transform: `translate(${position.x}px, ${position.y}px) scale(${hasScrolled ? 1 : 0}) rotate(${hasScrolled ? 0 : -45}deg)`,
 							opacity: hasScrolled ? 1 : 0,
 						}}
-						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 [transition:transform_0.25s_cubic-bezier(0.34,1.56,0.64,1),opacity_0.2s_ease-out] hover:bg-muted active:scale-90"
+						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 [transition:transform_0.25s_cubic-bezier(0.16,1,0.3,1),opacity_0.2s_ease-out] hover:bg-muted active:scale-90"
 						aria-label={t("common.backToTop")}
 					>
 						<img
@@ -296,37 +296,38 @@ function MobileNav({
 			<nav className="flex w-full items-center justify-between rounded-full border border-border bg-background/60 p-1.5 px-4 backdrop-blur-md shadow-lg">
 				<div className="flex flex-1 items-center min-w-0">
 					<div
-						style={{
-							maxWidth: hasScrolled ? "48px" : "0px",
-							opacity: hasScrolled ? 1 : 0,
-							marginRight: hasScrolled ? "16px" : "0px",
-						}}
-						className="overflow-hidden shrink-0 [transition:max-width_0.3s_ease-out,opacity_0.25s_ease-out,margin-right_0.3s_ease-out]"
+						style={{ gridTemplateColumns: hasScrolled ? "1fr" : "0fr" }}
+						className="grid shrink-0 transition-[grid-template-columns] duration-300 ease-out"
 					>
-						<button
-							type="button"
-							onClick={() => {
-								triggerTap?.();
-								window.scrollTo({ top: 0, behavior: "smooth" });
-							}}
-							className="flex items-center justify-center py-1 active:scale-90 transition-transform"
-							aria-label={t("common.backToTop")}
+						<div
+							style={{ opacity: hasScrolled ? 1 : 0 }}
+							className="flex items-center justify-center overflow-hidden pr-4 transition-opacity duration-200 ease-out"
 						>
-							<img
-								src="/images/kadu_logo_white.svg"
-								alt=""
-								width={20}
-								height={20}
-								className="hidden h-5 w-auto dark:block"
-							/>
-							<img
-								src="/images/kadu_logo.svg"
-								alt=""
-								width={20}
-								height={20}
-								className="block h-5 w-auto dark:hidden"
-							/>
-						</button>
+							<button
+								type="button"
+								onClick={() => {
+									triggerTap?.();
+									window.scrollTo({ top: 0, behavior: "smooth" });
+								}}
+								className="flex items-center justify-center py-1 active:scale-90 transition-transform"
+								aria-label={t("common.backToTop")}
+							>
+								<img
+									src="/images/kadu_logo_white.svg"
+									alt=""
+									width={20}
+									height={20}
+									className="hidden h-5 w-auto dark:block"
+								/>
+								<img
+									src="/images/kadu_logo.svg"
+									alt=""
+									width={20}
+									height={20}
+									className="block h-5 w-auto dark:hidden"
+								/>
+							</button>
+						</div>
 					</div>
 
 					<button
@@ -335,7 +336,7 @@ function MobileNav({
 							triggerTap?.();
 							setIsOpen(!isOpen);
 						}}
-						className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/80 active:opacity-60 transition-opacity truncate"
+						className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-foreground/80 active:opacity-60 transition-opacity truncate"
 					>
 						<LanguageReveal inline className="truncate">
 							{activeLabel}

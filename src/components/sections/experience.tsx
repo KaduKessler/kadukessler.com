@@ -104,7 +104,7 @@ function ExperienceRoleCard({
 					<div className="relative z-10 mt-5 size-2 rounded-full border border-border bg-muted" />
 				)}
 			</div>
-			<div className="group/role relative rounded-lg border border-border/50 bg-background/30 px-3 py-2.5 transition-colors duration-150 hover:border-muted-foreground/35">
+			<div className="group/role relative rounded-lg px-3 py-2.5 transition-colors duration-150 hover:bg-muted/50">
 				<button
 					type="button"
 					onClick={handleToggle}
@@ -130,7 +130,7 @@ function ExperienceRoleCard({
 						{role.current && (
 							<span
 								className={cn(
-									"rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-emerald-400",
+									"rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-emerald-400",
 									!shouldReduceMotion && "animate-pulse",
 								)}
 							>
@@ -139,7 +139,7 @@ function ExperienceRoleCard({
 								</LanguageReveal>
 							</span>
 						)}
-						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
+						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[11px] text-muted-foreground/80 sm:text-xs">
 							<LanguageReveal inline>{role.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover/role:text-foreground">
@@ -157,11 +157,8 @@ function ExperienceRoleCard({
 				>
 					<div className="overflow-hidden">
 						<div
-							style={{
-								opacity: isOpen ? 1 : 0,
-								marginTop: isOpen ? 8 : 0,
-							}}
-							className="pointer-events-auto text-sm leading-relaxed text-foreground/80 [transition:opacity_0.28s_ease-out,margin-top_0.28s_ease-out]"
+							style={{ opacity: isOpen ? 1 : 0 }}
+							className="pointer-events-auto mt-2 text-sm leading-relaxed text-foreground/80 transition-opacity duration-[280ms] ease-out"
 						>
 							<LanguageReveal>
 								<Trans i18nKey={`${i18nPath}.description`}>
@@ -232,7 +229,7 @@ export function Experience() {
 														<ExternalLink className="size-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
 													</a>
 												</div>
-												<div className="flex items-center gap-2 text-[11px] text-muted-foreground/70">
+												<div className="flex items-center gap-2 text-xs text-muted-foreground/70">
 													<LanguageReveal inline>
 														{t(staticData.typeKey)}
 													</LanguageReveal>

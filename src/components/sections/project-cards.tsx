@@ -102,7 +102,7 @@ function ProjectThumbnail({
 					{project.status === "private" ? (
 						<>
 							<Lock className="size-6 text-muted-foreground/40" />
-							<span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground/40">
+							<span className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/40">
 								<LanguageReveal inline>
 									{t("projects.privateBadge")}
 								</LanguageReveal>
@@ -130,18 +130,20 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 
 			<ProjectThumbnail project={project} aspectClassName="aspect-video" />
 
-			<div className="flex flex-col gap-4 p-4 sm:p-5">
+			<div className="flex flex-col gap-4 p-5 sm:p-6">
 				<div className="flex items-start justify-between gap-3">
-					<div className="flex flex-col gap-1">
-						<span className="font-medium text-foreground">{project.title}</span>
-						<span className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/70">
+					<div className="flex min-w-0 flex-col gap-1">
+						<span className="truncate font-medium text-foreground">
+							{project.title}
+						</span>
+						<span className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground/70">
 							<span className="uppercase tracking-wide">{project.type}</span>
 							<span className="text-muted-foreground/30">·</span>
 							{formatPeriod(project, t("projects.present"))}
 						</span>
 					</div>
 					{project.status === "private" && (
-						<span className="flex items-center gap-1 whitespace-nowrap rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+						<span className="flex items-center gap-1 whitespace-nowrap rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
 							<Lock className="size-2.5" />
 							<LanguageReveal inline>
 								{t("projects.privateBadge")}
@@ -203,11 +205,11 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 
 			<div className="flex flex-1 flex-col gap-2 p-4">
 				<div className="flex items-start justify-between gap-2">
-					<div className="flex flex-col gap-0.5">
-						<span className="text-[13.5px] font-semibold text-foreground">
+					<div className="flex min-w-0 flex-col gap-0.5">
+						<span className="truncate text-[13.5px] font-semibold text-foreground">
 							{project.title}
 						</span>
-						<span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground/60">
+						<span className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
 							{project.type}
 						</span>
 					</div>
@@ -252,9 +254,11 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 
 			<div className="flex flex-1 flex-col gap-2.5 p-4">
 				<div className="flex items-start justify-between gap-2">
-					<div className="flex flex-col gap-0.5">
-						<span className="font-medium text-foreground">{project.title}</span>
-						<span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wide text-muted-foreground/60">
+					<div className="flex min-w-0 flex-col gap-0.5">
+						<span className="truncate font-medium text-foreground">
+							{project.title}
+						</span>
+						<span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
 							{project.type}
 							<span className="text-muted-foreground/30">·</span>
 							<span className="normal-case tracking-normal">

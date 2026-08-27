@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useToast } from "@/components/ui/toast";
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 /** rAF-throttled scroll progress (0..1) over `distance` px, no motion lib. */
@@ -42,6 +43,7 @@ export function Hero() {
 	const { t, i18n } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const { showToast } = useToast();
+	const shouldReduceMotion = usePrefersReducedMotion();
 
 	// Transformações sincronizadas com o scroll (0 a 100px)
 	const logoScrollT = useScrollProgress(80);
@@ -66,19 +68,26 @@ export function Hero() {
 	const handleCopyEmail = (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		navigator.clipboard.writeText("contato@kadukessler.com");
-		setCopied(true);
-		triggerTap?.();
-		showToast(t("common.copyEmail"));
-		setTimeout(() => setCopied(false), 2000);
+		navigator.clipboard
+			.writeText("contato@kadukessler.com")
+			.then(() => {
+				setCopied(true);
+				triggerTap?.();
+				showToast(t("common.copyEmail"));
+				setTimeout(() => setCopied(false), 2000);
+			})
+			.catch(() => {
+				triggerTap?.();
+			});
 	};
 
 	useEffect(() => {
+		if (shouldReduceMotion) return;
 		const intervalId = window.setInterval(() => {
 			setTaglineVisible(false);
 		}, 3000);
 		return () => window.clearInterval(intervalId);
-	}, []);
+	}, [shouldReduceMotion]);
 
 	useEffect(() => {
 		// Swap the text only once it's faded out, then fade the new text back
@@ -94,7 +103,7 @@ export function Hero() {
 	}, [taglineVisible, taglines.length]);
 
 	useEffect(() => {
-		const timerId = window.setInterval(() => setNow(new Date()), 1000);
+		const timerId = window.setInterval(() => setNow(new Date()), 15000);
 		return () => window.clearInterval(timerId);
 	}, []);
 
@@ -102,7 +111,6 @@ export function Hero() {
 		timeZone: "America/Sao_Paulo",
 		hour: "2-digit",
 		minute: "2-digit",
-		second: "2-digit",
 		hour12: false,
 	}).format(now);
 
@@ -196,7 +204,7 @@ export function Hero() {
 								<Github className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									GitHub
 								</span>
 								<a
@@ -216,7 +224,7 @@ export function Hero() {
 								<Mail className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									Email
 								</span>
 								<a
@@ -232,6 +240,7 @@ export function Hero() {
 								onClick={handleCopyEmail}
 								className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
 								title="Copy email"
+								aria-label={isPortuguese ? "Copiar e-mail" : "Copy email"}
 							>
 								{copied ? (
 									<Check className="size-3 text-emerald-500" />
@@ -246,7 +255,7 @@ export function Hero() {
 								<BriefcaseBusiness className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>
 										{t("hero.currentRole")}
 									</LanguageReveal>
@@ -268,7 +277,7 @@ export function Hero() {
 								<MapPin className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>{t("hero.location")}</LanguageReveal>
 								</span>
 								<a
@@ -288,7 +297,7 @@ export function Hero() {
 								<Clock3 className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex flex-col min-w-0">
-								<span className="text-[10px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
 									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
 								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">

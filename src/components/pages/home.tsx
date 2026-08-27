@@ -56,6 +56,10 @@ export function Home() {
 
 			<Hero />
 
+			<div id="projects">
+				<Projects />
+			</div>
+
 			<div id="about">
 				<About />
 			</div>
@@ -70,10 +74,6 @@ export function Home() {
 
 			<div id="stack">
 				<Stack />
-			</div>
-
-			<div id="projects">
-				<Projects />
 			</div>
 
 			<Contact />

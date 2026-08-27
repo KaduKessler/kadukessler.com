@@ -114,7 +114,7 @@ function EducationCard({
 						{edu.current && (
 							<span
 								className={cn(
-									"rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-blue-400",
+									"rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-blue-400",
 									!shouldReduceMotion && "animate-pulse",
 								)}
 							>
@@ -123,7 +123,7 @@ function EducationCard({
 								</LanguageReveal>
 							</span>
 						)}
-						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[10px] text-muted-foreground/80 sm:text-[11px]">
+						<span className="whitespace-nowrap rounded-md border border-border/70 bg-background/70 px-2 py-1 font-mono text-[11px] text-muted-foreground/80 sm:text-xs">
 							<LanguageReveal inline>{edu.period}</LanguageReveal>
 						</span>
 						<span className="inline-flex items-center text-muted-foreground transition-colors group-hover:text-foreground">
@@ -143,11 +143,8 @@ function EducationCard({
 			>
 				<div className="overflow-hidden">
 					<div
-						style={{
-							opacity: isOpen ? 1 : 0,
-							marginTop: isOpen ? 12 : 0,
-						}}
-						className="[transition:opacity_0.28s_ease-out,margin-top_0.28s_ease-out]"
+						style={{ opacity: isOpen ? 1 : 0 }}
+						className="mt-3 transition-opacity duration-[280ms] ease-out"
 					>
 						<LanguageReveal className="select-text pl-12.5 text-sm leading-relaxed text-foreground/80 sm:pl-13">
 							{edu.description}

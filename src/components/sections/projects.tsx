@@ -28,9 +28,9 @@ export function Projects() {
 
 	return (
 		<SectionReveal delay={0.15}>
-			<section className="flex flex-col gap-5">
+			<section className="flex flex-col gap-6">
 				<div className="flex items-center justify-between gap-3">
-					<h2 className="text-xl font-semibold tracking-tight">
+					<h2 className="text-2xl font-semibold tracking-tight">
 						<LanguageReveal inline>{t("projects.title")}</LanguageReveal>
 					</h2>
 					{hasMore && (
@@ -44,7 +44,7 @@ export function Projects() {
 					)}
 				</div>
 
-				<Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2" delay={0.05}>
+				<Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2" delay={0.05}>
 					<StaggerItem className="sm:col-span-2">
 						<FeaturedCard project={featured} />
 					</StaggerItem>

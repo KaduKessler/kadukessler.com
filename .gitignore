@@ -26,3 +26,7 @@ dist-ssr
 
 # Private
 docs
+
+# Impeccable audit artifacts
+.impeccable/
+PRODUCT.md

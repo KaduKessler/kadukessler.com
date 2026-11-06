@@ -277,10 +277,14 @@ export function Hero() {
 									</LanguageReveal>
 								</span>
 								<a
-									href="https://mpe.com.br/quem-somos/"
-									target="_blank"
-									rel="noopener noreferrer"
-									onClick={triggerTap}
+									href="#experience"
+									onClick={(e) => {
+										e.preventDefault();
+										triggerTap?.();
+										document
+											.getElementById("experience")
+											?.scrollIntoView({ behavior: "smooth" });
+									}}
 									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
 									{t("hero.currentRoleValue")}

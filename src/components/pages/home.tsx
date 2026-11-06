@@ -77,7 +77,9 @@ export function Home() {
 				<Stack />
 			</div>
 
-			<Contact />
+			<div id="contact">
+				<Contact />
+			</div>
 			<Footer />
 
 			<BackToTop />

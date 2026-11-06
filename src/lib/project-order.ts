@@ -5,17 +5,20 @@
  */
 export const projectOrder: string[] = [
 	"alertai",
+	"pdv-fiscal",
+	"bdk-hub",
 	"eloo-pericias-site",
 	"eloo-offices",
 	"nutri-adelaine",
+	"anthro-lab",
 	"medidas-pessoais",
 	"mvp-honorarios",
 	"bazarz",
-	"spotify-widget",
 	"saldin",
+	"spotify-widget",
+	"transcritor",
 	"alertai-cli",
 	"payroll-extractor",
 	"bdk-paddock",
-	"pdv-fiscal",
 	"amigopet",
 ];

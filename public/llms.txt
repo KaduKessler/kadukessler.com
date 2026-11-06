@@ -1,6 +1,6 @@
 # Kadu Kessler
 
-> Full-Stack Developer (.NET + React) based in Santa Maria, RS, Brazil. Software Engineer at 2M/MPE, core contributor to AlertAI (a security/event-monitoring platform). Finishing a degree in Analysis and Systems Development at PUCRS.
+> Full-Stack Developer (.NET + React) based in Santa Maria, RS, Brazil. Software Engineer at 2M/MPE, core contributor to AlertAI (a security/event-monitoring platform). Graduated in Analysis and Systems Development from PUCRS.
 
 Builds complete systems end to end: application code, deployment, infrastructure, and security, not just isolated features. Runs a homelab on Proxmox and manages cloud instances on OCI (Oracle Linux). This site is a bilingual (English/Portuguese) single-page portfolio; every page below also exists in Portuguese via an in-page language toggle, same URL.
 

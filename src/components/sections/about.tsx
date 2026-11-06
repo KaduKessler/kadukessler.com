@@ -52,8 +52,8 @@ export function About() {
 							>
 								I'm a core contributor to <alertai>AlertAI</alertai>, a web
 								platform for event management, security, and intelligent
-								monitoring. Currently finishing my degree in{" "}
-								<course>Analysis and Systems Development</course> at{" "}
+								monitoring. Graduated in{" "}
+								<course>Analysis and Systems Development</course> from{" "}
 								<uni>PUCRS</uni>.
 							</Trans>
 						</LanguageReveal>

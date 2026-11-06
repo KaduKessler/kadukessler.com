@@ -44,7 +44,7 @@ const resources = {
 			about: {
 				title: "About",
 				p1: "I build complete systems: <dotnet>.NET</dotnet> and <react>React</react> code together with the deployment, infrastructure, and security around it, not just isolated features. Currently a <role>Software Engineer</role> at <company>2M/MPE</company>, building production-ready systems, integrating IoT devices, and managing complex data flows.",
-				p2: "I'm a core contributor to <alertai>AlertAI</alertai>, a web platform for event management, security, and intelligent monitoring. Currently finishing my degree in <course>Analysis and Systems Development</course> at <uni>PUCRS</uni>.",
+				p2: "I'm a core contributor to <alertai>AlertAI</alertai>, a web platform for event management, security, and intelligent monitoring. Graduated in <course>Analysis and Systems Development</course> from <uni>PUCRS</uni>.",
 				p3: "That mindset carries into my own infrastructure: I run a <proxmox>Proxmox</proxmox> homelab and manage cloud instances on <oci>OCI (Oracle Linux)</oci> to self-host most of my personal projects, with the same discipline I'd apply to production: monitoring, containers, and CI/CD.",
 				p4: "In my free time, I'm usually iterating on new ideas, watching anime, or gaming; always driven by the curiosity of creating practical solutions.",
 			},
@@ -111,8 +111,7 @@ const resources = {
 						course: "Analysis and Systems Development",
 						description:
 							"Full-stack curriculum centered on end-to-end delivery: React/Vite/MUI on the front-end, Node.js/TypeScript REST APIs with Docker and Prisma/SQL on the back-end, and microservices architecture with API Gateway, RabbitMQ, and cache strategies. Also covered secure engineering with cryptography fundamentals, STRIDE threat modeling, and LGPD-oriented practices.",
-						period: "02.2024 — 2026",
-						current: true,
+						period: "02.2024 — 07.2026",
 					},
 					{
 						institution: "UFSM",
@@ -204,7 +203,7 @@ const resources = {
 			about: {
 				title: "Sobre",
 				p1: "Construo sistemas completos: código em <dotnet>.NET</dotnet> e <react>React</react> junto com o deploy, a infraestrutura e a segurança em volta, não só features isoladas. Atualmente <role>Software Engineer</role> na <company>2M/MPE</company>, construindo sistemas prontos para produção, integrando dispositivos IoT e gerenciando fluxos de dados complexos.",
-				p2: "Sou um dos principais contribuidores do <alertai>AlertAI</alertai>, uma plataforma web para gestão de eventos, segurança e monitoramento inteligente. Atualmente cursando <course>Análise e Desenvolvimento de Sistemas</course> na <uni>PUCRS</uni>.",
+				p2: "Sou um dos principais contribuidores do <alertai>AlertAI</alertai>, uma plataforma web para gestão de eventos, segurança e monitoramento inteligente. Formado em <course>Análise e Desenvolvimento de Sistemas</course> pela <uni>PUCRS</uni>.",
 				p3: "Essa mentalidade se estende pra minha própria infraestrutura: mantenho um homelab com <proxmox>Proxmox</proxmox> e gerencio instâncias na <oci>OCI (Oracle Linux)</oci> pra hospedar a maioria dos meus projetos pessoais, com a mesma disciplina que eu aplicaria em produção: monitoramento, containers e CI/CD.",
 				p4: "No meu tempo livre, costumo iterar em novas ideias, assistir anime ou jogar; sempre movido pela curiosidade de criar soluções práticas.",
 			},
@@ -271,8 +270,7 @@ const resources = {
 						course: "Análise e Desenvolvimento de Sistemas",
 						description:
 							"Currículo full-stack centrado na entrega de ponta a ponta: React/Vite/MUI no front-end, APIs REST Node.js/TypeScript com Docker e Prisma/SQL no back-end, e arquitetura de microserviços com API Gateway, RabbitMQ e estratégias de cache. Também cobriu engenharia segura com fundamentos de criptografia, modelagem de ameaças STRIDE e práticas orientadas à LGPD.",
-						period: "02.2024 — 2026",
-						current: true,
+						period: "02.2024 — 07.2026",
 					},
 					{
 						institution: "UFSM",
@@ -357,6 +355,7 @@ export function applyDetectedLanguage() {
 	// the init/hydration path (see comment above).
 	i18n.on("languageChanged", (lng) => {
 		detector.cacheUserLanguage(lng);
+		document.documentElement.lang = lng.startsWith("pt") ? "pt-BR" : "en";
 	});
 
 	const detected = detector.detect();

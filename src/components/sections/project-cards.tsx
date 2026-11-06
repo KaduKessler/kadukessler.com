@@ -252,16 +252,24 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 
 			<ProjectThumbnail project={project} aspectClassName="aspect-video" />
 
-			<div className="flex flex-1 flex-col gap-2.5 p-4">
+			<div className="@container flex flex-1 flex-col gap-2.5 p-4">
 				<div className="flex items-start justify-between gap-2">
-					<div className="flex min-w-0 flex-col gap-0.5">
+					<div className="flex min-w-0 flex-1 flex-col gap-0.5">
 						<span className="truncate font-medium text-foreground">
 							{project.title}
 						</span>
-						<span className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
-							{project.type}
-							<span className="text-muted-foreground/30">·</span>
-							<span className="normal-case tracking-normal">
+						{/* Narrow cards stack type and period (no separator dot) instead
+						    of letting both wrap mid-phrase side by side. The query is on
+						    the card body, not on this column, so private cards (lock
+						    icon beside the title) and public ones switch together. The
+						    270px threshold sits just above the longest PT line in its
+						    one-line form (tight tracking, ~266px incl. the lock column). */}
+						<span className="flex flex-col font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60 @[270px]:flex-row @[270px]:items-center @[270px]:gap-1 @[270px]:tracking-normal">
+							<span className="whitespace-nowrap">{project.type}</span>
+							<span className="hidden text-muted-foreground/30 @[270px]:inline">
+								·
+							</span>
+							<span className="whitespace-nowrap normal-case tracking-normal">
 								{formatPeriod(project, t("projects.present"))}
 							</span>
 						</span>

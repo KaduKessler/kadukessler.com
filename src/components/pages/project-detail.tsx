@@ -96,7 +96,7 @@ function Lightbox({
 
 function SidebarLabel({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+		<span className="font-mono text-[11px] font-medium text-muted-foreground/70">
 			{children}
 		</span>
 	);
@@ -164,9 +164,7 @@ export function ProjectDetail() {
 								grid ? "aspect-video" : isExternal ? "min-h-0" : undefined
 							}
 							imgClassName={
-								grid
-									? "h-full w-full object-cover object-top group-hover:scale-105"
-									: "w-full group-hover:scale-[1.02]"
+								grid ? "h-full w-full object-cover object-top" : "w-full"
 							}
 						/>
 					</button>
@@ -375,7 +373,7 @@ export function ProjectDetail() {
 									<Link
 										to={`/projects/${prevProject.slug}`}
 										aria-label={prevProject.title}
-										className="flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+										className="relative flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground after:absolute after:-inset-3 after:content-['']"
 									>
 										<ChevronLeft className="size-3.5" />
 									</Link>
@@ -386,7 +384,7 @@ export function ProjectDetail() {
 									<Link
 										to={`/projects/${nextProject.slug}`}
 										aria-label={nextProject.title}
-										className="flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+										className="relative flex size-5 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground after:absolute after:-inset-3 after:content-['']"
 									>
 										<ChevronRight className="size-3.5" />
 									</Link>
@@ -394,7 +392,7 @@ export function ProjectDetail() {
 							)}
 						</div>
 
-						<h1 className="max-w-2xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl">
+						<h1 className="max-w-2xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl">
 							{project.title}
 						</h1>
 						<p className="max-w-prose text-sm leading-relaxed text-foreground/80">
@@ -542,8 +540,8 @@ export function ProjectDetail() {
 									containerClassName={project.wideMedia ? "" : "aspect-video"}
 									imgClassName={
 										project.wideMedia
-											? "w-full h-auto group-hover:scale-[1.02]"
-											: "h-full w-full object-cover object-top group-hover:scale-105"
+											? "w-full h-auto"
+											: "h-full w-full object-cover object-top"
 									}
 								/>
 							</button>

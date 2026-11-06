@@ -78,7 +78,7 @@ export function BackToTop() {
 			<button
 				type="button"
 				onClick={scrollToTop}
-				className="flex size-10 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground backdrop-blur-md transition-all hover:border-foreground/20 hover:text-foreground hover:scale-110 active:scale-90"
+				className="flex size-10 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground backdrop-blur-md transition-[color,border-color,transform] hover:border-foreground/20 hover:text-foreground active:scale-95"
 				aria-label="Back to top"
 			>
 				<ArrowUp className="size-4" />

@@ -183,7 +183,7 @@ function DesktopNav({
 							alt=""
 							width={20}
 							height={20}
-							className="hidden dark:block max-w-none transition-transform group-hover:scale-110"
+							className="hidden dark:block max-w-none "
 							style={{ width: "20px", height: "20px" }}
 						/>
 						<img
@@ -191,7 +191,7 @@ function DesktopNav({
 							alt=""
 							width={20}
 							height={20}
-							className="block dark:hidden max-w-none transition-transform group-hover:scale-110"
+							className="block dark:hidden max-w-none "
 							style={{ width: "20px", height: "20px" }}
 						/>
 					</button>
@@ -336,7 +336,7 @@ function MobileNav({
 							triggerTap?.();
 							setIsOpen(!isOpen);
 						}}
-						className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-foreground/80 active:opacity-60 transition-opacity truncate"
+						className="flex items-center gap-2 text-xs font-medium text-foreground/80 active:opacity-60 transition-opacity truncate"
 					>
 						<LanguageReveal inline className="truncate">
 							{activeLabel}
@@ -374,7 +374,7 @@ function MobileNav({
 										href={item.href}
 										onClick={(e) => handleScroll(e, item.href)}
 										className={cn(
-											"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all active:scale-[0.98]",
+											"flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-medium transition-colors active:scale-[0.98]",
 											isActive
 												? "bg-muted text-foreground"
 												: "text-muted-foreground hover:bg-muted/50",
@@ -391,7 +391,7 @@ function MobileNav({
 											triggerTap?.();
 											setIsOpen(false);
 										}}
-										className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-all hover:bg-muted/50 active:scale-[0.98]"
+										className="flex w-full items-center justify-center rounded-xl px-4 py-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/50 active:scale-[0.98]"
 									>
 										<LanguageReveal inline>
 											{t(`nav.${item.key}`)}

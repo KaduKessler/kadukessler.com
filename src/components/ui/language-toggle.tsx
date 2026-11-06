@@ -28,7 +28,7 @@ export function LanguageToggle() {
 		<button
 			type="button"
 			onClick={toggleLanguage}
-			className="group relative flex h-8 min-w-14 cursor-pointer items-center justify-between rounded-lg px-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground active:scale-95 border border-transparent hover:border-border/40"
+			className="group relative flex h-8 min-w-14 cursor-pointer after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center justify-between rounded-lg px-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-95 border border-transparent hover:border-border/40"
 			aria-label={`Toggle language (${currentLang})`}
 		>
 			<Languages className="size-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -38,7 +38,7 @@ export function LanguageToggle() {
 						transform: `translateY(${entered ? 0 : 10}px)`,
 						opacity: entered ? 1 : 0,
 					}}
-					className="absolute inset-0 flex items-center justify-end text-[11px] font-bold tracking-tighter [transition:transform_0.25s_ease-out,opacity_0.2s_ease-out]"
+					className="absolute inset-0 flex items-center justify-end text-[11px] font-medium [transition:transform_0.25s_ease-out,opacity_0.2s_ease-out]"
 				>
 					{currentLang}
 				</span>

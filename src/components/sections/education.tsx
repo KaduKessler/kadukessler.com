@@ -4,9 +4,7 @@ import { useTranslation } from "react-i18next";
 import { IconContainer } from "@/components/ui/icon-container";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
-import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
-import { cn } from "@/lib/utils";
 
 type EducationItem = {
 	institution: string;
@@ -39,13 +37,7 @@ const staticEducationData: Record<string, { url: string; logo?: string }> = {
 	},
 };
 
-function EducationCard({
-	edu,
-	shouldReduceMotion,
-}: {
-	edu: EducationItem;
-	shouldReduceMotion: boolean;
-}) {
+function EducationCard({ edu }: { edu: EducationItem }) {
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isOpen, setIsOpen] = useState(Boolean(edu.current));
@@ -112,12 +104,7 @@ function EducationCard({
 
 					<div className="flex w-full flex-wrap items-center gap-1.5 sm:w-auto sm:shrink-0 sm:gap-2 sm:pl-2">
 						{edu.current && (
-							<span
-								className={cn(
-									"rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-blue-400",
-									!shouldReduceMotion && "animate-pulse",
-								)}
-							>
+							<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/30 px-2 py-0.5 text-[11px] font-medium text-emerald-700 dark:border-emerald-400/30 dark:text-emerald-400 before:size-1.5 before:rounded-full before:bg-emerald-500 before:content-['']">
 								<LanguageReveal inline>
 									{t("education.inProgress")}
 								</LanguageReveal>
@@ -158,7 +145,6 @@ function EducationCard({
 
 export function Education() {
 	const { t } = useTranslation();
-	const shouldReduceMotion = usePrefersReducedMotion();
 
 	const educationItems = t("education.items", {
 		returnObjects: true,
@@ -183,7 +169,6 @@ export function Education() {
 									...item,
 									...staticData,
 								}}
-								shouldReduceMotion={Boolean(shouldReduceMotion)}
 							/>
 						);
 					})}

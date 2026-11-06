@@ -65,10 +65,10 @@ export function Stack() {
 					<LanguageReveal inline>{t("stack.title")}</LanguageReveal>
 				</h2>
 
-				<Stagger className="flex flex-col gap-5" delay={0.08}>
+				<Stagger className="flex flex-col gap-7" delay={0.08}>
 					{stackCategories.map((category) => (
 						<StaggerItem key={category.key} className="flex flex-col gap-2.5">
-							<span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+							<span className="font-mono text-xs font-medium text-muted-foreground">
 								<LanguageReveal inline>
 									{t(`stack.categories.${category.key}`)}
 								</LanguageReveal>

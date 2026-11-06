@@ -220,7 +220,7 @@ export function Hero() {
 								<Github className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-normal leading-none text-muted-foreground">
 									GitHub
 								</span>
 								<a
@@ -228,7 +228,7 @@ export function Hero() {
 									target="_blank"
 									rel="noopener noreferrer"
 									onClick={triggerTap}
-									className="hero-link mt-0.5 inline-block text-xs font-medium text-foreground"
+									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
 									KaduKessler
 								</a>
@@ -240,13 +240,13 @@ export function Hero() {
 								<Mail className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-normal leading-none text-muted-foreground">
 									Email
 								</span>
 								<a
 									href="mailto:contato@kadukessler.com"
 									onClick={triggerTap}
-									className="hero-link mt-0.5 block break-all text-xs font-medium text-foreground"
+									className="hero-link mt-1 block break-all text-[13px] font-medium text-foreground"
 								>
 									contato@kadukessler.com
 								</a>
@@ -254,7 +254,7 @@ export function Hero() {
 							<button
 								type="button"
 								onClick={handleCopyEmail}
-								className="ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-all hover:border-foreground/20 hover:bg-background hover:text-foreground active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
+								className="relative ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-[color,background-color,border-color,opacity,transform] hover:border-foreground/20 hover:bg-background hover:text-foreground after:absolute after:-inset-2 after:content-[''] active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
 								title="Copy email"
 								aria-label={isPortuguese ? "Copiar e-mail" : "Copy email"}
 							>
@@ -271,7 +271,7 @@ export function Hero() {
 								<BriefcaseBusiness className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-normal leading-none text-muted-foreground">
 									<LanguageReveal inline>
 										{t("hero.currentRole")}
 									</LanguageReveal>
@@ -281,7 +281,7 @@ export function Hero() {
 									target="_blank"
 									rel="noopener noreferrer"
 									onClick={triggerTap}
-									className="hero-link mt-0.5 inline-block text-xs font-medium text-foreground"
+									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
 									Full-Stack Junior @2M/MPE
 								</a>
@@ -293,7 +293,7 @@ export function Hero() {
 								<MapPin className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex min-w-0 flex-col">
-								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-normal leading-none text-muted-foreground">
 									<LanguageReveal inline>{t("hero.location")}</LanguageReveal>
 								</span>
 								<a
@@ -301,7 +301,7 @@ export function Hero() {
 									target="_blank"
 									rel="noopener noreferrer"
 									onClick={triggerTap}
-									className="hero-link mt-0.5 inline-block text-xs font-medium text-foreground"
+									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
 									Santa Maria, RS
 								</a>
@@ -309,14 +309,14 @@ export function Hero() {
 						</div>
 
 						<div className="flex items-center gap-2.5 sm:col-span-2">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background transition-all">
+							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
 								<Clock3 className="size-3.5 text-muted-foreground" />
 							</div>
 							<div className="flex flex-col min-w-0">
-								<span className="text-[11px] font-bold uppercase leading-none tracking-tight text-muted-foreground">
+								<span className="text-[11px] font-normal leading-none text-muted-foreground">
 									<LanguageReveal inline>{t("hero.localTime")}</LanguageReveal>
 								</span>
-								<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs font-medium tabular-nums text-foreground">
+								<div className="mt-1 flex flex-wrap items-center gap-2 text-[13px] font-medium tabular-nums text-foreground">
 									<span suppressHydrationWarning>{santaMariaTime}</span>
 									<span className="opacity-30">•</span>
 									{/* timezoneHint is derived from the visitor's own

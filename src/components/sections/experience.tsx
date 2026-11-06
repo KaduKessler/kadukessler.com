@@ -8,9 +8,7 @@ import {
 	Stagger,
 	StaggerItem,
 } from "@/components/ui/section-reveal";
-import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
-import { cn } from "@/lib/utils";
 
 type Role = {
 	title: string;
@@ -63,13 +61,11 @@ function ExperienceRoleCard({
 	role,
 	idx,
 	rolesLength,
-	shouldReduceMotion,
 	i18nPath,
 }: {
 	role: Role;
 	idx: number;
 	rolesLength: number;
-	shouldReduceMotion: boolean;
 	i18nPath: string;
 }) {
 	const { t } = useTranslation();
@@ -128,12 +124,7 @@ function ExperienceRoleCard({
 					</div>
 					<div className="flex w-full flex-wrap items-center gap-1.5 sm:w-auto sm:shrink-0 sm:gap-2 sm:pl-2">
 						{role.current && (
-							<span
-								className={cn(
-									"rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-emerald-400",
-									!shouldReduceMotion && "animate-pulse",
-								)}
-							>
+							<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-600/30 px-2 py-0.5 text-[11px] font-medium text-emerald-700 dark:border-emerald-400/30 dark:text-emerald-400 before:size-1.5 before:rounded-full before:bg-emerald-500 before:content-['']">
 								<LanguageReveal inline>
 									{t("experience.current")}
 								</LanguageReveal>
@@ -183,7 +174,6 @@ function ExperienceRoleCard({
 
 export function Experience() {
 	const { t } = useTranslation();
-	const shouldReduceMotion = usePrefersReducedMotion();
 
 	const experienceItems = t("experience.items", {
 		returnObjects: true,
@@ -245,7 +235,6 @@ export function Experience() {
 												role={role}
 												idx={roleIdx}
 												rolesLength={item.roles.length}
-												shouldReduceMotion={Boolean(shouldReduceMotion)}
 												i18nPath={`experience.items.${itemIdx}.roles.${roleIdx}`}
 											/>
 										))}

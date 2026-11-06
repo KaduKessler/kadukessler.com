@@ -37,7 +37,7 @@ export function FadeInImage({
 				onLoad={() => setLoaded(true)}
 				className={cn(
 					imgClassName,
-					"transition-all duration-300 ease-out",
+					"transition-[opacity,transform] duration-300 ease-out",
 					loaded ? "scale-100 opacity-100" : "scale-105 opacity-0",
 				)}
 			/>

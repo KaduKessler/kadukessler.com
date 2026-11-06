@@ -70,7 +70,7 @@ function ProjectThumbnail({
 					src={project.cover}
 					alt={project.coverAlt ?? project.title}
 					containerClassName="h-full"
-					imgClassName="h-full w-full object-cover object-top group-hover:scale-105"
+					imgClassName="h-full w-full object-cover object-top"
 				/>
 			) : project.logo ? (
 				<div
@@ -86,14 +86,14 @@ function ProjectThumbnail({
 							"min-h-[60px]",
 							project.logoDark && "dark:hidden",
 						)}
-						imgClassName="mx-auto block max-h-16 w-auto object-contain group-hover:scale-105"
+						imgClassName="mx-auto block max-h-16 w-auto object-contain"
 					/>
 					{project.logoDark && (
 						<FadeInImage
 							src={project.logoDark}
 							alt={project.logoAlt ?? project.title}
 							containerClassName="hidden min-h-[60px] dark:block"
-							imgClassName="mx-auto block max-h-16 w-auto object-contain group-hover:scale-105"
+							imgClassName="mx-auto block max-h-16 w-auto object-contain"
 						/>
 					)}
 				</div>
@@ -102,7 +102,7 @@ function ProjectThumbnail({
 					{project.status === "private" ? (
 						<>
 							<Lock className="size-6 text-muted-foreground/40" />
-							<span className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/40">
+							<span className="font-mono text-[11px] text-muted-foreground">
 								<LanguageReveal inline>
 									{t("projects.privateBadge")}
 								</LanguageReveal>
@@ -137,7 +137,7 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 							{project.title}
 						</span>
 						<span className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground/70">
-							<span className="uppercase tracking-wide">{project.type}</span>
+							<span>{project.type}</span>
 							<span className="text-muted-foreground/30">·</span>
 							{formatPeriod(project, t("projects.present"))}
 						</span>
@@ -209,7 +209,7 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 						<span className="truncate text-[13.5px] font-semibold text-foreground">
 							{project.title}
 						</span>
-						<span className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60">
+						<span className="font-mono text-[11px] text-muted-foreground">
 							{project.type}
 						</span>
 					</div>
@@ -223,7 +223,7 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 						/>
 					</div>
 				</div>
-				<p className="line-clamp-2 text-xs leading-relaxed text-foreground/80">
+				<p className="line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
 					{project.summary}
 				</p>
 				<div className="mt-auto flex flex-wrap gap-1.5 pt-1">
@@ -264,7 +264,7 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 						    icon beside the title) and public ones switch together. The
 						    270px threshold sits just above the longest PT line in its
 						    one-line form (tight tracking, ~266px incl. the lock column). */}
-						<span className="flex flex-col font-mono text-[11px] uppercase tracking-wide text-muted-foreground/60 @[270px]:flex-row @[270px]:items-center @[270px]:gap-1 @[270px]:tracking-normal">
+						<span className="flex flex-col font-mono text-[11px] text-muted-foreground @[270px]:flex-row @[270px]:items-center @[270px]:gap-1">
 							<span className="whitespace-nowrap">{project.type}</span>
 							<span className="hidden text-muted-foreground/30 @[270px]:inline">
 								·
@@ -279,7 +279,7 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 					)}
 				</div>
 
-				<p className="line-clamp-2 text-xs leading-relaxed text-foreground/80">
+				<p className="line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
 					{project.summary}
 				</p>
 

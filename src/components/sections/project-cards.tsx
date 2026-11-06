@@ -156,6 +156,15 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 					{project.summary}
 				</p>
 
+				{project.contribution && (
+					<p className="text-sm leading-relaxed text-muted-foreground">
+						<span className="font-medium text-foreground">
+							<LanguageReveal inline>{t("projects.myPart")}</LanguageReveal>
+						</span>{" "}
+						{project.contribution}
+					</p>
+				)}
+
 				<Stagger className="flex flex-wrap gap-1.5" delay={0.04}>
 					{project.stack.map((tech) => (
 						<StaggerItem key={tech}>
@@ -215,7 +224,11 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 					</div>
 					<div className="flex shrink-0 items-center gap-1.5">
 						{project.status === "private" && (
-							<Lock className="size-3 text-muted-foreground" />
+							<Lock
+								role="img"
+								aria-label={t("projects.privateBadge")}
+								className="size-3 text-muted-foreground"
+							/>
 						)}
 						<ArrowRight
 							aria-hidden
@@ -275,7 +288,11 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 						</span>
 					</div>
 					{project.status === "private" && (
-						<Lock className="mt-0.5 size-3 shrink-0 text-muted-foreground" />
+						<Lock
+							role="img"
+							aria-label={t("projects.privateBadge")}
+							className="mt-0.5 size-3 shrink-0 text-muted-foreground"
+						/>
 					)}
 				</div>
 

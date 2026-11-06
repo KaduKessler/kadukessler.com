@@ -31,6 +31,10 @@ export default defineConfig({
 						.array(s.object({ label: s.string(), url: s.string() }))
 						.optional(),
 					featured: s.boolean().default(false),
+					inProduction: s.boolean().default(false),
+					contribution: s
+						.object({ en: s.string(), pt: s.string() })
+						.optional(),
 					draft: s.boolean().default(false),
 					contentEn: s.mdx(),
 					contentPt: s.mdx(),

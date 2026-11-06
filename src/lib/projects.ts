@@ -29,6 +29,9 @@ export type ProjectMeta = {
 	wideMedia: boolean;
 	references?: ProjectReference[];
 	featured: boolean;
+	inProduction: boolean;
+	/** What the author personally did; shown on the featured card. */
+	contribution?: string;
 };
 
 export type Project = ProjectMeta & {
@@ -68,6 +71,8 @@ function toMeta(
 		wideMedia: project.wideMedia,
 		references: project.references,
 		featured: project.featured,
+		inProduction: project.inProduction,
+		contribution: project.contribution?.[lang],
 	};
 }
 

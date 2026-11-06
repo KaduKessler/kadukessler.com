@@ -21,6 +21,7 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Contact } from "@/components/sections/contact";
 import { Footer } from "@/components/sections/footer";
 import { Background } from "@/components/ui/background";
 import { FadeInImage } from "@/components/ui/fade-in-image";
@@ -240,7 +241,7 @@ export function ProjectDetail() {
 				return <p>{children}</p>;
 			},
 		}),
-		[openLightbox, project?.wideMedia],
+		[openLightbox, project?.wideMedia, t],
 	);
 
 	const allProjects = useMemo(() => getAllProjects(lang), [lang]);
@@ -453,22 +454,32 @@ export function ProjectDetail() {
 							<SidebarLabel>
 								<LanguageReveal inline>{t("projects.status")}</LanguageReveal>
 							</SidebarLabel>
-							<span className="flex items-center gap-1.5 text-[13px] text-foreground">
-								{project.status === "private" ? (
-									<>
-										<Lock className="size-3 text-muted-foreground" />
+							<span className="flex flex-col gap-1.5 text-[13px] text-foreground">
+								{project.inProduction && (
+									<span className="flex items-center gap-1.5">
+										<span className="size-1.5 rounded-full bg-emerald-500" />
 										<LanguageReveal inline>
-											{t("projects.privateBadge")}
+											{t("projects.inProduction")}
 										</LanguageReveal>
-									</>
-								) : (
-									<>
-										<span className="size-1.5 rounded-full bg-foreground/60" />
-										<LanguageReveal inline>
-											{t("projects.publicBadge")}
-										</LanguageReveal>
-									</>
+									</span>
 								)}
+								<span className="flex items-center gap-1.5">
+									{project.status === "private" ? (
+										<>
+											<Lock className="size-3 text-muted-foreground" />
+											<LanguageReveal inline>
+												{t("projects.privateBadge")}
+											</LanguageReveal>
+										</>
+									) : (
+										<>
+											<span className="size-1.5 rounded-full bg-foreground/60" />
+											<LanguageReveal inline>
+												{t("projects.publicBadge")}
+											</LanguageReveal>
+										</>
+									)}
+								</span>
 							</span>
 						</div>
 
@@ -598,6 +609,7 @@ export function ProjectDetail() {
 					</SectionReveal>
 				</div>
 
+				<Contact />
 				<Footer />
 			</main>
 		</div>

@@ -13,6 +13,7 @@ const resources = {
 				projects: "Projects",
 				blog: "Blog",
 				menu: "Menu",
+				contact: "Contact",
 			},
 			common: {
 				backHome: "Home",
@@ -152,7 +153,9 @@ const resources = {
 				empty: "No projects yet.",
 				searchPlaceholder: "Search projects...",
 				allTypes: "All",
-				privateBadge: "Private",
+				privateBadge: "Private repository",
+				inProduction: "In production",
+				myPart: "My part:",
 				publicBadge: "Public",
 				noPublicLink:
 					"No public repository or demo. This page is the only reference available.",
@@ -179,6 +182,7 @@ const resources = {
 				projects: "Projetos",
 				blog: "Blog",
 				menu: "Menu",
+				contact: "Contato",
 			},
 			common: {
 				backHome: "Início",
@@ -318,7 +322,9 @@ const resources = {
 				empty: "Nenhum projeto ainda.",
 				searchPlaceholder: "Buscar projetos...",
 				allTypes: "Todos",
-				privateBadge: "Privado",
+				privateBadge: "Repositório privado",
+				inProduction: "Em produção",
+				myPart: "Minha parte:",
 				publicBadge: "Público",
 				noPublicLink:
 					"Sem repositório ou demo pública. Esta página é a única referência disponível.",

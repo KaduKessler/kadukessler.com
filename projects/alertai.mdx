@@ -24,6 +24,10 @@ logoAlt:
   en: "AlertAI icon"
   pt: "Ícone da AlertAI"
 featured: true
+inProduction: true
+contribution:
+  en: "I build backend (.NET) and frontend (React) features on Education: reports, background jobs, asynchronous face enrollment with device sync, and deploy pipelines."
+  pt: "Desenvolvo no back-end (.NET) e no front (React) da Education: relatórios, jobs em segundo plano, cadastro facial assíncrono com sincronização por dispositivo e pipelines de deploy."
 draft: false
 contentEn: |
   ## Context
@@ -34,9 +38,15 @@ contentEn: |
 
   ## What I built
 
-  - Backend features in .NET over PostgreSQL, and frontend features in React, across the Education product, including access-control hardware integration (turnstiles)
-  - Migrated a synchronous integration workflow to async background processing, working through the concurrency issues that surfaced
-  - Introduced background job infrastructure now used across multiple features on the platform
+  - Backend features in .NET over PostgreSQL and frontend features in React across the Education product, including access-control hardware integration (turnstiles)
+  - A reporting module, end to end: the report service architecture, PDF (QuestPDF) and Excel (ClosedXML) exporters, and reports such as student attendance, events and audits, with a reports screen in the app
+  - Background job infrastructure (Hangfire) now used across the platform: reports generated in the background with granular progress and ETA, cooperative cancellation, stuck-job detection and deduplication, documented in the repository's engineering docs
+  - Migrated a synchronous integration workflow to async processing, working through the concurrency issues that surfaced
+  - Asynchronous face enrollment with per-device synchronization and progress, adapters for three device brands, and a flow to change a person's enrollment type
+  - Device management: active health checks, manual reconnection and an improved controller list
+  - Background services that survive database outages or slowness, and event routes that return an error instead of silently dropping events
+  - SMTP email notifications and push notifications, plus school-system integrations
+  - CI/CD for the API and the frontend: a test job, VPS deploy with staging, backup, config merge and rollback, and a two-stage deploy with a manual gate on migrations
 
   ## Focus
 
@@ -50,9 +60,15 @@ contentPt: |
 
   ## O que construí
 
-  - Features de backend em .NET sobre PostgreSQL, e de frontend em React, no produto Education, incluindo integração com hardware de controle de acesso (catracas)
-  - Migrei um fluxo de integração síncrono pra processamento assíncrono em background, resolvendo os problemas de concorrência que surgiram
-  - Introduzi infraestrutura de jobs em background hoje usada em várias features da plataforma
+  - Features de backend em .NET sobre PostgreSQL e de frontend em React no produto Education, incluindo integração com hardware de controle de acesso (catracas)
+  - Um módulo de relatórios de ponta a ponta: a arquitetura do serviço de relatórios, exportadores de PDF (QuestPDF) e Excel (ClosedXML) e relatórios como frequência de alunos, eventos e auditorias, com tela de relatórios no app
+  - Infraestrutura de jobs em background (Hangfire) hoje usada em toda a plataforma: relatórios gerados em segundo plano com progresso granular e ETA, cancelamento cooperativo, detecção de job parado e deduplicação, documentada nos docs de engenharia do repositório
+  - Migrei um fluxo de integração síncrono para processamento assíncrono, resolvendo os problemas de concorrência que surgiram
+  - Cadastro facial assíncrono com sincronização por dispositivo e progresso, adaptadores para três marcas de aparelho e um fluxo para trocar o tipo de cadastro de uma pessoa
+  - Gestão de dispositivos: healthcheck ativo, reconexão manual e uma lista de controladores melhorada
+  - Serviços de fundo que sobrevivem a banco fora do ar ou lento, e rotas de evento que respondem erro em vez de perder o evento em silêncio
+  - Notificações por e-mail (SMTP) e push, além de integrações com sistemas escolares
+  - CI/CD da API e do front: job de testes, deploy na VPS com staging, backup, merge de configuração e rollback, e deploy em duas etapas com aprovação manual nas migrations
 
   ## Foco
 

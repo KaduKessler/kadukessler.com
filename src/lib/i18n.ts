@@ -52,7 +52,7 @@ const resources = {
 			},
 			about: {
 				title: "About",
-				p1: "I build complete systems: <dotnet>.NET</dotnet> and <react>React</react> code together with the deployment, infrastructure, and security around it, not just isolated features. Currently a <role>Full-Stack Developer</role> at <company>2M/MPE</company>, building production-ready systems, integrating IoT devices, and managing complex data flows. I also freelance for clients outside work hours.",
+				p1: "I build complete systems: the code together with the deployment, infrastructure, and security around it, not just isolated features. Currently a <role>Full-Stack Developer</role> at <company>2M/MPE</company>, working with <dotnet>.NET</dotnet> and <react>React</react> to build production-ready systems, integrate IoT devices, and manage complex data flows. I also freelance for clients outside work hours, using tools like Vue, Astro, and Python.",
 				p2: "I'm a core contributor to <alertai>AlertAI</alertai>, a web platform for event management, security, and intelligent monitoring. Graduated in <course>Analysis and Systems Development</course> from <uni>PUCRS</uni>.",
 				p3: "That mindset carries into my own infrastructure: I run a <proxmox>Proxmox</proxmox> homelab and manage cloud instances on <oci>OCI (Oracle Linux)</oci> to self-host most of my personal projects, with the same discipline I'd apply to production: monitoring, containers, and CI/CD.",
 				p4: "In my free time, I'm usually iterating on new ideas, watching anime, or gaming; always driven by the curiosity of creating practical solutions.",
@@ -223,7 +223,7 @@ const resources = {
 			},
 			about: {
 				title: "Sobre",
-				p1: "Construo sistemas completos: código em <dotnet>.NET</dotnet> e <react>React</react> junto com o deploy, a infraestrutura e a segurança em volta, não só features isoladas. Atualmente <role>Desenvolvedor Full-Stack</role> na <company>2M/MPE</company>, construindo sistemas prontos para produção, integrando dispositivos IoT e gerenciando fluxos de dados complexos. Fora do expediente, também atendo clientes como freelancer.",
+				p1: "Construo sistemas completos: o código junto com o deploy, a infraestrutura e a segurança em volta, não só features isoladas. Atualmente <role>Desenvolvedor Full-Stack</role> na <company>2M/MPE</company>, com <dotnet>.NET</dotnet> e <react>React</react>, construindo sistemas prontos para produção, integrando dispositivos IoT e gerenciando fluxos de dados complexos. Fora do expediente, também atendo clientes como freelancer, com ferramentas como Vue, Astro e Python.",
 				p2: "Sou um dos principais contribuidores do <alertai>AlertAI</alertai>, uma plataforma web para gestão de eventos, segurança e monitoramento inteligente. Formado em <course>Análise e Desenvolvimento de Sistemas</course> pela <uni>PUCRS</uni>.",
 				p3: "Essa mentalidade se estende pra minha própria infraestrutura: mantenho um homelab com <proxmox>Proxmox</proxmox> e gerencio instâncias na <oci>OCI (Oracle Linux)</oci> pra hospedar a maioria dos meus projetos pessoais, com a mesma disciplina que eu aplicaria em produção: monitoramento, containers e CI/CD.",
 				p4: "No meu tempo livre, costumo iterar em novas ideias, assistir anime ou jogar; sempre movido pela curiosidade de criar soluções práticas.",

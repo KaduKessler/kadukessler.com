@@ -32,11 +32,14 @@ export function About() {
 									company: <span className="font-medium text-foreground" />,
 								}}
 							>
-								Full-Stack Developer focused on <dotnet>.NET</dotnet> and{" "}
-								<react>React</react>, currently working as a{" "}
-								<role>Full-Stack Developer</role> at <company>2M/MPE</company>.
-								I build production-ready systems, integrate IoT devices, and
-								manage complex data flows.
+								I build complete systems: the code together with the deployment,
+								infrastructure, and security around it, not just isolated
+								features. Currently a <role>Full-Stack Developer</role> at{" "}
+								<company>2M/MPE</company>, working with <dotnet>.NET</dotnet>{" "}
+								and <react>React</react> to build production-ready systems,
+								integrate IoT devices, and manage complex data flows. I also
+								freelance for clients outside work hours, using tools like Vue,
+								Astro, and Python.
 							</Trans>
 						</LanguageReveal>
 					</StaggerItem>

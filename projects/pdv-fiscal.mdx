@@ -1,55 +1,83 @@
 ---
 title:
-  en: "Restaurant POS Fiscal Integration"
-  pt: "Integração Fiscal de PDV"
+  en: "Parió PDV"
+  pt: "Parió PDV"
 type:
   en: "Client project"
   pt: "Projeto de cliente"
 summary:
-  en: "Fiscal note emission (NFC-e via SEFAZ/FocusNFe) integrated into an existing restaurant point-of-sale system, taken over and extended from someone else's codebase."
-  pt: "Emissão de nota fiscal (NFC-e via SEFAZ/FocusNFe) integrada a um PDV de restaurante já existente, herdado e estendido a partir do código de outra pessoa."
+  en: "Point-of-sale system for a pizzeria and snack bar, in production, taken over from someone else's codebase and extended with fiscal note emission (NFC-e via SEFAZ/FocusNFe)."
+  pt: "Sistema de PDV de uma pizzaria e lanchonete, em produção, herdado de outra pessoa e estendido com emissão de nota fiscal (NFC-e via SEFAZ/FocusNFe)."
 periodStart: "07.2026"
 status: "private"
-stack: ["FocusNFe", "SEFAZ/NFC-e", "Supabase", "Cloudflare Workers"]
-draft: true
+stack: ["Vue 3", "Vite", "Pinia", "Supabase", "Cloudflare Workers", "FocusNFe", "SEFAZ/NFC-e"]
+cover: "/images/projects/pario-pdv-cover.webp"
+coverAlt:
+  en: "Parió PDV delivery kanban with pending orders and a charge button, amounts masked"
+  pt: "Kanban de delivery do Parió PDV com pedidos pendentes e botão de cobrar, valores ocultados"
+logo: "/images/projects/pario-pdv-logo.webp"
+logoAlt:
+  en: "Parió PDV logo"
+  pt: "Logo do Parió PDV"
+draft: false
 contentEn: |
   ## Context
 
-  A restaurant needed to start issuing fiscal notes to comply with a legal deadline. The point-of-sale system already existed, built by someone else; I fixed existing issues in it and integrated fiscal note emission on top.
+  A restaurant needed to start issuing fiscal notes to comply with a legal deadline. The point-of-sale system already existed, built by someone else; I fixed existing issues in it, integrated fiscal note emission on top and kept evolving it. It now runs in production, in daily use.
 
   ## What I built
 
-  - Full order-to-fiscal flow (table, counter, and delivery) through payment and NFC-e emission via FocusNFe, validated end to end in SEFAZ's test environment
+  - Full order-to-fiscal flow (table, counter, and delivery) through payment and NFC-e emission via FocusNFe, validated end to end in SEFAZ's test environment before going live
   - Fiscal classification (NCM, CFOP, CSOSN, origin) reviewed and approved by the client's accountant, not guessed
+  - Fiscal emission and cancellation running as server-side functions, so credentials never reach the browser
   - Real DANFE display for the customer after payment, with access key and QR code
   - NFC-e cancellation flow respecting the legal 30-minute window, with its own panel and pending-status tracking
+  - Sale details in the finance module with items, delivery and fiscal note (PDF, XML and access key)
+  - Delivery kanban with real-time status, drag between columns, order editing and cancelling, default delivery fee and charging in one tap, backed by its own database separated from the in-house operations
+  - Quick order screen as the home page: debit card, right-click to remove an item, per-item surcharge, discount and surcharge at checkout with a value lock, and charge now or send to the delivery panel
+  - Cash register with blind count when closing, and counter ticket numbers that follow the register opening
+  - Environment safety: fiscal credentials per environment, a production lock, the environment recorded on every NFC-e (a cancellation uses the note's own environment), data reset restricted to admin and blocked in production
+  - Dev and production pipelines (GitHub Actions) applying database migrations and deploying server functions, plus a separate test copy wired to the fiscal sandbox, so the client can try flows without issuing real notes
+  - Interface pass based on design critiques: sidebar, contrast fixes (a11y), keyboard focus, no emojis, one consistent theme across admin, cash, finance and login, and a phone-friendly admin
   - Diagnosed and fixed a broken account-creation trigger with no impact on real users
+
+  ![Quick order screen: top sellers, menu and one-tap checkout. Amounts are masked](/images/projects/pario-pdv-pedido-rapido.webp)
 
   ## Focus
 
-  Getting the fiscal side right on inherited code and a real legal deadline, with the accountant's sign-off standing in for guesswork.
+  Getting the fiscal side right on inherited code and a real legal deadline, with the accountant's sign-off standing in for guesswork, and then keeping a live system safe to change.
 
   ## Note
 
-  In active development. Repository is private and belongs to the client.
+  Active, ongoing engagement. Repository is private and belongs to the client.
 contentPt: |
   ## Contexto
 
-  Um restaurante precisava começar a emitir nota fiscal pra cumprir um prazo legal. O PDV já existia, construído por outra pessoa; corrigi problemas existentes nele e integrei a emissão fiscal em cima.
+  Um restaurante precisava começar a emitir nota fiscal pra cumprir um prazo legal. O PDV já existia, construído por outra pessoa; corrigi problemas existentes nele, integrei a emissão fiscal em cima e segui evoluindo o sistema. Hoje ele roda em produção, em uso diário.
 
   ## O que construí
 
-  - Fluxo completo de pedido até nota fiscal (mesa, balcão e delivery), passando por pagamento e emissão de NFC-e via FocusNFe, validado de ponta a ponta no ambiente de testes da SEFAZ
+  - Fluxo completo de pedido até nota fiscal (mesa, balcão e delivery), passando por pagamento e emissão de NFC-e via FocusNFe, validado de ponta a ponta no ambiente de testes da SEFAZ antes de entrar no ar
   - Classificação fiscal (NCM, CFOP, CSOSN, origem) revisada e aprovada pelo contador do cliente, não chutada
+  - Emissão e cancelamento fiscal rodando como funções no servidor, então as credenciais nunca chegam ao navegador
   - DANFE real exibido pro cliente após o pagamento, com chave de acesso e QR code
   - Fluxo de cancelamento de NFC-e respeitando a janela legal de 30 minutos, com painel próprio e acompanhamento de pendência
+  - Detalhes da venda no financeiro com itens, entrega e nota fiscal (PDF, XML e chave de acesso)
+  - Kanban de delivery com status em tempo real, arrastar entre colunas, edição e cancelamento de pedido, taxa de entrega padrão e cobrança em um toque, apoiado num banco próprio separado da operação interna
+  - Tela rápida de pedido como página inicial: cartão de débito, botão direito para tirar um item, acréscimo por item, desconto e acréscimo na cobrança com trava de valor, e cobrar na hora ou enviar ao painel de delivery
+  - Caixa com conferência cega no fechamento, e senha do balcão que segue a abertura do caixa
+  - Segurança entre ambientes: credenciais fiscais por ambiente, trava de produção, ambiente registrado em cada NFC-e (o cancelamento usa o ambiente da própria nota), reset de dados restrito a admin e bloqueado em produção
+  - Pipelines de dev e produção (GitHub Actions) que aplicam migrations do banco e publicam as funções de servidor, além de uma cópia de teste ligada à homologação fiscal, pro cliente experimentar fluxos sem emitir nota real
+  - Passada de interface baseada em críticas de design: sidebar, correções de contraste (a11y), foco de teclado, sem emojis, tema único em admin, caixa, financeiro e login, e admin legível no celular
   - Diagnóstico e correção de um trigger de criação de conta quebrado, sem impacto em usuário real
+
+  ![Tela rápida de pedido: mais pedidos, cardápio e cobrança em um toque. Valores ocultados](/images/projects/pario-pdv-pedido-rapido.webp)
 
   ## Foco
 
-  Acertar a parte fiscal em cima de código herdado e prazo legal real, com aprovação do contador no lugar de chute.
+  Acertar a parte fiscal em cima de código herdado e prazo legal real, com aprovação do contador no lugar de chute, e depois manter um sistema no ar seguro de alterar.
 
   ## Nota
 
-  Em desenvolvimento ativo. Repositório é privado e pertence ao cliente.
+  Contrato ativo e em andamento. O repositório é privado e pertence ao cliente.
 ---

@@ -161,7 +161,9 @@ export function FeaturedCard({ project }: { project: ProjectMeta }) {
 						<span className="font-medium text-foreground">
 							<LanguageReveal inline>{t("projects.myPart")}</LanguageReveal>
 						</span>{" "}
-						{project.contribution}
+						{/* Wrapped in an element: two adjacent text nodes merge in the
+						    pre-rendered HTML and then fail hydration (React #418). */}
+						<span>{project.contribution}</span>
 					</p>
 				)}
 

@@ -34,8 +34,8 @@ export function About() {
 							>
 								Full-Stack Developer focused on <dotnet>.NET</dotnet> and{" "}
 								<react>React</react>, currently working as a{" "}
-								<role>Full-Stack Junior</role> at <company>2M/MPE</company>. I
-								build production-ready systems, integrate IoT devices, and
+								<role>Full-Stack Developer</role> at <company>2M/MPE</company>.
+								I build production-ready systems, integrate IoT devices, and
 								manage complex data flows.
 							</Trans>
 						</LanguageReveal>

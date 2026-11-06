@@ -52,7 +52,7 @@ export function Hero() {
 	const logoScale = 1 - 0.2 * logoScrollT;
 	const textX = -76 * textScrollT; // 60px (logo) + 16px (gap)
 
-	const taglines = ["Full-Stack Junior", ".NET + React", "Above and Beyond"];
+	const taglines = ["Full-Stack Developer", ".NET + React", "Above and Beyond"];
 	const [activeTagline, setActiveTagline] = useState(0);
 	const [taglineVisible, setTaglineVisible] = useState(true);
 	// Real value from the first render: the prerendered snapshot
@@ -283,7 +283,7 @@ export function Hero() {
 									onClick={triggerTap}
 									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
-									Full-Stack Junior @2M/MPE
+									{t("hero.currentRoleValue")}
 								</a>
 							</div>
 						</div>

@@ -35,7 +35,7 @@ const staticExperienceData: Record<
 	"Self-employed": {
 		url: "https://kadukessler.com",
 		typeKey: "experience.types.freelance",
-		techs: ["WordPress", "Elementor", "Figma", "SEO", "DNS"],
+		techs: ["WordPress", "Astro", "Vue", "Supabase", "SEO"],
 	},
 	"Eloo Perícias": {
 		url: "https://eloopericias.com.br",
@@ -45,7 +45,7 @@ const staticExperienceData: Record<
 	Autônomo: {
 		url: "https://kadukessler.com",
 		typeKey: "experience.types.freelance",
-		techs: ["WordPress", "Elementor", "Figma", "SEO", "DNS"],
+		techs: ["WordPress", "Astro", "Vue", "Supabase", "SEO"],
 	},
 };
 

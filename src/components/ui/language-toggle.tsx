@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function LanguageToggle() {
-	const { i18n } = useTranslation();
+	const { i18n, t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const currentLang = i18n.language.startsWith("en") ? "EN" : "PT";
 	const [entered, setEntered] = useState(true);
@@ -29,7 +29,7 @@ export function LanguageToggle() {
 			type="button"
 			onClick={toggleLanguage}
 			className="group relative flex h-8 min-w-14 cursor-pointer after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] items-center justify-between rounded-lg px-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-95 border border-transparent hover:border-border/40"
-			aria-label={`Toggle language (${currentLang})`}
+			aria-label={`${t("common.toggleLanguage")} (${currentLang})`}
 		>
 			<Languages className="size-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
 			<div className="relative h-4 w-6 overflow-hidden">

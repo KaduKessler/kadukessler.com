@@ -118,7 +118,7 @@ export function ProjectsPage() {
 										type="button"
 										onClick={() => setQuery("")}
 										className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground/60 hover:text-foreground"
-										aria-label="Clear search"
+										aria-label={t("common.clearSearch")}
 									>
 										<X className="size-3.5" />
 									</button>

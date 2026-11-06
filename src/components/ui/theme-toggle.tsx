@@ -1,8 +1,10 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
 export function ThemeToggle() {
+	const { t } = useTranslation();
 	const [theme, setTheme] = useState<"dark" | "light">(() => {
 		if (typeof window !== "undefined") {
 			return document.documentElement.classList.contains("dark")
@@ -43,7 +45,7 @@ export function ThemeToggle() {
 			type="button"
 			onClick={toggleTheme}
 			className="relative flex size-8 cursor-pointer after:absolute after:-inset-1.5 after:content-[''] items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-90"
-			aria-label="Toggle theme"
+			aria-label={t("common.toggleTheme")}
 		>
 			{/* suppressHydrationWarning: theme reads the live <html> class, which
 			the prerendered snapshot baked in from whatever the build-time

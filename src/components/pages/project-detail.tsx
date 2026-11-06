@@ -6,6 +6,7 @@ import {
 	Lock,
 	SquareArrowOutUpRight,
 	X,
+	ZoomIn,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -15,6 +16,7 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
 import { useTranslation } from "react-i18next";
@@ -41,9 +43,24 @@ function Lightbox({
 	image: LightboxImage;
 	onClose: () => void;
 }) {
+	const { t } = useTranslation();
+	const closeRef = useRef<HTMLButtonElement>(null);
+
+	// Move focus into the dialog and give it back to the trigger on close.
+	useEffect(() => {
+		const trigger = document.activeElement as HTMLElement | null;
+		closeRef.current?.focus();
+		return () => trigger?.focus();
+	}, []);
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") onClose();
+			// The close button is the only control: keep focus inside the dialog.
+			if (e.key === "Tab") {
+				e.preventDefault();
+				closeRef.current?.focus();
+			}
 		};
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
@@ -51,6 +68,9 @@ function Lightbox({
 
 	return (
 		<motion.div
+			role="dialog"
+			aria-modal="true"
+			aria-label={image.alt || t("common.enlargedImage")}
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
@@ -58,10 +78,11 @@ function Lightbox({
 			className="fixed inset-0 z-100 flex cursor-zoom-out items-center justify-center bg-background/95 p-4 backdrop-blur-sm sm:p-10"
 		>
 			<button
+				ref={closeRef}
 				type="button"
 				onClick={onClose}
 				className="absolute top-6 right-6 rounded-full border border-border bg-card p-2.5 text-muted-foreground transition-colors hover:text-foreground"
-				aria-label="Close"
+				aria-label={t("common.close")}
 			>
 				<X className="size-5" />
 			</button>
@@ -91,6 +112,18 @@ function Lightbox({
 				</motion.p>
 			)}
 		</motion.div>
+	);
+}
+
+function ZoomHint({ label }: { label: string }) {
+	// Visible by default (touch has no cursor to hint it); desktop reveals it on hover or focus.
+	return (
+		<span
+			title={label}
+			className="pointer-events-none absolute right-2 bottom-2 flex size-7 items-center justify-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur-sm transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
+		>
+			<ZoomIn aria-hidden="true" className="size-3.5" />
+		</span>
 	);
 }
 
@@ -155,7 +188,7 @@ export function ProjectDetail() {
 					<button
 						type="button"
 						onClick={() => openLightbox({ src, alt })}
-						className={`group block w-full appearance-none cursor-zoom-in overflow-hidden rounded-xl border border-border ${grid ? "" : project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
+						className={`group relative block w-full appearance-none cursor-zoom-in overflow-hidden rounded-xl border border-border ${grid ? "" : project?.wideMedia ? "max-w-2xl" : "max-w-md"}`}
 					>
 						<FadeInImage
 							src={src}
@@ -167,6 +200,7 @@ export function ProjectDetail() {
 								grid ? "h-full w-full object-cover object-top" : "w-full"
 							}
 						/>
+						<ZoomHint label={t("common.zoomImage")} />
 					</button>
 				);
 			},
@@ -532,7 +566,7 @@ export function ProjectDetail() {
 									project.cover &&
 									openLightbox({ src: project.cover, alt: project.coverAlt })
 								}
-								className={`group block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border shadow-sm ${project.wideMedia ? "max-w-2xl" : "max-w-sm"}`}
+								className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border shadow-sm ${project.wideMedia ? "max-w-2xl" : "max-w-sm"}`}
 							>
 								<FadeInImage
 									src={project.cover}
@@ -544,6 +578,7 @@ export function ProjectDetail() {
 											: "h-full w-full object-cover object-top"
 									}
 								/>
+								<ZoomHint label={t("common.zoomImage")} />
 							</button>
 						)}
 

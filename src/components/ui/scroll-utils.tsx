@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDelayedUnmount } from "@/lib/use-delayed-unmount";
 import { useTouchHaptics } from "@/lib/use-touch-haptics";
 
@@ -44,6 +45,7 @@ export function ScrollProgress() {
 }
 
 export function BackToTop() {
+	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
 	const [isVisible, setIsVisible] = useState(false);
 	const mounted = useDelayedUnmount(isVisible, 200);
@@ -79,7 +81,7 @@ export function BackToTop() {
 				type="button"
 				onClick={scrollToTop}
 				className="flex size-10 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground backdrop-blur-md transition-[color,border-color,transform] hover:border-foreground/20 hover:text-foreground active:scale-95"
-				aria-label="Back to top"
+				aria-label={t("common.backToTop")}
 			>
 				<ArrowUp className="size-4" />
 			</button>

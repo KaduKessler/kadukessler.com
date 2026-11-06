@@ -57,7 +57,11 @@ export function FloatingNav() {
 		checkMobile();
 		mql.addEventListener("change", checkMobile);
 
-		const onScroll = () => setHasScrolled(window.scrollY > 100);
+		const onScroll = () => {
+			setHasScrolled(window.scrollY > 100);
+			// Above the first section nothing should look selected.
+			if (window.scrollY < 120) setActiveSection("");
+		};
 		onScroll();
 		window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -336,6 +340,8 @@ function MobileNav({
 							triggerTap?.();
 							setIsOpen(!isOpen);
 						}}
+						aria-expanded={isOpen}
+						aria-controls="mobile-nav-menu"
 						className="flex items-center gap-2 text-xs font-medium text-foreground/80 active:opacity-60 transition-opacity truncate"
 					>
 						<LanguageReveal inline className="truncate">
@@ -360,6 +366,7 @@ function MobileNav({
 
 			{menuMounted && (
 				<ul
+					id="mobile-nav-menu"
 					style={menuStyle}
 					className="flex w-full flex-col gap-1 overflow-hidden rounded-2xl border border-border bg-background/80 p-1.5 backdrop-blur-md shadow-xl [transition:opacity_0.22s_ease-out,transform_0.22s_ease-out]"
 				>

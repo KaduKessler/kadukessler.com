@@ -255,8 +255,8 @@ export function Hero() {
 								type="button"
 								onClick={handleCopyEmail}
 								className="relative ml-auto flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-[color,background-color,border-color,opacity,transform] hover:border-foreground/20 hover:bg-background hover:text-foreground after:absolute after:-inset-2 after:content-[''] active:scale-95 md:translate-x-1 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
-								title="Copy email"
-								aria-label={isPortuguese ? "Copiar e-mail" : "Copy email"}
+								title={t("common.copyEmailAction")}
+								aria-label={t("common.copyEmailAction")}
 							>
 								{copied ? (
 									<Check className="size-3 text-emerald-500" />

@@ -49,6 +49,7 @@ export function Home() {
 
 	return (
 		<main className="relative mx-auto flex max-w-2xl flex-col gap-16 px-4 pt-32 pb-16 sm:px-6 md:gap-20 md:pt-40 md:pb-24">
+			<link rel="canonical" href="https://kadukessler.com/" />
 			<script type="application/ld+json">{JSON.stringify(personJsonLd)}</script>
 			<Background />
 			<ScrollProgress />

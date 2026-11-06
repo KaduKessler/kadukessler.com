@@ -1,0 +1,73 @@
+---
+title:
+  en: "Transcritor"
+  pt: "Transcritor"
+type:
+  en: "Personal project"
+  pt: "Projeto pessoal"
+summary:
+  en: "Windows desktop app that transcribes audio files to text offline with Whisper, so recordings never leave the computer."
+  pt: "Aplicativo desktop para Windows que transcreve áudios para texto offline com Whisper, sem que as gravações saiam do computador."
+periodStart: "09.2026"
+status: "private"
+stack: ["Python", "PySide6", "faster-whisper", "FFmpeg", "PyInstaller"]
+cover: "/images/projects/transcritor-cover.webp"
+coverAlt:
+  en: "Transcritor window with the audio queue and a finished transcript"
+  pt: "Janela do Transcritor com a fila de áudios e uma transcrição concluída"
+logo: "/images/projects/transcritor-logo.webp"
+logoAlt:
+  en: "Transcritor icon"
+  pt: "Ícone do Transcritor"
+draft: false
+contentEn: |
+  ## Context
+
+  Voice messages are hard to search, skim or archive, and sending them to an online transcription service means handing private conversations to a third party. The goal: drop the audio files into a window and get text back, with everything processed locally.
+
+  ## What I built
+
+  - Local transcription with faster-whisper on CPU (Portuguese by default, selectable model), supporting opus, ogg, mp3, m4a, wav and aac
+  - Drag-and-drop queue with reordering, per-file progress, safe cancel for the current file or the whole queue and a time estimate that learns from the machine
+  - Persistent queue: pending, interrupted and failed items come back on the next launch, with a short reason for each failure and a retry action
+  - Result panel with an audio player synced to the text (click a timestamp to hear that passage), editing, find and replace, and low-confidence passages highlighted
+  - Searchable history, accent-insensitive, kept separate from the queue
+  - Export to TXT, SRT, WebVTT and a PDF report with date, duration, recognition settings and SHA-256 hashes
+  - Model manager with resumable downloads, size and hash verification, disk space check and safe swap of the installed model
+  - Anonymised diagnostics export for support, with no audio, text or personal data
+  - Packaged for Windows, with a build smoke test that extracts the final executable and fails if resources, imports, a real model download or a real transcription break
+  - Semantic versioning with a changelog, currently at 1.7.0
+
+  ## Focus
+
+  Privacy by construction and reliability on a real desktop: nothing leaves the machine, and an interrupted session never loses the queue.
+
+  ## Note
+
+  Repository is private.
+contentPt: |
+  ## Contexto
+
+  Áudio de WhatsApp é difícil de pesquisar, folhear e arquivar, e mandar para um serviço online de transcrição significa entregar conversas privadas a terceiros. O objetivo: soltar os arquivos de áudio numa janela e receber o texto, com tudo processado localmente.
+
+  ## O que construí
+
+  - Transcrição local com faster-whisper em CPU (português por padrão, modelo selecionável), com suporte a opus, ogg, mp3, m4a, wav e aac
+  - Fila com arrastar e soltar, reordenação, progresso por arquivo, cancelamento seguro do arquivo atual ou da fila inteira e estimativa de tempo que aprende com a máquina
+  - Fila persistente: itens pendentes, interrompidos e com falha voltam ao abrir o app, com motivo curto para cada falha e ação de tentar novamente
+  - Painel de resultado com player de áudio sincronizado ao texto (clicar num horário toca aquele trecho), edição, localizar e substituir, e trechos de baixa confiança destacados
+  - Histórico pesquisável, sem diferenciar acentos, separado da fila
+  - Exportação para TXT, SRT, WebVTT e relatório PDF com data, duração, configuração do reconhecimento e hashes SHA-256
+  - Gerenciador de modelos com download retomável, verificação de tamanho e hash, checagem de espaço em disco e troca segura do modelo instalado
+  - Exportação de diagnóstico anonimizado para suporte, sem áudio, texto nem dados pessoais
+  - Empacotado para Windows, com teste de fumaça do build que extrai o executável final e falha se recursos, importações, o download real de um modelo ou uma transcrição real quebrarem
+  - Versionamento semântico com changelog, hoje na versão 1.7.0
+
+  ## Foco
+
+  Privacidade por construção e confiabilidade num desktop real: nada sai da máquina, e uma sessão interrompida nunca perde a fila.
+
+  ## Nota
+
+  O repositório é privado.
+---

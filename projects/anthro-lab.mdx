@@ -1,0 +1,71 @@
+---
+title:
+  en: "AnthroLab"
+  pt: "AnthroLab"
+type:
+  en: "Academic project"
+  pt: "Projeto acadêmico"
+summary:
+  en: "Converts Excel and CSV spreadsheets into the XML that WHO Anthro imports, validating the data against the program's own rules before the file is generated."
+  pt: "Converte planilhas Excel e CSV no XML que o WHO Anthro importa, validando os dados contra as regras do próprio programa antes de gerar o arquivo."
+periodStart: "08.2026"
+status: "private"
+stack: ["Python", "Django", "Django Ninja", "Pandas", "React", "TypeScript", "Tailwind CSS", "Zustand"]
+cover: "/images/projects/anthro-lab-cover.webp"
+coverAlt:
+  en: "AnthroLab review screen with a weight error highlighted in the grid"
+  pt: "Tela de revisão do AnthroLab com um erro de peso destacado na grade"
+draft: false
+contentEn: |
+  ## Context
+
+  Technical product of a professional master's dissertation in maternal and child health, focused on children under 2 years old. A lot of anthropometric data already sits in spreadsheets, and analysing it in WHO Anthro means retyping it record by record, which is slow and invites typos.
+
+  ## What I built
+
+  - Three-step wizard: spreadsheet upload with preview, column mapping (units and sex values included) and an editable review grid
+  - Validation against the WHO Anthro 3.2.2 input limits and rules, with every problem reported in Portuguese at the exact row and column
+  - Cross-row rules: same ID with different sex or birth date, two visits on the same date, dates before birth
+  - Errors block the export, warnings only inform, so the XML is generated only when the data is consistent
+  - XML generation checked by importing the result into the individual exam module of WHO Anthro, with each child recognisable in the program's list
+  - Export options: latest visit only or all visits, and identification by code, initials or full name, chosen by the user
+  - Pure Python conversion module with no Django dependency, tested in isolation (parser, validator, XML builder)
+  - React 19 frontend with zod-checked API responses, built into the Django static folder and served as a single app
+
+  ![Column mapping step of the wizard](/images/projects/anthro-lab-mapeamento.webp)
+  ![Children imported into WHO Anthro from the generated XML](/images/projects/anthro-lab-who-anthro.webp)
+
+  ## Focus
+
+  Data quality before conversion: catching a wrong weight at the right row, in plain language, is what saves the researcher from importing bad data.
+
+  ## Note
+
+  Screens use fictional test data. Repository is private.
+contentPt: |
+  ## Contexto
+
+  Produto técnico de uma dissertação de mestrado profissional em saúde materno-infantil, com foco em crianças menores de 2 anos. Muitos dados antropométricos já estão em planilhas, e para analisá-los no WHO Anthro é preciso passá-los à mão, registro por registro, o que é lento e favorece erros de digitação.
+
+  ## O que construí
+
+  - Assistente em três passos: envio da planilha com prévia, mapeamento de colunas (incluindo unidades e valores de sexo) e grade de revisão editável
+  - Validação contra os limites e regras de entrada do WHO Anthro 3.2.2, com cada problema apontado em português na linha e na coluna exatas
+  - Regras entre linhas: mesmo ID com sexo ou nascimento diferentes, duas visitas na mesma data, datas anteriores ao nascimento
+  - Erros bloqueiam a exportação e avisos apenas informam, então o XML só é gerado quando os dados estão consistentes
+  - Geração do XML conferida importando o resultado no módulo de exame individual do WHO Anthro, com cada criança reconhecível na lista do programa
+  - Opções de exportação: só a visita mais recente ou todas, e identificação por código, iniciais ou nome completo, escolhida pelo usuário
+  - Módulo de conversão em Python puro, sem dependência do Django, testado isoladamente (leitor, validador e gerador de XML)
+  - Frontend em React 19 com respostas da API conferidas por zod, compilado para a pasta estática do Django e servido como um app só
+
+  ![Etapa de mapeamento de colunas do assistente](/images/projects/anthro-lab-mapeamento.webp)
+  ![Crianças importadas no WHO Anthro a partir do XML gerado](/images/projects/anthro-lab-who-anthro.webp)
+
+  ## Foco
+
+  Qualidade dos dados antes da conversão: apontar um peso errado na linha certa, em linguagem clara, é o que evita que a pesquisadora importe dado ruim.
+
+  ## Nota
+
+  As telas usam dados fictícios de teste. O repositório é privado.
+---

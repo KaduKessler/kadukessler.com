@@ -1,0 +1,87 @@
+---
+title:
+  en: "BDK Hub"
+  pt: "BDK Hub"
+type:
+  en: "Personal project"
+  pt: "Projeto pessoal"
+summary:
+  en: "Web hub for a Discord community: watch-together rooms with screen sharing, member profiles with badges computed from server activity, a Minecraft status page and an admin panel."
+  pt: "Hub web para uma comunidade do Discord: salas para assistir junto com compartilhamento de tela, perfis de membros com medalhas calculadas pela atividade do servidor, página de Minecraft e painel de administração."
+periodStart: "10.2024"
+status: "private"
+stack: ["TypeScript", "React", "TanStack Router", "Hono", "Drizzle", "PostgreSQL", "LiveKit", "discord.js", "Docker"]
+cover: "/images/projects/bdk-hub-cover.webp"
+coverAlt:
+  en: "BDK Hub Telão lobby listing open watch-together rooms"
+  pt: "Saguão do Telão no BDK Hub listando as salas abertas"
+logo: "/images/projects/bdk-hub-logo.webp"
+logoAlt:
+  en: "BDK Hub logo"
+  pt: "Logo do BDK Hub"
+draft: false
+contentEn: |
+  ## Context
+
+  I run a small Discord server for friends. It started as a bot and grew into one site that gathers everything the community uses: login with the Discord account, restricted to server members, and a set of apps on top of it.
+
+  Runs in production on my own VPS, behind a reverse proxy.
+
+  ## What I built
+
+  - Watch-together rooms (open or private, with invite and moderation): several screens at once, camera inline or separate, stereo sound, per-person volume, grid and spotlight layouts, fullscreen and a quality meter. Video and audio go through LiveKit (SFU), so each broadcaster uploads once and the server distributes it
+  - Server-side checks on what each screen sends, with a 720p limit that unlocks 1080p for members who use the server tag
+  - Member profile with role, messages, call hours, personal records and badges with levels, progress and a celebration when one goes up
+  - Music bot (Bardo) in the same monorepo, controlled by Discord commands: voice-only, with a fleet of up to 3 bots sharing one Lavalink so several rooms can play at the same time
+  - Read-only Discord bot that records messages, calls, roles and the tag; badges are recalculated from that history, with a terminal tool that proves the two calculation paths match
+  - Minecraft page showing server status and Java and Bedrock addresses, shown only when a server is configured
+  - Admin panel restricted by Discord ID: people search, manual badges, badge editing, live rooms, instant settings, site-wide notice, badge recalculation and database backup, with every change logged
+  - pnpm monorepo (web, API, bot, db, shared) with Biome and type checks in CI, versioned releases by tag, GitHub Container Registry images and automatic deploy
+  - Daily database backup, kept for 7 days on the server and sent encrypted to Google Drive
+
+  ![Empty room with broadcast, camera, people and room controls](/images/projects/bdk-hub-sala.webp)
+  ![Member profile with role, stats, pinned badges and personal records](/images/projects/bdk-hub-perfil.webp)
+  ![Minecraft page: server online, button to add on Bedrock and the Java address to copy](/images/projects/bdk-hub-minecraft.webp)
+
+  Screens captured against a simulated API, with fictional data and generated avatars.
+
+  ## Focus
+
+  Running a real multi-service system for real users: real-time media, background processing, access control and operations (backups, releases, deploy), not just the interface.
+
+  ## Note
+
+  In active development, version 0.x. Repository is private and access is limited to server members.
+contentPt: |
+  ## Contexto
+
+  Eu mantenho um servidor de Discord de amigos. Começou como um bot e virou um site que reúne tudo que a comunidade usa: login com a conta do Discord, restrito aos membros do servidor, e um conjunto de aplicações em cima disso.
+
+  Roda em produção numa VPS própria, atrás de um proxy reverso.
+
+  ## O que construí
+
+  - Salas para assistir junto (abertas ou privativas, com convite e moderação): várias telas ao mesmo tempo, câmera no balão ou separada, som estéreo, volume por pessoa, grade e destaque, tela cheia e medidor de qualidade. Vídeo e áudio passam pelo LiveKit (SFU), então cada transmissor envia uma vez e o servidor distribui
+  - Conferência no servidor do que cada tela envia, com limite de 720p que libera 1080p para quem usa a tag do servidor
+  - Perfil do membro com cargo, mensagens, horas em call, recordes pessoais e medalhas com nível, progresso e comemoração quando uma sobe
+  - Bot de música (Bardo) no mesmo monorepo, controlado por comandos do Discord: só voz, com uma frota de até 3 bots que dividem um Lavalink para várias salas tocarem ao mesmo tempo
+  - Bot do Discord somente leitura que registra mensagens, calls, cargos e a tag; as medalhas são recalculadas a partir desse histórico, com uma ferramenta de terminal que prova que os dois caminhos de cálculo batem
+  - Página de Minecraft com estado do servidor e endereços Java e Bedrock, exibida só quando há servidor configurado
+  - Painel de administração restrito por ID do Discord: busca de pessoas, medalhas manuais, edição de medalhas, salas ao vivo, ajustes na hora, aviso no topo do site, recálculo de medalhas e backup do banco, com toda mudança registrada
+  - Monorepo pnpm (web, API, bot, banco, código comum) com Biome e checagem de tipos no CI, versões por tag, imagens no GitHub Container Registry e deploy automático
+  - Backup diário do banco, mantido por 7 dias no servidor e enviado criptografado ao Google Drive
+
+  ![Sala vazia com controles de transmissão, câmera, pessoas e sala](/images/projects/bdk-hub-sala.webp)
+  ![Perfil do membro com cargo, números, medalhas fixadas e recordes pessoais](/images/projects/bdk-hub-perfil.webp)
+  ![Página de Minecraft: servidor no ar, botão para adicionar no Bedrock e endereço do Java para copiar](/images/projects/bdk-hub-minecraft.webp)
+
+  Telas capturadas contra uma API simulada, com dados fictícios e avatares gerados.
+
+  ## Foco
+
+  Operar um sistema real com vários serviços e usuários de verdade: mídia em tempo real, processamento em segundo plano, controle de acesso e operação (backup, releases, deploy), não só a interface.
+
+  ## Nota
+
+  Em desenvolvimento ativo, versão 0.x. O repositório é privado e o acesso é restrito aos membros do servidor.
+---

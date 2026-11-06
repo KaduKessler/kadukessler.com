@@ -285,6 +285,9 @@ export function Hero() {
 								>
 									{t("hero.currentRoleValue")}
 								</a>
+								<span className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+									{t("hero.currentRoleWhere")}
+								</span>
 							</div>
 						</div>
 

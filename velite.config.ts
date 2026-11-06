@@ -12,6 +12,9 @@ export default defineConfig({
 					title: s.object({ en: s.string(), pt: s.string() }),
 					type: s.object({ en: s.string(), pt: s.string() }),
 					summary: s.object({ en: s.string(), pt: s.string() }),
+					cardSummary: s
+						.object({ en: s.string(), pt: s.string() })
+						.optional(),
 					periodStart: s.string(),
 					periodEnd: s.string().optional(),
 					status: s.enum(["public", "private"]),

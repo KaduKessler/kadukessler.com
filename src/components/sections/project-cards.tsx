@@ -224,7 +224,7 @@ export function CompactCard({ project }: { project: ProjectMeta }) {
 					</div>
 				</div>
 				<p className="line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
-					{project.summary}
+					{project.cardSummary ?? project.summary}
 				</p>
 				<div className="mt-auto flex flex-wrap gap-1.5 pt-1">
 					{project.stack.slice(0, 3).map((tech) => (
@@ -280,7 +280,7 @@ export function GalleryCard({ project }: { project: ProjectMeta }) {
 				</div>
 
 				<p className="line-clamp-2 text-[13px] leading-relaxed text-foreground/80">
-					{project.summary}
+					{project.cardSummary ?? project.summary}
 				</p>
 
 				<div className="flex flex-wrap gap-1.5">

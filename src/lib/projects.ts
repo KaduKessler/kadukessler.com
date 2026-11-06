@@ -13,6 +13,8 @@ export type ProjectMeta = {
 	title: string;
 	type: string;
 	summary: string;
+	/** Short line for gallery cards; falls back to `summary`. */
+	cardSummary?: string;
 	periodStart: string;
 	periodEnd?: string;
 	status: "public" | "private";
@@ -51,6 +53,7 @@ function toMeta(
 		title: project.title[lang],
 		type: project.type[lang],
 		summary: project.summary[lang],
+		cardSummary: project.cardSummary?.[lang],
 		periodStart: project.periodStart,
 		periodEnd: project.periodEnd,
 		status: project.status,

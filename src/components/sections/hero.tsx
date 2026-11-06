@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { useToast } from "@/components/ui/toast";
@@ -276,19 +277,14 @@ export function Hero() {
 										{t("hero.currentRole")}
 									</LanguageReveal>
 								</span>
-								<a
-									href="#experience"
-									onClick={(e) => {
-										e.preventDefault();
-										triggerTap?.();
-										document
-											.getElementById("experience")
-											?.scrollIntoView({ behavior: "smooth" });
-									}}
+								{/* Home scrolls smoothly to the hash (see useEffect in home.tsx). */}
+								<Link
+									to="/#experience"
+									onClick={triggerTap}
 									className="hero-link mt-1 inline-block text-[13px] font-medium text-foreground"
 								>
 									{t("hero.currentRoleValue")}
-								</a>
+								</Link>
 								<span className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
 									{t("hero.currentRoleWhere")}
 								</span>

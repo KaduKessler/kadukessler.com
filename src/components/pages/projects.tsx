@@ -20,15 +20,24 @@ export function ProjectsPage() {
 	const allProjects = useMemo(() => getAllProjects(lang), [lang]);
 
 	const [query, setQuery] = useState("");
-	const [selectedType, setSelectedType] = useState<string | null>(null);
+	// Holds the slug of a project of the chosen type, not the type label itself:
+	// the label is translated, so it would stop matching after a language switch.
+	const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const types = useMemo(
-		() => Array.from(new Set(allProjects.map((p) => p.type))),
-		[allProjects],
+	const types = useMemo(() => {
+		const seen = new Map<string, string>();
+		for (const p of allProjects)
+			if (!seen.has(p.type)) seen.set(p.type, p.slug);
+		return Array.from(seen, ([type, slug]) => ({ type, slug }));
+	}, [allProjects]);
+
+	const selectedType = useMemo(
+		() => allProjects.find((p) => p.slug === selectedSlug)?.type ?? null,
+		[allProjects, selectedSlug],
 	);
 
 	const filtered = useMemo(() => {
@@ -87,7 +96,7 @@ export function ProjectsPage() {
 				</SectionReveal>
 
 				<SectionReveal delay={0.05}>
-					<h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+					<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
 						<LanguageReveal inline>{t("projects.title")}</LanguageReveal>
 					</h1>
 				</SectionReveal>
@@ -119,8 +128,8 @@ export function ProjectsPage() {
 							<div className="flex flex-wrap gap-2">
 								<button
 									type="button"
-									onClick={() => setSelectedType(null)}
-									className={`rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-wide transition-colors ${
+									onClick={() => setSelectedSlug(null)}
+									className={`relative rounded-full border px-3 py-1 font-mono text-[11px] transition-colors after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] ${
 										selectedType === null
 											? "border-foreground/30 bg-muted text-foreground"
 											: "border-border text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground"
@@ -128,12 +137,12 @@ export function ProjectsPage() {
 								>
 									{t("projects.allTypes")}
 								</button>
-								{types.map((type) => (
+								{types.map(({ type, slug }) => (
 									<button
 										type="button"
 										key={type}
-										onClick={() => setSelectedType(type)}
-										className={`rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-wide transition-colors ${
+										onClick={() => setSelectedSlug(slug)}
+										className={`relative rounded-full border px-3 py-1 font-mono text-[11px] transition-colors after:absolute after:-inset-y-2 after:inset-x-0 after:content-[''] ${
 											selectedType === type
 												? "border-foreground/30 bg-muted text-foreground"
 												: "border-border text-muted-foreground hover:border-muted-foreground/40 hover:text-foreground"

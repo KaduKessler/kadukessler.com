@@ -22,7 +22,7 @@ export function Contact() {
 
 					<div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
 						<a
-							href="mailto:contato@kadukessler.com"
+							href="mailto:kadukessler@gmail.com"
 							onClick={triggerPrimaryAction}
 							className="inline-flex items-center justify-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity duration-150 hover:opacity-90"
 						>

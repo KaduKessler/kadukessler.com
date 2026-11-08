@@ -35,7 +35,7 @@ const personJsonLd = {
 		addressCountry: "BR",
 	},
 	sameAs: ["https://github.com/kadukessler"],
-	email: "contato@kadukessler.com",
+	email: "kadukessler@gmail.com",
 };
 
 export function Home() {

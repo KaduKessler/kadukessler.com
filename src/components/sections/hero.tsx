@@ -70,7 +70,7 @@ export function Hero() {
 		e.preventDefault();
 		e.stopPropagation();
 		navigator.clipboard
-			.writeText("contato@kadukessler.com")
+			.writeText("kadukessler@gmail.com")
 			.then(() => {
 				setCopied(true);
 				triggerTap?.();
@@ -245,11 +245,11 @@ export function Hero() {
 									Email
 								</span>
 								<a
-									href="mailto:contato@kadukessler.com"
+									href="mailto:kadukessler@gmail.com"
 									onClick={triggerTap}
 									className="hero-link mt-1 block break-all text-[13px] font-medium text-foreground"
 								>
-									contato@kadukessler.com
+									kadukessler@gmail.com
 								</a>
 							</div>
 							<button

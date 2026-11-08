@@ -28,4 +28,4 @@ Builds complete systems end to end: application code, deployment, infrastructure
 ## Contact
 
 - GitHub: https://github.com/kadukessler
-- Email: contato@kadukessler.com
+- Email: kadukessler@gmail.com

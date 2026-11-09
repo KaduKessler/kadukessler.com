@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "concurrently \"velite dev\" \"vite\"",
-		"build": "velite build && tsc -b && vite build && node scripts/prerender.mjs && node -e \"require('node:fs').copyFileSync('dist/index.html','dist/404.html')\"",
+		"build": "velite build && tsc -b && vite build && node scripts/prerender.mjs && node scripts/prepare-deploy.mjs",
 		"lint": "biome check .",
 		"preview": "vite preview",
 		"biome": "biome",

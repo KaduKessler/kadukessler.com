@@ -94,6 +94,7 @@ export function SectionReveal({
 			ref={ref}
 			className={cn(
 				className,
+				"prerender-reveal",
 				"[transition:opacity_0.45s_ease-out,transform_0.45s_ease-out,filter_0.45s_ease-out]",
 			)}
 			style={style}
@@ -162,6 +163,7 @@ export function StaggerItem({
 		<div
 			className={cn(
 				className,
+				"prerender-reveal",
 				"[transition:opacity_0.4s_ease-out,transform_0.4s_ease-out]",
 			)}
 			style={style}

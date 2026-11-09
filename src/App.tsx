@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect } from "react";
+import { type ComponentType, lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "@/components/pages/home";
 import { ToastProvider } from "@/components/ui/toast";
 import { BLOG_ENABLED } from "@/lib/flags";
 import { applyDetectedLanguage } from "@/lib/i18n";
@@ -9,6 +8,9 @@ import { applyDetectedLanguage } from "@/lib/i18n";
 // the routes people actually land on.
 const NotFound = lazy(() =>
 	import("@/components/ui/not-found").then((m) => ({ default: m.NotFound })),
+);
+const Home = lazy(() =>
+	import("@/components/pages/home").then((m) => ({ default: m.Home })),
 );
 const Blog = lazy(() =>
 	import("@/components/pages/blog").then((m) => ({ default: m.Blog })),
@@ -27,7 +29,15 @@ const ProjectsPage = lazy(() =>
 	})),
 );
 
-export default function App() {
+export default function App({
+	initialHome: InitialHome,
+	initialProjectsPage: InitialProjectsPage,
+	initialProjectDetail: InitialProjectDetail,
+}: {
+	initialHome?: ComponentType;
+	initialProjectsPage?: ComponentType;
+	initialProjectDetail?: ComponentType;
+}) {
 	useEffect(() => {
 		applyDetectedLanguage();
 	}, []);
@@ -36,29 +46,42 @@ export default function App() {
 		<ToastProvider>
 			<BrowserRouter>
 				<Routes>
-					{/* No Suspense boundary here: Home is prerendered
-					(scripts/prerender.mjs) and hydrated against that static
-					snapshot. The snapshot is a plain client-rendered DOM (via
-					puppeteer), which doesn't contain the comment-node markers
-					React's Suspense boundaries need for hydration, so wrapping
-					this route in Suspense throws a hydration-mismatch error on
-					every single load. The other routes are lazy-loaded but never
-					prerendered, so Suspense around them is safe. */}
-					<Route path="/" element={<Home />} />
+					{/* Initial prerendered routes render without Suspense: browser
+					snapshots do not contain React's server Suspense markers. */}
+					<Route
+						path="/"
+						element={
+							InitialHome ? (
+								<InitialHome />
+							) : (
+								<Suspense fallback={null}>
+									<Home />
+								</Suspense>
+							)
+						}
+					/>
 					<Route
 						path="/projects"
 						element={
-							<Suspense fallback={null}>
-								<ProjectsPage />
-							</Suspense>
+							InitialProjectsPage ? (
+								<InitialProjectsPage />
+							) : (
+								<Suspense fallback={null}>
+									<ProjectsPage />
+								</Suspense>
+							)
 						}
 					/>
 					<Route
 						path="/projects/:slug"
 						element={
-							<Suspense fallback={null}>
-								<ProjectDetail />
-							</Suspense>
+							InitialProjectDetail ? (
+								<InitialProjectDetail />
+							) : (
+								<Suspense fallback={null}>
+									<ProjectDetail />
+								</Suspense>
+							)
 						}
 					/>
 					{BLOG_ENABLED && (

@@ -7,13 +7,16 @@ export function FadeInImage({
 	alt,
 	containerClassName = "min-h-[220px]",
 	imgClassName,
+	priority = false,
 }: {
 	src: string;
 	alt: string;
 	containerClassName?: string;
 	imgClassName?: string;
+	priority?: boolean;
 }) {
 	const [loaded, setLoaded] = useState(false);
+	const visible = priority || loaded;
 
 	return (
 		<div className={cn("relative w-full", containerClassName)}>
@@ -26,19 +29,20 @@ export function FadeInImage({
 			hydration always starts from `loaded: false`. */}
 			<Skeleton
 				className={cn(
-					"absolute inset-0 rounded-none transition-opacity duration-300 ease-out",
-					loaded ? "pointer-events-none opacity-0" : "opacity-100",
+					"prerender-skeleton absolute inset-0 rounded-none transition-opacity duration-300 ease-out",
+					visible ? "pointer-events-none opacity-0" : "opacity-100",
 				)}
 			/>
 			<img
 				src={src}
 				alt={alt}
-				loading="lazy"
+				loading={priority ? "eager" : "lazy"}
+				fetchPriority={priority ? "high" : undefined}
 				onLoad={() => setLoaded(true)}
 				className={cn(
 					imgClassName,
-					"transition-[opacity,transform] duration-300 ease-out",
-					loaded ? "scale-100 opacity-100" : "scale-105 opacity-0",
+					"prerender-image transition-[opacity,transform] duration-300 ease-out",
+					visible ? "scale-100 opacity-100" : "scale-105 opacity-0",
 				)}
 			/>
 		</div>

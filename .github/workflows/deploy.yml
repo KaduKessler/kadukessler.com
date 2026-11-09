@@ -43,16 +43,21 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          set -eu
           export PATH=$PATH:/usr/local/bin
           cd ${{ secrets.REMOTE_DIR }}
+
+          node --check .server/server.mjs
 
           if pm2 describe "${{ secrets.PM2_NAME }}" >/dev/null 2>&1; then
             pm2 delete "${{ secrets.PM2_NAME }}"
           fi
 
-          pm2 serve . "${{ secrets.PORT }}" \
+          PORT="${{ secrets.PORT }}" pm2 start .server/server.mjs \
             --name "${{ secrets.PM2_NAME }}" \
-            --spa
+            --interpreter node
+
+          node .server/verify-server.mjs . "http://127.0.0.1:${{ secrets.PORT }}"
 
           pm2 save
           pm2 describe "${{ secrets.PM2_NAME }}"

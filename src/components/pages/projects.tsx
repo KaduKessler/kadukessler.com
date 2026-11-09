@@ -6,6 +6,7 @@ import { GalleryCard } from "@/components/sections/project-cards";
 import { Background } from "@/components/ui/background";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
+import { PageMetadata } from "@/components/ui/page-metadata";
 import {
 	SectionReveal,
 	Stagger,
@@ -68,12 +69,11 @@ export function ProjectsPage() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<title>Projects | Kadu Kessler</title>
-			<meta
-				name="description"
-				content="Client and personal projects built by Kadu Kessler: full-stack web systems, automation tools, and integrations."
+			<PageMetadata
+				title="Projects | Kadu Kessler"
+				description="Client and personal projects built by Kadu Kessler: full-stack web systems, automation tools, and integrations."
+				pathname="/projects"
 			/>
-			<link rel="canonical" href="https://kadukessler.com/projects" />
 			<script type="application/ld+json">
 				{JSON.stringify(itemListJsonLd)}
 			</script>

@@ -28,9 +28,11 @@ import { FadeInImage } from "@/components/ui/fade-in-image";
 import { LanguageReveal } from "@/components/ui/language-reveal";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { MDXContent } from "@/components/ui/mdx-content";
+import { PageMetadata } from "@/components/ui/page-metadata";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
+
 import { cn } from "@/lib/utils";
 
 import "highlight.js/styles/github-dark.css";
@@ -275,41 +277,20 @@ export function ProjectDetail() {
 	return (
 		<div className="min-h-screen bg-background">
 			<Background />
-			<title>{`${project.title} | Kadu Kessler`}</title>
-			<meta name="description" content={project.summary} />
-			<link
-				rel="canonical"
-				href={`https://kadukessler.com/projects/${project.slug}`}
+			<PageMetadata
+				title={`${project.title} | Kadu Kessler`}
+				description={project.summary}
+				pathname={`/projects/${project.slug}`}
+				image={project.cover ?? project.logo}
 			/>
-
-			<meta property="og:type" content="website" />
-			<meta
-				property="og:url"
-				content={`https://kadukessler.com/projects/${project.slug}`}
-			/>
-			<meta property="og:title" content={project.title} />
-			<meta property="og:description" content={project.summary} />
-			{project.logo && (
-				<meta
-					property="og:image"
-					content={`https://kadukessler.com${project.logo}`}
+			{project.cover && (
+				<link
+					rel="preload"
+					as="image"
+					href={project.cover}
+					fetchPriority="high"
 				/>
 			)}
-
-			<meta property="twitter:card" content="summary_large_image" />
-			<meta
-				property="twitter:url"
-				content={`https://kadukessler.com/projects/${project.slug}`}
-			/>
-			<meta property="twitter:title" content={project.title} />
-			<meta property="twitter:description" content={project.summary} />
-			{project.logo && (
-				<meta
-					property="twitter:image"
-					content={`https://kadukessler.com${project.logo}`}
-				/>
-			)}
-
 			<script type="application/ld+json">
 				{JSON.stringify({
 					"@context": "https://schema.org",
@@ -338,7 +319,7 @@ export function ProjectDetail() {
 			</AnimatePresence>
 
 			<main className="relative mx-auto flex max-w-2xl flex-col gap-10 px-4 pt-10 pb-16 sm:px-6 sm:pt-14 sm:pb-24 lg:max-w-5xl">
-				<SectionReveal>
+				<SectionReveal immediate>
 					<nav className="flex items-center justify-between">
 						<Link
 							to="/projects"
@@ -354,7 +335,7 @@ export function ProjectDetail() {
 					</nav>
 				</SectionReveal>
 
-				<SectionReveal delay={0.05}>
+				<SectionReveal immediate>
 					<div className="relative flex flex-col gap-4">
 						{projectIndex >= 0 && (
 							<span
@@ -413,8 +394,7 @@ export function ProjectDetail() {
 										<ChevronLeft className="size-3.5" />
 									</Link>
 									<span className="font-mono text-[10px] text-muted-foreground/50">
-										{String(projectIndex + 1).padStart(2, "0")}/
-										{String(allProjects.length).padStart(2, "0")}
+										{`${String(projectIndex + 1).padStart(2, "0")}/${String(allProjects.length).padStart(2, "0")}`}
 									</span>
 									<Link
 										to={`/projects/${nextProject.slug}`}
@@ -569,7 +549,7 @@ export function ProjectDetail() {
 						)}
 					</SectionReveal>
 
-					<SectionReveal delay={0.1} className="flex flex-col gap-8">
+					<SectionReveal immediate className="flex flex-col gap-8">
 						{project.cover && (
 							<button
 								type="button"
@@ -581,6 +561,7 @@ export function ProjectDetail() {
 							>
 								<FadeInImage
 									src={project.cover}
+									priority
 									alt={project.coverAlt ?? project.title}
 									containerClassName={project.wideMedia ? "" : "aspect-video"}
 									imgClassName={

@@ -55,7 +55,7 @@ function ZoomHint({ label }: { label: string }) {
 
 function SidebarLabel({ children }: { children: React.ReactNode }) {
 	return (
-		<span className="font-mono text-[11px] font-medium text-muted-foreground/70">
+		<span className="font-mono text-[11px] font-medium text-muted-foreground">
 			{children}
 		</span>
 	);

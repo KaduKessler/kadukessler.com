@@ -214,6 +214,10 @@ export function Hero() {
 					</div>
 				</div>
 
+				<LanguageReveal className="max-w-lg text-base leading-relaxed text-foreground/80 sm:text-lg">
+					{t("hero.introduction")}
+				</LanguageReveal>
+
 				<div className="card-elevated rounded-xl border border-border bg-card p-3 sm:p-4">
 					<div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
 						<div className="flex items-center gap-2.5">

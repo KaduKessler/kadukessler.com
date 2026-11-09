@@ -41,6 +41,8 @@ const resources = {
 				zoomImage: "Enlarge image",
 			},
 			hero: {
+				introduction:
+					"I develop web systems, integrations, and automations for businesses.",
 				taglines: ["Full-Stack Developer", ".NET + React", "Above and Beyond"],
 				location: "Location",
 				localTime: "Local Time",
@@ -214,6 +216,8 @@ const resources = {
 			},
 			hero: {
 				taglines: ["Full-Stack Developer", ".NET + React", "Above and Beyond"],
+				introduction:
+					"Desenvolvo sistemas web, integrações e automações para empresas.",
 				location: "Localização",
 				localTime: "Hora Local",
 				currentRole: "Atuação",

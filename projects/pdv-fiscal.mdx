@@ -6,11 +6,11 @@ type:
   en: "Client project"
   pt: "Projeto de cliente"
 summary:
-  en: "Point-of-sale system for a pizzeria and snack bar, in production, taken over from someone else's codebase and extended with fiscal note emission (NFC-e via SEFAZ/FocusNFe)."
-  pt: "Sistema de PDV de uma pizzaria e lanchonete, em produção, herdado de outra pessoa e estendido com emissão de nota fiscal (NFC-e via SEFAZ/FocusNFe)."
+  en: "Inherited restaurant POS now issuing NFC-e in daily production use, with my work on fiscal integration, existing issues, and ongoing improvements."
+  pt: "PDV de restaurante herdado e hoje emitindo NFC-e no uso diário em produção, com minha atuação na integração fiscal, correção de problemas existentes e evolução do sistema."
 cardSummary:
-  en: "Pizzeria POS in production, extended with NFC-e fiscal emission."
-  pt: "PDV de pizzaria em produção, estendido com emissão fiscal de NFC-e."
+  en: "Inherited restaurant POS, extended with NFC-e in daily production use."
+  pt: "PDV herdado, com emissão de NFC-e em uso diário em produção."
 periodStart: "07.2026"
 status: "private"
 stack: ["Vue 3", "Vite", "Pinia", "Supabase", "Cloudflare Workers", "FocusNFe", "SEFAZ/NFC-e"]
@@ -25,6 +25,10 @@ logoAlt:
 inProduction: true
 draft: false
 contentEn: |
+  ## Outcome and my contribution
+
+  The restaurant now issues NFC-e through its existing POS in daily use. I took over an existing codebase, fixed issues, and implemented fiscal emission and cancellation through server-side functions. The fiscal flow was validated in the SEFAZ test environment, with classifications reviewed by the client’s accountant.
+
   ## Context
 
   A restaurant needed to start issuing fiscal notes to comply with a legal deadline. The point-of-sale system already existed, built by someone else; I fixed existing issues in it, integrated fiscal note emission on top and kept evolving it. It now runs in production, in daily use.
@@ -65,6 +69,10 @@ contentEn: |
 
   Active, ongoing engagement. Repository is private and belongs to the client.
 contentPt: |
+  ## Resultado e minha participação
+
+  O restaurante hoje emite NFC-e pelo próprio PDV no uso diário. Assumi uma base existente, corrigi problemas e implementei emissão e cancelamento fiscal por funções no servidor. O fluxo foi validado no ambiente de testes da SEFAZ, com as classificações revisadas pelo contador do cliente.
+
   ## Contexto
 
   Um restaurante precisava começar a emitir nota fiscal pra cumprir um prazo legal. O PDV já existia, construído por outra pessoa; corrigi problemas existentes nele, integrei a emissão fiscal em cima e segui evoluindo o sistema. Hoje ele roda em produção, em uso diário.

@@ -169,7 +169,7 @@ const resources = {
 			contact: {
 				title: "Contact",
 				description:
-					"Feel free to reach out; whether it's about a project, a collaboration, an opportunity, or just to say hi. I'm always open to connect.",
+					"Need to build or improve a system, or want to discuss an opportunity? Tell me what you have in mind.",
 				sendEmail: "Send an email",
 			},
 			footer: {
@@ -343,7 +343,7 @@ const resources = {
 			contact: {
 				title: "Contato",
 				description:
-					"Sinta-se à vontade para entrar em contato; seja sobre um projeto, uma colaboração, uma oportunidade ou apenas para dar um oi. Estou sempre aberto a novas conexões.",
+					"Precisa criar ou evoluir um sistema, ou quer conversar sobre uma oportunidade? Me conte o que você tem em mente.",
 				sendEmail: "Enviar um e-mail",
 			},
 			footer: {

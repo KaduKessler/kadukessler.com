@@ -69,6 +69,12 @@ type StaggerItemProps = {
 	immediate?: boolean;
 };
 
+type RevealStyle = CSSProperties & {
+	"--reveal-opacity": number;
+	"--reveal-transform": string;
+	"--reveal-filter": string;
+};
+
 export function SectionReveal({
 	children,
 	className,
@@ -82,10 +88,10 @@ export function SectionReveal({
 		return <div className={className}>{children}</div>;
 	}
 
-	const style: CSSProperties = {
-		opacity: inView ? 1 : 0,
-		transform: inView ? "scale(1)" : "scale(0.985)",
-		filter: inView ? "blur(0px)" : "blur(6px)",
+	const style: RevealStyle = {
+		"--reveal-opacity": inView ? 1 : 0,
+		"--reveal-transform": inView ? "scale(1)" : "scale(0.985)",
+		"--reveal-filter": inView ? "blur(0px)" : "blur(6px)",
 		transitionDelay: `${delay}s`,
 	};
 
@@ -153,9 +159,10 @@ export function StaggerItem({
 	}
 
 	const totalDelay = ctx.baseDelay + index * ctx.stagger;
-	const style: CSSProperties = {
-		opacity: ctx.inView ? 1 : 0,
-		transform: ctx.inView ? "scale(1)" : "scale(0.99)",
+	const style: RevealStyle = {
+		"--reveal-opacity": ctx.inView ? 1 : 0,
+		"--reveal-transform": ctx.inView ? "scale(1)" : "scale(0.99)",
+		"--reveal-filter": "none",
 		transitionDelay: `${totalDelay}s`,
 	};
 

@@ -45,6 +45,12 @@
 		U+FFFD;
 }
 
+.prerender-reveal {
+	opacity: var(--reveal-opacity, 1);
+	transform: var(--reveal-transform, none);
+	filter: var(--reveal-filter, none);
+}
+
 /* Reset básico para aplicar o tema */
 :root {
 	--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;

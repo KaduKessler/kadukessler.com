@@ -48,6 +48,18 @@ try {
 	assert.equal(await page.$eval("h1", (el) => el.textContent), "Parió PDV");
 	assert.equal(await page.$eval(".project-case-study", (el) => getComputedStyle(el.parentElement).opacity), "1");
 	assert.ok((await page.$eval(".project-case-study", (el) => el.textContent)).includes("fiscal"));
+	await page.goto(`${base}/`, { waitUntil: "networkidle0" });
+	const fallback = await page.evaluate(() => {
+		const reveals = [...document.querySelectorAll(".prerender-reveal, .prerender-image")];
+		return {
+			count: reveals.length,
+			visible: reveals.every((element) => getComputedStyle(element).opacity === "1" && getComputedStyle(element).filter === "none"),
+			skeletonsHidden: [...document.querySelectorAll(".prerender-skeleton")].every((element) => getComputedStyle(element).display === "none"),
+		};
+	});
+	assert.ok(fallback.count > 0);
+	assert.ok(fallback.visible, "No-JS sections and images must remain visible");
+	assert.ok(fallback.skeletonsHidden, "No-JS skeletons must not cover images");
 	await page.close();
 	console.log("OK project content visible without JavaScript");
 	const interactivePage = await browser.newPage();

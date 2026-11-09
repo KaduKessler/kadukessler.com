@@ -37,4 +37,12 @@ assert.equal(identity.headers.get("content-encoding"), null);
 const weighted = await fetch(`${base}/projects/pdv-fiscal`, { headers: { "Accept-Encoding": "br;q=0.2, gzip;q=1" } });
 assert.equal(weighted.headers.get("content-encoding"), "gzip");
 console.log("OK Brotli/gzip: decoded HTML, MIME type, Vary, quality negotiation and identity fallback");
+for (const family of ["Geist", "GeistMono"]) {
+	for (const variant of ["Latin-Variable", "Variable"]) {
+		const font = await fetch(`${base}/fonts/geist/${family}-${variant}.woff2`);
+		assert.equal(font.status, 200);
+		assert.equal(font.headers.get("content-type"), "font/woff2");
+	}
+}
+console.log("OK Latin and full fallback fonts: paths and WOFF2 MIME type");
 console.log(`OK Linux/PM2: ${routes.length} routes, HTML, assets, HEAD, trailing slash, 404 and private files`);

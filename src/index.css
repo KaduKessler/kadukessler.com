@@ -21,6 +21,30 @@
 	font-display: swap;
 }
 
+/* Latin subsets cover PT/EN; the full faces above remain available for
+   characters outside these ranges. */
+@font-face {
+	font-family: "Geist";
+	src: url("/fonts/geist/Geist-Latin-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-00FF, U+0300-036F, U+2000-206F, U+20A0-20CF, U+2190-21FF, U+FEFF,
+		U+FFFD;
+}
+
+@font-face {
+	font-family: "Geist Mono";
+	src: url("/fonts/geist/GeistMono-Latin-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range:
+		U+0000-00FF, U+0300-036F, U+2000-206F, U+20A0-20CF, U+2190-21FF, U+FEFF,
+		U+FFFD;
+}
+
 /* Reset básico para aplicar o tema */
 :root {
 	--font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;

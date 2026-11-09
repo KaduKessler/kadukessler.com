@@ -150,73 +150,75 @@ export function Hero() {
 	return (
 		<SectionReveal immediate>
 			<section className="flex flex-col gap-6">
-				<div className="flex items-start gap-4 sm:gap-5">
-					<div
-						style={{
-							opacity: logoOpacity,
-							transform: `scale(${logoScale})`,
-						}}
-						className="card-elevated relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-3 sm:size-16"
-					>
-						<img
-							src="/images/kadu_logo_white.svg"
-							alt=""
-							width={28}
-							height={28}
-							className="hidden h-7 w-auto dark:block sm:h-8"
-						/>
-						<img
-							src="/images/kadu_logo.svg"
-							alt=""
-							width={28}
-							height={28}
-							className="block h-7 w-auto dark:hidden sm:h-8"
-						/>
-					</div>
+				<div className="flex flex-col gap-3">
+					<div className="flex items-start gap-4 sm:gap-5">
+						<div
+							style={{
+								opacity: logoOpacity,
+								transform: `scale(${logoScale})`,
+							}}
+							className="card-elevated relative mt-0.5 flex size-15 shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-3 sm:size-16"
+						>
+							<img
+								src="/images/kadu_logo_white.svg"
+								alt=""
+								width={28}
+								height={28}
+								className="hidden h-7 w-auto dark:block sm:h-8"
+							/>
+							<img
+								src="/images/kadu_logo.svg"
+								alt=""
+								width={28}
+								height={28}
+								className="block h-7 w-auto dark:hidden sm:h-8"
+							/>
+						</div>
 
-					<div
-						style={{ transform: `translateX(${textX}px)` }}
-						className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5"
-					>
-						<h1 className="text-3xl font-semibold tracking-tight sm:text-[2.6rem]">
-							Kadu Kessler
-						</h1>
-						<p className="min-h-5 font-mono text-sm text-muted-foreground">
-							{/* The prerender snapshot (scripts/prerender.mjs) captures
+						<div
+							style={{ transform: `translateX(${textX}px)` }}
+							className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5"
+						>
+							<h1 className="text-3xl font-semibold tracking-tight sm:text-[2.6rem]">
+								Kadu Kessler
+							</h1>
+							<p className="min-h-5 font-mono text-sm text-muted-foreground">
+								{/* The prerender snapshot (scripts/prerender.mjs) captures
 							the page up to 3s after mount, racing this same-length
 							3s rotation interval — the snapshot can bake in whichever
 							tagline had already rotated in by then, while a fresh
 							hydration always starts at index 0. suppressHydrationWarning
 							lets the client's real value win instead of throwing. */}
-							<span
-								suppressHydrationWarning
-								style={{
-									opacity: taglineVisible ? 1 : 0,
-									// Also gated by visibility (not opacity alone): axe's
-									// color-contrast check only respects visibility/display,
-									// not computed opacity, so a Lighthouse/axe scan landing
-									// mid-fade sees opacity:0 text as "visible" and flags it
-									// for insufficient contrast. Delaying the hide until the
-									// fade-out finishes (and showing instantly on fade-in)
-									// keeps the animation identical while fixing that.
-									visibility: taglineVisible ? "visible" : "hidden",
-									filter: taglineVisible ? "blur(0px)" : "blur(1px)",
-									transform: taglineVisible
-										? "translateY(0)"
-										: "translateY(4px)",
-									transition: `opacity 0.28s ease-out, filter 0.28s ease-out, transform 0.28s ease-out, visibility 0s linear ${taglineVisible ? "0s" : "0.28s"}`,
-								}}
-								className="inline-block"
-							>
-								{taglines[activeTagline]}
-							</span>
-						</p>
+								<span
+									suppressHydrationWarning
+									style={{
+										opacity: taglineVisible ? 1 : 0,
+										// Also gated by visibility (not opacity alone): axe's
+										// color-contrast check only respects visibility/display,
+										// not computed opacity, so a Lighthouse/axe scan landing
+										// mid-fade sees opacity:0 text as "visible" and flags it
+										// for insufficient contrast. Delaying the hide until the
+										// fade-out finishes (and showing instantly on fade-in)
+										// keeps the animation identical while fixing that.
+										visibility: taglineVisible ? "visible" : "hidden",
+										filter: taglineVisible ? "blur(0px)" : "blur(1px)",
+										transform: taglineVisible
+											? "translateY(0)"
+											: "translateY(4px)",
+										transition: `opacity 0.28s ease-out, filter 0.28s ease-out, transform 0.28s ease-out, visibility 0s linear ${taglineVisible ? "0s" : "0.28s"}`,
+									}}
+									className="inline-block"
+								>
+									{taglines[activeTagline]}
+								</span>
+							</p>
+						</div>
 					</div>
-				</div>
 
-				<LanguageReveal className="max-w-lg text-base leading-relaxed text-foreground/80 sm:text-lg">
-					{t("hero.introduction")}
-				</LanguageReveal>
+					<LanguageReveal className="max-w-lg text-sm leading-relaxed text-foreground/80 sm:ml-21">
+						{t("hero.introduction")}
+					</LanguageReveal>
+				</div>
 
 				<div className="card-elevated rounded-xl border border-border bg-card p-3 sm:p-4">
 					<div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">

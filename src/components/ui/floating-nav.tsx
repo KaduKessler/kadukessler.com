@@ -113,27 +113,11 @@ function DesktopNav({
 }) {
 	const { t } = useTranslation();
 	const { triggerTap } = useTouchHaptics();
-	const logoRef = useRef<HTMLButtonElement>(null);
 	const listRef = useRef<HTMLUListElement>(null);
 	const itemRefs = useRef<Map<string, HTMLLIElement>>(new Map());
-	const [position, setPosition] = useState({ x: 0, y: 0 });
 	const [pill, setPill] = useState<{ left: number; width: number } | null>(
 		null,
 	);
-
-	const handleMouseMove = (e: React.MouseEvent) => {
-		if (!logoRef.current) return;
-		const { clientX, clientY } = e;
-		const { left, top, width, height } =
-			logoRef.current.getBoundingClientRect();
-		const centerX = left + width / 2;
-		const centerY = top + height / 2;
-		const moveX = (clientX - centerX) * 0.35;
-		const moveY = (clientY - centerY) * 0.35;
-		setPosition({ x: moveX, y: moveY });
-	};
-
-	const resetPosition = () => setPosition({ x: 0, y: 0 });
 
 	const handleScroll = (
 		e: React.MouseEvent<HTMLAnchorElement>,
@@ -168,16 +152,13 @@ function DesktopNav({
 			>
 				<div className="flex items-center justify-center overflow-hidden">
 					<button
-						ref={logoRef}
 						type="button"
-						onMouseMove={handleMouseMove}
-						onMouseLeave={resetPosition}
 						onClick={() => {
 							triggerTap?.();
 							window.scrollTo({ top: 0, behavior: "smooth" });
 						}}
 						style={{
-							transform: `translate(${position.x}px, ${position.y}px) scale(${hasScrolled ? 1 : 0}) rotate(${hasScrolled ? 0 : -45}deg)`,
+							transform: `scale(${hasScrolled ? 1 : 0}) rotate(${hasScrolled ? 0 : -45}deg)`,
 							opacity: hasScrolled ? 1 : 0,
 						}}
 						className="group flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 [transition:transform_0.25s_cubic-bezier(0.16,1,0.3,1),opacity_0.2s_ease-out] hover:bg-muted active:scale-90"

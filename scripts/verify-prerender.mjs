@@ -54,10 +54,27 @@ try {
 	await interactivePage.setViewport({ width: 390, height: 844 });
 	await interactivePage.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);
 	const navigationErrors = [];
+	const requestedModules = [];
+	interactivePage.on("request", (request) => requestedModules.push(request.url()));
 	interactivePage.on("pageerror", (error) => navigationErrors.push(error.message));
 	await interactivePage.goto(`${base}/projects/pdv-fiscal`, { waitUntil: "networkidle0" });
 	assert.equal(await interactivePage.$eval("html", (el) => el.classList.contains("dark")), true);
-
+	assert.ok(!requestedModules.some((url) => /\/project-lightbox-[^/]+\.js$/.test(url)), "Lightbox must load on demand");
+	const cover = await interactivePage.$("button:has(img[src='/images/projects/pario-pdv-cover.webp'])");
+	await cover.click();
+	await interactivePage.waitForSelector("[role='dialog']");
+	await interactivePage.waitForFunction(() => document.querySelector("[role='dialog'] button") === document.activeElement);
+	assert.ok(requestedModules.some((url) => /\/project-lightbox-[^/]+\.js$/.test(url)));
+	await interactivePage.keyboard.press("Tab");
+	assert.equal(await interactivePage.evaluate(() => document.querySelector("[role='dialog'] button") === document.activeElement), true);
+	await interactivePage.keyboard.press("Escape");
+	await interactivePage.waitForSelector("[role='dialog']", { hidden: true });
+	assert.equal(await interactivePage.evaluate((element) => document.activeElement === element, cover), true);
+	await cover.click();
+	await interactivePage.waitForSelector("[role='dialog']");
+	await interactivePage.click("[role='dialog'] button");
+	await interactivePage.waitForSelector("[role='dialog']", { hidden: true });
+	console.log("OK lightbox: on-demand module, open, reopen, Tab, Escape, close and focus restoration");
 	await interactivePage.click("a[href='/projects']");
 	await interactivePage.waitForFunction(() => location.pathname === "/projects" && document.title === "Projects | Kadu Kessler");
 	assert.equal(await interactivePage.$$eval("link[rel=canonical]", (els) => els.length), 1);

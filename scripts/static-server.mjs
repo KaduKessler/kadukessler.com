@@ -51,8 +51,27 @@ export function createStaticServer(rootDirectory) {
 				info = await stat(file);
 			}
 			const contentType = mimeTypes[path.extname(file)] ?? "application/octet-stream";
+			const accepted = new Map((request.headers["accept-encoding"] || "").split(",").map((entry) => {
+				const [encoding, ...parameters] = entry.trim().toLowerCase().split(";");
+				const quality = parameters.find((parameter) => parameter.trim().startsWith("q="));
+				return [encoding, quality ? Number(quality.trim().slice(2)) : 1];
+			}));
+			const quality = (encoding) => accepted.get(encoding) ?? accepted.get("*") ?? 0;
+			let contentEncoding;
+			for (const encoding of ["br", "gzip"].filter((encoding) => quality(encoding) > 0).sort((a, b) => quality(b) - quality(a))) {
+				const compressedFile = `${file}.${encoding === "br" ? "br" : "gz"}`;
+				const compressedInfo = await stat(compressedFile).catch(() => null);
+				if (compressedInfo?.isFile()) {
+					file = compressedFile;
+					info = compressedInfo;
+					contentEncoding = encoding;
+					break;
+				}
+			}
 			response.writeHead(status, {
 				"Content-Type": contentType,
+				...(contentEncoding ? { "Content-Encoding": contentEncoding } : {}),
+				Vary: "Accept-Encoding",
 				"Content-Length": info.size,
 				"Cache-Control": status === 200 && pathname.startsWith("/assets/")
 					? "public, max-age=31536000, immutable" : "no-cache",

@@ -25,4 +25,16 @@ assert.equal(response.status, 200);
 assert.match(response.headers.get("content-type"), /javascript/);
 assert.match(response.headers.get("cache-control"), /immutable/);
 
+for (const encoding of ["br", "gzip"]) {
+	const compressed = await fetch(`${base}/projects/pdv-fiscal`, { headers: { "Accept-Encoding": encoding } });
+	assert.equal(compressed.headers.get("content-encoding"), encoding);
+	assert.equal(compressed.headers.get("vary"), "Accept-Encoding");
+	assert.match(compressed.headers.get("content-type"), /text\/html/);
+	assert.ok((await compressed.text()).includes("Parió PDV"));
+}
+const identity = await fetch(`${base}/projects/pdv-fiscal`, { headers: { "Accept-Encoding": "br;q=0, gzip;q=0, identity" } });
+assert.equal(identity.headers.get("content-encoding"), null);
+const weighted = await fetch(`${base}/projects/pdv-fiscal`, { headers: { "Accept-Encoding": "br;q=0.2, gzip;q=1" } });
+assert.equal(weighted.headers.get("content-encoding"), "gzip");
+console.log("OK Brotli/gzip: decoded HTML, MIME type, Vary, quality negotiation and identity fallback");
 console.log(`OK Linux/PM2: ${routes.length} routes, HTML, assets, HEAD, trailing slash, 404 and private files`);

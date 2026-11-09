@@ -6,11 +6,11 @@ type:
   en: "Tool"
   pt: "Ferramenta"
 summary:
-  en: "Utility that parses payroll PDF reports from an HR portal and converts them into structured Excel spreadsheets."
-  pt: "Utilitário que interpreta holerites em PDF de um portal de RH e converte em planilhas Excel estruturadas."
+  en: "Desktop tool that collects payslips from an HR portal and generates organized PDF files."
+  pt: "Ferramenta desktop que coleta holerites de um portal de RH e gera arquivos PDF organizados."
 cardSummary:
-  en: "Turns payroll PDFs from an HR portal into structured Excel sheets."
-  pt: "Converte holerites em PDF de um portal de RH em planilhas Excel."
+  en: "Collects payslips from an HR portal and saves organized PDFs."
+  pt: "Coleta holerites de um portal de RH e salva PDFs organizados."
 periodStart: "08.2024"
 periodEnd: "03.2025"
 status: "private"
@@ -19,12 +19,12 @@ logoDark: "/images/projects/payroll-extractor-icon-white.webp"
 logoAlt:
   en: "Payroll PDF Extractor icon"
   pt: "Ícone do Extrator de Holerites"
-stack: ["Python", "Playwright", "PySide6", "BeautifulSoup"]
+stack: ["Python", "Playwright", "httpx", "PySide6", "BeautifulSoup", "PyInstaller"]
 draft: false
 contentEn: |
   ## Context
 
-  Manually copying payroll data from PDF reports into spreadsheets for analysis was slow and error-prone, especially across years of accumulated records. Built a desktop tool to automate the whole flow end to end, since the source HR portal has no bulk-export feature.
+  Collecting payslips one at a time from an HR portal is repetitive, especially across years of records. I built a desktop tool to list available documents, filter by period, collect their HTML, and generate organized PDFs.
 
   ## What I built
 
@@ -45,7 +45,7 @@ contentEn: |
 contentPt: |
   ## Contexto
 
-  Copiar dados de holerites em PDF manualmente pra planilha, pra depois analisar, era lento e sujeito a erro, principalmente com anos de registros acumulados. Construí uma ferramenta desktop pra automatizar o fluxo inteiro, já que o portal de RH de origem não tem opção de exportação em massa.
+  Coletar holerites um por um num portal de RH é repetitivo, principalmente com anos de registros acumulados. Construí uma ferramenta desktop para listar os documentos disponíveis, filtrar por período, coletar o HTML e gerar PDFs organizados.
 
   ## O que construí
 

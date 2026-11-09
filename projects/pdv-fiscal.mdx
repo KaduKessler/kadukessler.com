@@ -13,7 +13,7 @@ cardSummary:
   pt: "PDV herdado, com emissão de NFC-e em uso diário em produção."
 periodStart: "07.2026"
 status: "private"
-stack: ["Vue 3", "Vite", "Pinia", "Supabase", "Cloudflare Workers", "FocusNFe", "SEFAZ/NFC-e"]
+stack: ["Vue 3", "Vite", "Pinia", "Supabase", "Supabase Edge Functions", "Deno", "Cloudflare Workers", "FocusNFe", "SEFAZ/NFC-e"]
 cover: "/images/projects/pario-pdv-cover.webp"
 coverAlt:
   en: "Parió PDV delivery kanban with pending orders and a charge button, amounts masked"
@@ -41,7 +41,7 @@ contentEn: |
 
   - Order-to-note flow (table, counter and delivery), through payment and NFC-e emission via FocusNFe
   - Fiscal classification (NCM, CFOP, CSOSN, origin) reviewed and approved by the client's accountant
-  - Emission and cancellation running as server-side functions, so credentials never reach the browser
+  - Emission and cancellation running in Supabase Edge Functions (Deno), so credentials never reach the browser
   - Real DANFE shown to the customer after payment, with access key and QR code
   - Cancellation within the legal 30-minute window, with its own panel and pending-status tracking
   - Sale details in the finance module with items, delivery and fiscal note (PDF, XML and access key)
@@ -85,7 +85,7 @@ contentPt: |
 
   - Fluxo de pedido até a nota (mesa, balcão e delivery), passando por pagamento e emissão de NFC-e via FocusNFe
   - Classificação fiscal (NCM, CFOP, CSOSN, origem) revisada e aprovada pelo contador do cliente
-  - Emissão e cancelamento rodando como funções no servidor, então as credenciais nunca chegam ao navegador
+  - Emissão e cancelamento em Supabase Edge Functions (Deno), então as credenciais nunca chegam ao navegador
   - DANFE real exibido ao cliente após o pagamento, com chave de acesso e QR code
   - Cancelamento dentro da janela legal de 30 minutos, com painel próprio e acompanhamento de pendência
   - Detalhes da venda no financeiro com itens, entrega e nota fiscal (PDF, XML e chave de acesso)

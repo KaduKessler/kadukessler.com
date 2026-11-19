@@ -6,18 +6,19 @@ type:
   en: "Personal project"
   pt: "Projeto pessoal"
 summary:
-  en: "Transcritor is a Windows app that turns batches of audio files into editable text. It helps you read voice messages when you can't listen, review meetings and client conversations, and find passages in recorded lectures and talks. Transcription runs offline once the Whisper model is downloaded."
-  pt: "O Transcritor é um aplicativo para Windows que converte arquivos de áudio em lote em texto editável. Ele ajuda a ler mensagens de voz quando não dá para ouvi-las, revisar reuniões e conversas com clientes e localizar trechos em aulas e palestras gravadas. A transcrição funciona offline depois de baixar o modelo Whisper."
+  en: "Transcribe and review audio batches on Windows. Follow the queue, listen to passages by timestamp, and export the text. After the first model download, everything runs on your computer."
+  pt: "Transcreva e revise lotes de áudio no Windows. Acompanhe a fila, ouça trechos pelo horário e exporte o texto. Depois do primeiro download do modelo, tudo roda no seu computador."
 cardSummary:
   en: "Batch audio transcription on Windows with Whisper."
   pt: "Transcrição de áudios em lote no Windows com Whisper."
 periodStart: "09.2026"
 status: "private"
+wideMedia: true
 stack: ["Python", "PySide6", "faster-whisper", "PyAV", "SQLite", "PyInstaller"]
 cover: "/images/projects/transcritor-cover.webp"
 coverAlt:
-  en: "Transcritor window with the audio queue and the transcript review panel"
-  pt: "Janela do Transcritor com a fila de áudios e o painel de revisão da transcrição"
+  en: "Transcritor window with the audio queue on the left and the transcript review panel with a playback bar"
+  pt: "Janela do Transcritor com a fila de áudios à esquerda e o painel de revisão da transcrição com barra de reprodução"
 logo: "/images/projects/transcritor-logo.webp"
 logoAlt:
   en: "Transcritor icon"
@@ -30,32 +31,43 @@ contentEn: |
   - **Review.** Click a timestamp to hear the corresponding passage. The editor highlights low-confidence passages so you know where to listen more closely, and supports find and replace. A separate history lets you find previous transcripts.
   - **Export.** Save the transcript as TXT, SRT, or WebVTT, or generate a PDF report with recording duration, recognition settings, and SHA-256 hashes.
 
+  ![Transcritor start screen: drag files here or choose them, with the supported formats listed](/images/projects/transcritor-inicio.webp)
+  ![Transcritor history in the dark theme, with search and a transcript open for review](/images/projects/transcritor-historico.webp)
+
+  Left: adding files. Right: the history in the dark theme, searchable by file name or text.
+
+  ## Use in a research project
+
+  I later used Transcritor to process audio files from 31 Instagram Reels for an undergraduate thesis. The app generated 31 TXT transcripts, one per audio file, for consultation during the research.
+
   ## How I built Transcritor
 
   I built the Windows interface with Python and PySide6. PyAV decodes formats such as OPUS, OGG, MP3, M4A, WAV, and AAC. The app uses faster-whisper to run a selectable Whisper model locally on the CPU.
 
-  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] pb-4 pt-4 dark:bg-[#0a0a0a] sm:pb-5 sm:pt-5">
-    <div className="overflow-x-auto px-3 sm:px-5" role="region" aria-label="Transcritor architecture diagram" tabIndex={0}>
-      <img
-        src="/images/projects/transcritor-architecture-en.svg"
-        alt="Transcritor architecture. The PySide6 interface starts a worker in a separate QThread. Faster-whisper transcribes each audio file locally. The service writes a temporary .part file and replaces it with the final TXT at completion. The interface receives text and timestamps for review and stores the queue and history in SQLite."
-        width={759}
-        height={556}
-        loading="lazy"
-        decoding="async"
-        className="mx-auto h-auto min-w-[38rem] max-w-full"
-      />
-    </div>
-    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Execution and storage flow<span className="mt-1 block @[40rem]:hidden">Scroll horizontally to read the diagram.</span></figcaption>
+  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] p-4 dark:bg-[#0a0a0a] sm:p-5">
+    <img
+      src="/images/projects/transcritor-architecture-en.svg"
+      alt="Transcritor architecture. The PySide6 interface starts a worker in a separate QThread. Faster-whisper transcribes each audio file locally. The service writes a temporary .part file and replaces it with the final TXT at completion. The interface receives text and timestamps for review and stores the queue and history in SQLite."
+      width={759}
+      height={556}
+      loading="lazy"
+      decoding="async"
+      className="mx-auto hidden h-auto max-w-full @[40rem]:block"
+    />
+    <ol className="m-0 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-foreground/80 @[40rem]:hidden">
+      <li>The PySide6 interface starts the batch.</li>
+      <li>A worker in a separate QThread processes one audio file at a time and reports progress back to the interface.</li>
+      <li>faster-whisper transcribes each file locally on the CPU (INT8).</li>
+      <li>The service writes a temporary .part file and replaces it with the final TXT when it finishes.</li>
+      <li>The interface receives text and timestamps for review, and stores the queue and a searchable history in SQLite.</li>
+    </ol>
+    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Execution and storage flow</figcaption>
   </figure>
 
   I used SQLite to store the queue and history. Pending, interrupted, and failed files reappear when the app opens, and interrupted or failed files can be retried. The app writes the final TXT only when transcription finishes.
 
   Model downloads can resume after an interruption. The app checks available disk space and verifies the downloaded file's size and hash before replacing the installed model. The release build checks that the executable packaged with PyInstaller can download a Whisper model and transcribe sample audio.
 
-  ## Use in a research project
-
-  I later used Transcritor to process audio files from 31 Instagram Reels for an undergraduate thesis. The app generated 31 TXT transcripts, one per audio file, for consultation during the research.
 contentPt: |
   ## Da fila à exportação
 
@@ -63,31 +75,41 @@ contentPt: |
   - **Revisão.** Clique em uma marcação de tempo para ouvir o trecho correspondente. O editor destaca trechos de baixa confiança para orientar a conferência e permite localizar e substituir texto. Um histórico separado permite encontrar transcrições anteriores.
   - **Exportação.** Salve o texto em TXT, SRT ou WebVTT, ou gere um relatório em PDF com a duração do áudio, as configurações usadas no reconhecimento e os hashes SHA-256.
 
+  ![Tela inicial do Transcritor: arraste os arquivos ou escolha-os, com os formatos aceitos listados](/images/projects/transcritor-inicio.webp)
+  ![Histórico do Transcritor no tema escuro, com busca e uma transcrição aberta para revisão](/images/projects/transcritor-historico.webp)
+
+  À esquerda: entrada de arquivos. À direita: o histórico no tema escuro, com busca por nome do arquivo ou por texto.
+
+  ## Uso em uma pesquisa
+
+  Mais tarde, usei o Transcritor para processar arquivos de áudio de 31 Reels do Instagram para um TCC. O aplicativo gerou 31 transcrições em TXT, uma por áudio, para consulta durante a pesquisa.
+
   ## Como construí o Transcritor
 
   Desenvolvi a interface para Windows com Python e PySide6. O PyAV decodifica formatos como OPUS, OGG, MP3, M4A, WAV e AAC. O aplicativo usa o faster-whisper para executar localmente, na CPU, o modelo Whisper escolhido.
 
-  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] pb-4 pt-4 dark:bg-[#0a0a0a] sm:pb-5 sm:pt-5">
-    <div className="overflow-x-auto px-3 sm:px-5" role="region" aria-label="Diagrama de arquitetura do Transcritor" tabIndex={0}>
-      <img
-        src="/images/projects/transcritor-architecture-pt.svg"
-        alt="Arquitetura do Transcritor. A interface PySide6 inicia um worker em uma QThread separada. O faster-whisper transcreve cada áudio localmente. O serviço grava em um arquivo temporário .part, que se torna o TXT final ao concluir. A interface recebe o texto e as marcações de tempo para revisão e guarda a fila e o histórico no SQLite."
-        width={728}
-        height={551}
-        loading="lazy"
-        decoding="async"
-        className="mx-auto h-auto min-w-[38rem] max-w-full"
-      />
-    </div>
-    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Fluxo de execução e armazenamento<span className="mt-1 block @[40rem]:hidden">Deslize na horizontal para ler o diagrama.</span></figcaption>
+  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] p-4 dark:bg-[#0a0a0a] sm:p-5">
+    <img
+      src="/images/projects/transcritor-architecture-pt.svg"
+      alt="Arquitetura do Transcritor. A interface PySide6 inicia um worker em uma QThread separada. O faster-whisper transcreve cada áudio localmente. O serviço grava em um arquivo temporário .part, que se torna o TXT final ao concluir. A interface recebe o texto e as marcações de tempo para revisão e guarda a fila e o histórico no SQLite."
+      width={728}
+      height={551}
+      loading="lazy"
+      decoding="async"
+      className="mx-auto hidden h-auto max-w-full @[40rem]:block"
+    />
+    <ol className="m-0 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-foreground/80 @[40rem]:hidden">
+      <li>A interface PySide6 inicia o lote.</li>
+      <li>Um worker em uma QThread separada processa um áudio por vez e devolve o progresso à interface.</li>
+      <li>O faster-whisper transcreve cada arquivo localmente, na CPU (INT8).</li>
+      <li>O serviço grava um arquivo temporário .part e o troca pelo TXT final ao concluir.</li>
+      <li>A interface recebe o texto e as marcações de tempo para revisão e guarda a fila e um histórico pesquisável no SQLite.</li>
+    </ol>
+    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Fluxo de execução e armazenamento</figcaption>
   </figure>
 
   Usei SQLite para guardar a fila e o histórico. Arquivos pendentes, interrompidos e com falha reaparecem ao abrir o aplicativo, e os que foram interrompidos ou falharam podem ser processados novamente. O TXT final só é gravado quando a transcrição termina.
 
   O download do modelo pode ser retomado se for interrompido. O aplicativo checa o espaço em disco e verifica o tamanho e o hash do arquivo baixado antes de substituir o modelo instalado. O build de lançamento verifica se o executável empacotado com PyInstaller consegue baixar um modelo Whisper e transcrever um áudio de exemplo.
-
-  ## Uso em uma pesquisa
-
-  Mais tarde, usei o Transcritor para processar arquivos de áudio de 31 Reels do Instagram para um TCC. O aplicativo gerou 31 transcrições em TXT, uma por áudio, para consulta durante a pesquisa.
 
 ---

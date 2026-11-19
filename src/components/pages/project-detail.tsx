@@ -196,6 +196,32 @@ export function ProjectDetail() {
 
 	if (!project) return null;
 
+	// The cover shows before the facts sidebar on small screens and inside the
+	// main column on large ones, so it is built once and rendered twice.
+	const coverButton = project.cover ? (
+		<button
+			type="button"
+			onClick={() =>
+				project.cover &&
+				openLightbox({ src: project.cover, alt: project.coverAlt })
+			}
+			className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border shadow-sm ${project.wideMedia ? "max-w-2xl" : "max-w-sm"}`}
+		>
+			<FadeInImage
+				src={project.cover}
+				priority
+				alt={project.coverAlt ?? project.title}
+				containerClassName={project.wideMedia ? "" : "aspect-video"}
+				imgClassName={
+					project.wideMedia
+						? "w-full h-auto"
+						: "h-full w-full object-cover object-top"
+				}
+			/>
+			<ZoomHint label={t("common.zoomImage")} />
+		</button>
+	) : null;
+
 	const periodLabel = `${project.periodStart} — ${project.periodEnd ?? t("projects.present")}`;
 	const showNoLinkNote =
 		project.status === "private" && !project.repo && !project.demo;
@@ -342,6 +368,8 @@ export function ProjectDetail() {
 					</div>
 				</SectionReveal>
 
+				{coverButton && <div className="lg:hidden">{coverButton}</div>}
+
 				<div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
 					<SectionReveal
 						delay={0.08}
@@ -476,28 +504,8 @@ export function ProjectDetail() {
 					</SectionReveal>
 
 					<SectionReveal immediate className="flex min-w-0 flex-col gap-8">
-						{project.cover && (
-							<button
-								type="button"
-								onClick={() =>
-									project.cover &&
-									openLightbox({ src: project.cover, alt: project.coverAlt })
-								}
-								className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-border shadow-sm ${project.wideMedia ? "max-w-2xl" : "max-w-sm"}`}
-							>
-								<FadeInImage
-									src={project.cover}
-									priority
-									alt={project.coverAlt ?? project.title}
-									containerClassName={project.wideMedia ? "" : "aspect-video"}
-									imgClassName={
-										project.wideMedia
-											? "w-full h-auto"
-											: "h-full w-full object-cover object-top"
-									}
-								/>
-								<ZoomHint label={t("common.zoomImage")} />
-							</button>
+						{coverButton && (
+							<div className="hidden lg:block">{coverButton}</div>
 						)}
 
 						<div

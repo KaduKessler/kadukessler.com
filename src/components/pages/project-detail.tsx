@@ -475,7 +475,7 @@ export function ProjectDetail() {
 						)}
 					</SectionReveal>
 
-					<SectionReveal immediate className="flex flex-col gap-8">
+					<SectionReveal immediate className="flex min-w-0 flex-col gap-8">
 						{project.cover && (
 							<button
 								type="button"

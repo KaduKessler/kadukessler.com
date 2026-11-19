@@ -1,0 +1,17 @@
+flowchart TD
+    UI["Interface Windows · PySide6"]
+    Worker["Worker em QThread<br/>Um áudio por vez"]
+    Engine["Serviço de transcrição<br/>faster-whisper · CPU INT8"]
+    Review["Painel de revisão<br/>Texto e áudio sincronizados"]
+    DB[("SQLite<br/>Fila e histórico pesquisável")]
+    Temp["Arquivo temporário (.part)"]
+    File["TXT final"]
+
+    UI -->|Inicia o lote| Worker
+    Worker -->|Progresso e conclusão| UI
+    Worker -->|Envia o caminho do áudio| Engine
+    Engine -->|Retorna texto e marcações| Worker
+    UI -->|Exibe a transcrição| Review
+    UI -->|Persiste fila e histórico| DB
+    Engine -->|Grava durante a transcrição| Temp
+    Temp -->|Conclui a gravação| File

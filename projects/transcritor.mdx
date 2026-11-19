@@ -6,71 +6,88 @@ type:
   en: "Personal project"
   pt: "Projeto pessoal"
 summary:
-  en: "Windows desktop app that transcribes audio files to text offline with Whisper, so recordings never leave the computer."
-  pt: "Aplicativo desktop para Windows que transcreve áudios para texto offline com Whisper, sem que as gravações saiam do computador."
+  en: "Transcritor is a Windows app that turns batches of audio files into editable text. It helps you read voice messages when you can't listen, review meetings and client conversations, and find passages in recorded lectures and talks. Transcription runs offline once the Whisper model is downloaded."
+  pt: "O Transcritor é um aplicativo para Windows que converte arquivos de áudio em lote em texto editável. Ele ajuda a ler mensagens de voz quando não dá para ouvi-las, revisar reuniões e conversas com clientes e localizar trechos em aulas e palestras gravadas. A transcrição funciona offline depois de baixar o modelo Whisper."
 cardSummary:
-  en: "Windows app that transcribes audio offline with Whisper."
-  pt: "App de Windows que transcreve áudios offline com Whisper, sem enviar dados."
+  en: "Batch audio transcription on Windows with Whisper."
+  pt: "Transcrição de áudios em lote no Windows com Whisper."
 periodStart: "09.2026"
 status: "private"
-stack: ["Python", "PySide6", "faster-whisper", "FFmpeg", "PyInstaller"]
+stack: ["Python", "PySide6", "faster-whisper", "PyAV", "SQLite", "PyInstaller"]
 cover: "/images/projects/transcritor-cover.webp"
 coverAlt:
-  en: "Transcritor window with the audio queue and a finished transcript"
-  pt: "Janela do Transcritor com a fila de áudios e uma transcrição concluída"
+  en: "Transcritor window with the audio queue and the transcript review panel"
+  pt: "Janela do Transcritor com a fila de áudios e o painel de revisão da transcrição"
 logo: "/images/projects/transcritor-logo.webp"
 logoAlt:
   en: "Transcritor icon"
   pt: "Ícone do Transcritor"
 draft: false
 contentEn: |
-  ## Context
+  ## From queue to export
 
-  Voice messages are hard to search, skim or archive, and sending them to an online transcription service means handing private conversations to a third party. The goal: drop the audio files into a window and get text back, with everything processed locally.
+  - **Queue.** Drag in multiple audio files, reorder them, and track progress and estimated time. You can cancel the current file or stop the whole queue.
+  - **Review.** Click a timestamp to hear the corresponding passage. The editor highlights low-confidence passages so you know where to listen more closely, and supports find and replace. A separate history lets you find previous transcripts.
+  - **Export.** Save the transcript as TXT, SRT, or WebVTT, or generate a PDF report with recording duration, recognition settings, and SHA-256 hashes.
 
-  ## What I built
+  ## How I built Transcritor
 
-  - Local transcription with faster-whisper on CPU (Portuguese by default, selectable model), supporting opus, ogg, mp3, m4a, wav and aac
-  - Drag-and-drop queue with reordering, per-file progress, safe cancel for the current file or the whole queue and a time estimate that learns from the machine
-  - Persistent queue: pending, interrupted and failed items come back on the next launch, with a short reason for each failure and a retry action
-  - Result panel with an audio player synced to the text (click a timestamp to hear that passage), editing, find and replace, and low-confidence passages highlighted
-  - Searchable history, accent-insensitive, kept separate from the queue
-  - Export to TXT, SRT, WebVTT and a PDF report with date, duration, recognition settings and SHA-256 hashes
-  - Model manager with resumable downloads, size and hash verification, disk space check and safe swap of the installed model
-  - Anonymised diagnostics export for support, with no audio, text or personal data
-  - Packaged for Windows, with a build smoke test that extracts the final executable and fails if resources, imports, a real model download or a real transcription break
-  - Semantic versioning with a changelog, currently at 1.7.0
+  I built the Windows interface with Python and PySide6. PyAV decodes formats such as OPUS, OGG, MP3, M4A, WAV, and AAC. The app uses faster-whisper to run a selectable Whisper model locally on the CPU.
 
-  ## Focus
+  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] pb-4 pt-4 dark:bg-[#0a0a0a] sm:pb-5 sm:pt-5">
+    <div className="overflow-x-auto px-3 sm:px-5" role="region" aria-label="Transcritor architecture diagram" tabIndex={0}>
+      <img
+        src="/images/projects/transcritor-architecture-en.svg"
+        alt="Transcritor architecture. The PySide6 interface starts a worker in a separate QThread. Faster-whisper transcribes each audio file locally. The service writes a temporary .part file and replaces it with the final TXT at completion. The interface receives text and timestamps for review and stores the queue and history in SQLite."
+        width={759}
+        height={556}
+        loading="lazy"
+        decoding="async"
+        className="mx-auto h-auto min-w-[38rem] max-w-full"
+      />
+    </div>
+    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Execution and storage flow<span className="mt-1 block @[40rem]:hidden">Scroll horizontally to read the diagram.</span></figcaption>
+  </figure>
 
-  Privacy by construction and reliability on a real desktop: nothing leaves the machine, and an interrupted session never loses the queue.
+  I used SQLite to store the queue and history. Pending, interrupted, and failed files reappear when the app opens, and interrupted or failed files can be retried. The app writes the final TXT only when transcription finishes.
 
-  ## Note
+  Model downloads can resume after an interruption. The app checks available disk space and verifies the downloaded file's size and hash before replacing the installed model. The release build checks that the executable packaged with PyInstaller can download a Whisper model and transcribe sample audio.
 
-  Repository is private.
+  ## Use in a research project
+
+  I later used Transcritor to process audio files from 31 Instagram Reels for an undergraduate thesis. The app generated 31 TXT transcripts, one per audio file, for consultation during the research.
 contentPt: |
-  ## Contexto
+  ## Da fila à exportação
 
-  Áudio de WhatsApp é difícil de pesquisar, folhear e arquivar, e mandar para um serviço online de transcrição significa entregar conversas privadas a terceiros. O objetivo: soltar os arquivos de áudio numa janela e receber o texto, com tudo processado localmente.
+  - **Fila.** Arraste vários áudios para o aplicativo, ajuste a ordem e acompanhe o progresso e a estimativa de tempo. Você pode cancelar o arquivo atual ou interromper a fila inteira.
+  - **Revisão.** Clique em uma marcação de tempo para ouvir o trecho correspondente. O editor destaca trechos de baixa confiança para orientar a conferência e permite localizar e substituir texto. Um histórico separado permite encontrar transcrições anteriores.
+  - **Exportação.** Salve o texto em TXT, SRT ou WebVTT, ou gere um relatório em PDF com a duração do áudio, as configurações usadas no reconhecimento e os hashes SHA-256.
 
-  ## O que construí
+  ## Como construí o Transcritor
 
-  - Transcrição local com faster-whisper em CPU (português por padrão, modelo selecionável), com suporte a opus, ogg, mp3, m4a, wav e aac
-  - Fila com arrastar e soltar, reordenação, progresso por arquivo, cancelamento seguro do arquivo atual ou da fila inteira e estimativa de tempo que aprende com a máquina
-  - Fila persistente: itens pendentes, interrompidos e com falha voltam ao abrir o app, com motivo curto para cada falha e ação de tentar novamente
-  - Painel de resultado com player de áudio sincronizado ao texto (clicar num horário toca aquele trecho), edição, localizar e substituir, e trechos de baixa confiança destacados
-  - Histórico pesquisável, sem diferenciar acentos, separado da fila
-  - Exportação para TXT, SRT, WebVTT e relatório PDF com data, duração, configuração do reconhecimento e hashes SHA-256
-  - Gerenciador de modelos com download retomável, verificação de tamanho e hash, checagem de espaço em disco e troca segura do modelo instalado
-  - Exportação de diagnóstico anonimizado para suporte, sem áudio, texto nem dados pessoais
-  - Empacotado para Windows, com teste de fumaça do build que extrai o executável final e falha se recursos, importações, o download real de um modelo ou uma transcrição real quebrarem
-  - Versionamento semântico com changelog, hoje na versão 1.7.0
+  Desenvolvi a interface para Windows com Python e PySide6. O PyAV decodifica formatos como OPUS, OGG, MP3, M4A, WAV e AAC. O aplicativo usa o faster-whisper para executar localmente, na CPU, o modelo Whisper escolhido.
 
-  ## Foco
+  <figure className="not-prose @container my-8 rounded-xl border border-border bg-[#fafafa] pb-4 pt-4 dark:bg-[#0a0a0a] sm:pb-5 sm:pt-5">
+    <div className="overflow-x-auto px-3 sm:px-5" role="region" aria-label="Diagrama de arquitetura do Transcritor" tabIndex={0}>
+      <img
+        src="/images/projects/transcritor-architecture-pt.svg"
+        alt="Arquitetura do Transcritor. A interface PySide6 inicia um worker em uma QThread separada. O faster-whisper transcreve cada áudio localmente. O serviço grava em um arquivo temporário .part, que se torna o TXT final ao concluir. A interface recebe o texto e as marcações de tempo para revisão e guarda a fila e o histórico no SQLite."
+        width={728}
+        height={551}
+        loading="lazy"
+        decoding="async"
+        className="mx-auto h-auto min-w-[38rem] max-w-full"
+      />
+    </div>
+    <figcaption className="mt-3 text-center text-xs text-muted-foreground">Fluxo de execução e armazenamento<span className="mt-1 block @[40rem]:hidden">Deslize na horizontal para ler o diagrama.</span></figcaption>
+  </figure>
 
-  Privacidade por construção e confiabilidade num desktop real: nada sai da máquina, e uma sessão interrompida nunca perde a fila.
+  Usei SQLite para guardar a fila e o histórico. Arquivos pendentes, interrompidos e com falha reaparecem ao abrir o aplicativo, e os que foram interrompidos ou falharam podem ser processados novamente. O TXT final só é gravado quando a transcrição termina.
 
-  ## Nota
+  O download do modelo pode ser retomado se for interrompido. O aplicativo checa o espaço em disco e verifica o tamanho e o hash do arquivo baixado antes de substituir o modelo instalado. O build de lançamento verifica se o executável empacotado com PyInstaller consegue baixar um modelo Whisper e transcrever um áudio de exemplo.
 
-  O repositório é privado.
+  ## Uso em uma pesquisa
+
+  Mais tarde, usei o Transcritor para processar arquivos de áudio de 31 Reels do Instagram para um TCC. O aplicativo gerou 31 transcrições em TXT, uma por áudio, para consulta durante a pesquisa.
+
 ---

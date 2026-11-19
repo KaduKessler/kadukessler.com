@@ -1,0 +1,17 @@
+flowchart TD
+    UI["Windows interface · PySide6"]
+    Worker["Worker in a QThread<br/>One file at a time"]
+    Engine["Transcription service<br/>faster-whisper · CPU INT8"]
+    Review["Review panel<br/>Text and synchronized audio"]
+    DB[("SQLite<br/>Queue and searchable history")]
+    Temp["Temporary file (.part)"]
+    File["Final TXT"]
+
+    UI -->|Starts the batch| Worker
+    Worker -->|Progress and completion| UI
+    Worker -->|Passes the audio path| Engine
+    Engine -->|Returns text and timestamps| Worker
+    UI -->|Shows the transcript| Review
+    UI -->|Saves queue and history| DB
+    Engine -->|Writes during transcription| Temp
+    Temp -->|Finalizes the file| File

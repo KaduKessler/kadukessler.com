@@ -233,7 +233,8 @@ export function ProjectDetail() {
 				title={`${project.title} | Kadu Kessler`}
 				description={project.summary}
 				pathname={`/projects/${project.slug}`}
-				image={project.cover ?? project.logo}
+				image={`/images/og/${project.slug}.jpg`}
+				imageAlt={project.coverAlt ?? project.title}
 			/>
 			{project.cover && (
 				<link
